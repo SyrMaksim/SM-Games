@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чемпионат Футболистов & Драфт "Твоя идеальная 11"</title>
+    <title>SM Games • Автор SyrMaksim</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,9 +34,15 @@
         ::-webkit-scrollbar-track {
             background: #0f172a;
         }
+        html:not(.dark) ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
         ::-webkit-scrollbar-thumb {
             background: #334155;
             border-radius: 4px;
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #10b981;
@@ -86,36 +92,40 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col antialiased selection:bg-emerald-500 selection:text-slate-950">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen font-sans flex flex-col antialiased selection:bg-emerald-500 selection:text-slate-950 transition-colors duration-300">
 
     <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3 cursor-pointer" onclick="app.navToMenu()">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-slate-950 font-black text-xl">
                     <i class="fa-solid fa-futbol"></i>
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                        FOOTBALL GOAT
+                    <h1 class="font-extrabold text-base sm:text-lg tracking-tight bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-slate-200 dark:to-slate-400 bg-clip-text text-transparent">
+                        SM Games
                     </h1>
-                    <p class="text-[10px] text-emerald-400 font-semibold tracking-wider uppercase" data-i18n="tagline">Выбери лучшего игрока или собери состав</p>
+                    <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold tracking-wider uppercase" data-i18n="tagline">Выбери лучшего игрока или собери состав</p>
                 </div>
             </div>
 
             <!-- Header Controls -->
             <div class="flex items-center gap-2 sm:gap-3">
-                <button onclick="app.openDirectoryModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 border border-slate-700 flex items-center gap-1.5 transition-all">
-                    <i class="fa-solid fa-book text-emerald-400"></i>
+                <button onclick="app.openDirectoryModal()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-book text-emerald-500 dark:text-emerald-400"></i>
                     <span class="hidden sm:inline" data-i18n="catalog">Каталог</span>
                 </button>
-                <button id="sound-toggle-btn" onclick="app.toggleSound()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 flex items-center justify-center transition-all">
+                <button id="sound-toggle-btn" onclick="app.toggleSound()" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center transition-all">
                     <i class="fa-solid fa-volume-high"></i>
                 </button>
-                <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700 text-xs font-bold">
-                    <button onclick="app.changeLanguage('ru')" class="px-2 py-0.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700">RU</button>
-                    <button onclick="app.changeLanguage('en')" class="px-2 py-0.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700">EN</button>
-                    <button onclick="app.changeLanguage('es')" class="px-2 py-0.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-700">ES</button>
+                <button id="theme-toggle-btn" onclick="app.toggleTheme()" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-amber-500 dark:text-amber-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center transition-all" title="Сменить тему">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
+                <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold">
+                    <button onclick="app.changeLanguage('ru')" class="px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700">RU</button>
+                    <button onclick="app.changeLanguage('en')" class="px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700">EN</button>
+                    <button onclick="app.changeLanguage('es')" class="px-2 py-0.5 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700">ES</button>
                 </div>
             </div>
         </div>
@@ -127,55 +137,55 @@
         <!-- SCREEN 1: MAIN MENU -->
         <section id="screen-menu" class="space-y-8 my-auto">
             <div class="text-center max-w-2xl mx-auto space-y-3">
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                     256 Игроков • Все Эпохи
                 </span>
-                <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight" data-i18n="menuTitle">
-                    Чемпионат Футболистов
+                <h2 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight" data-i18n="menuTitle">
+                    SM Games
                 </h2>
-                <p class="text-sm sm:text-base text-slate-400" data-i18n="menuDesc">
-                    256 футболистов, легенды и современность, ЧМ 2022/2026 и уникальный режим Драфта «Твоя идеальная 11».
+                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400" data-i18n="menuDesc">
+                    256 футболистов, легенды и современность, ЧМ 2018/2022/2026 и уникальный режим Драфта «Твоя идеальная 11».
                 </p>
             </div>
 
             <!-- Game Modes Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
-                <div onclick="app.startTournament('groups')" class="group cursor-pointer bg-gradient-to-b from-slate-900 to-slate-900/80 hover:from-slate-800 hover:to-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 transition-all duration-300 shadow-lg hover:shadow-emerald-500/10 flex flex-col justify-between">
+                <div onclick="app.startTournament('groups')" class="group cursor-pointer bg-white dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-900/80 hover:bg-slate-50 dark:hover:from-slate-800 dark:hover:to-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 transition-all duration-300 shadow-lg hover:shadow-emerald-500/10 flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-layer-group"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="modeGroupsTitle">Группы + Плей-офф</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6" data-i18n="modeGroupsDesc">
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2" data-i18n="modeGroupsTitle">Группы + Плей-офф</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6" data-i18n="modeGroupsDesc">
                             16 групп по 16 игроков. Дуэли 1 на 1 в группах с выходом 24 лучших в плей-офф.
                         </p>
                     </div>
-                    <button class="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-emerald-500 group-hover:text-slate-950 text-white font-bold text-sm transition-all flex items-center justify-center gap-2">
+                    <button class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white group-hover:bg-emerald-500 group-hover:text-slate-950 font-bold text-sm transition-all flex items-center justify-center gap-2">
                         <span data-i18n="start">Старт</span> <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
 
-                <div onclick="app.startTournament('direct')" class="group cursor-pointer bg-gradient-to-b from-slate-900 to-slate-900/80 hover:from-slate-800 hover:to-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-2xl p-6 transition-all duration-300 shadow-lg hover:shadow-amber-500/10 flex flex-col justify-between">
+                <div onclick="app.startTournament('direct')" class="group cursor-pointer bg-white dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-900/80 hover:bg-slate-50 dark:hover:from-slate-800 dark:hover:to-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 rounded-2xl p-6 transition-all duration-300 shadow-lg hover:shadow-amber-500/10 flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl font-bold mb-4 group-hover:scale-110 transition-transform">
                             <i class="fa-solid fa-sitemap"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-2" data-i18n="modeDirectTitle">Прямой Плей-офф</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6" data-i18n="modeDirectDesc">
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2" data-i18n="modeDirectTitle">Прямой Плей-офф</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6" data-i18n="modeDirectDesc">
                             Олимпийская система на выбывание для всех 256 игроков. Без групповой стадии.
                         </p>
                     </div>
-                    <button class="w-full py-3 rounded-xl bg-slate-800 group-hover:bg-amber-500 group-hover:text-slate-950 text-white font-bold text-sm transition-all flex items-center justify-center gap-2">
+                    <button class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white group-hover:bg-amber-500 group-hover:text-slate-950 font-bold text-sm transition-all flex items-center justify-center gap-2">
                         <span data-i18n="start">Старт</span> <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="max-w-4xl mx-auto bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 border border-emerald-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+            <div class="max-w-4xl mx-auto bg-gradient-to-r from-emerald-50 via-white to-white dark:from-emerald-950 dark:via-slate-900 dark:to-slate-900 border border-emerald-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
                 <div class="space-y-2 z-10 text-center md:text-left">
-                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-400 text-slate-950" data-i18n="otherModesTitle">Режим Драфта</span>
-                    <h3 class="text-2xl sm:text-3xl font-black text-white" data-i18n="ideal11Title">Твоя идеальная 11</h3>
-                    <p class="text-xs sm:text-sm text-slate-300 max-w-xl" data-i18n="draftMemoText">
+                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-500 text-slate-950 dark:bg-emerald-400" data-i18n="otherModesTitle">Режим Драфта</span>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="ideal11Title">Твоя идеальная 11</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="draftMemoText">
                         Используй формат драфта игроков на позиции. Соберите 11 игроков в единый состав, подбирая игроков под выбранную тактику и проверяя свою футбольную память!
                     </p>
                 </div>
@@ -187,57 +197,57 @@
 
         <!-- SCREEN 2: GROUP STAGE -->
         <section id="screen-groups" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <div>
-                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider" data-i18n="stageGroup">Групповой Этап</span>
-                    <h2 id="current-group-title" class="text-xl font-bold text-white">Группа A</h2>
+                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider" data-i18n="stageGroup">Групповой Этап</span>
+                    <h2 id="current-group-title" class="text-xl font-bold text-slate-900 dark:text-white">Группа A</h2>
                 </div>
                 <div id="group-pills-container" class="flex gap-1 overflow-x-auto pb-2 sm:pb-0 scrollbar-none"></div>
             </div>
 
             <div class="flex items-center justify-between">
-                <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
+                <div class="flex bg-white dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
                     <button id="btn-group-duels" onclick="app.setGroupSubTab('duels')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 shadow-md">
                         <i class="fa-solid fa-volleyball"></i> <span data-i18n="duels">Дуэли</span>
                     </button>
-                    <button id="btn-group-standings" onclick="app.setGroupSubTab('standings')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">
+                    <button id="btn-group-standings" onclick="app.setGroupSubTab('standings')" class="px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
                         <i class="fa-solid fa-list-ol"></i> <span data-i18n="standings">Таблица</span>
                     </button>
                 </div>
-                <div id="group-duel-progress" class="text-xs font-bold text-slate-400">Дуэль 1 из 8</div>
+                <div id="group-duel-progress" class="text-xs font-bold text-slate-500 dark:text-slate-400">Дуэль 1 из 8</div>
             </div>
 
             <div id="group-subtab-duels" class="space-y-6">
-                <p class="text-center text-xs text-slate-400" data-i18n="duelInstruction">Выбери своего любимого игрока из пары:</p>
+                <p class="text-center text-xs text-slate-500 dark:text-slate-400" data-i18n="duelInstruction">Выбери своего любимого игрока из пары:</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-                    <div onclick="app.voteGroupDuel(0)" class="group cursor-pointer bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
+                    <div onclick="app.voteGroupDuel(0)" class="group cursor-pointer bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
                         <div id="p1-flag" class="text-4xl mb-2">🇦🇷</div>
-                        <div id="p1-pos" class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">FWD</div>
-                        <h3 id="p1-name" class="text-xl font-black text-white group-hover:text-emerald-400 transition-colors">Лионель Месси</h3>
-                        <p id="p1-club" class="text-xs text-slate-400 mt-1">Inter Miami</p>
+                        <div id="p1-pos" class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">FWD</div>
+                        <h3 id="p1-name" class="text-xl font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Лионель Месси</h3>
+                        <p id="p1-club" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Inter Miami</p>
                     </div>
 
-                    <div onclick="app.voteGroupDuel(1)" class="group cursor-pointer bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
+                    <div onclick="app.voteGroupDuel(1)" class="group cursor-pointer bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
                         <div id="p2-flag" class="text-4xl mb-2">🇵🇹</div>
-                        <div id="p2-pos" class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">FWD</div>
-                        <h3 id="p2-name" class="text-xl font-black text-white group-hover:text-emerald-400 transition-colors">Кристиану Роналду</h3>
-                        <p id="p2-club" class="text-xs text-slate-400 mt-1">Al Nassr</p>
+                        <div id="p2-pos" class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1">FWD</div>
+                        <h3 id="p2-name" class="text-xl font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Кристиану Роналду</h3>
+                        <p id="p2-club" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Al Nassr</p>
                     </div>
                 </div>
 
                 <div class="flex justify-center">
-                    <button onclick="app.undoGroupVote()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-2">
+                    <button onclick="app.undoGroupVote()" class="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 shadow-sm">
                         <i class="fa-solid fa-rotate-left"></i> <span data-i18n="undo">Отменить ход</span>
                     </button>
                 </div>
             </div>
 
-            <div id="group-subtab-standings" class="hidden bg-slate-900 rounded-2xl border border-slate-800 p-4">
-                <h3 class="text-sm font-bold text-white mb-4" data-i18n="groupStandings">Текущее положение в группе</h3>
+            <div id="group-subtab-standings" class="hidden bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-4" data-i18n="groupStandings">Текущее положение в группе</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead>
-                            <tr class="text-slate-500 border-b border-slate-800">
+                            <tr class="text-slate-400 border-b border-slate-200 dark:border-slate-800">
                                 <th class="pb-2">#</th>
                                 <th class="pb-2" data-i18n="player">Игрок</th>
                                 <th class="pb-2" data-i18n="position">Поз</th>
@@ -245,7 +255,7 @@
                                 <th class="pb-2 text-right" data-i18n="status">Статус</th>
                             </tr>
                         </thead>
-                        <tbody id="group-table-body" class="divide-y divide-slate-800/50"></tbody>
+                        <tbody id="group-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/50"></tbody>
                     </table>
                 </div>
             </div>
@@ -253,38 +263,38 @@
 
         <!-- SCREEN 3: PLAYOFF STAGE -->
         <section id="screen-playoff" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <div>
-                    <span class="text-xs font-bold text-amber-400 uppercase tracking-wider" data-i18n="stagePlayoff">Стадия Плей-офф</span>
-                    <h2 id="playoff-round-title" class="text-xl font-bold text-white">1/16 Финала</h2>
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider" data-i18n="stagePlayoff">Стадия Плей-офф</span>
+                    <h2 id="playoff-round-title" class="text-xl font-bold text-slate-900 dark:text-white">1/16 Финала</h2>
                 </div>
-                <button onclick="app.openBracketModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-amber-400 border border-slate-700 flex items-center gap-2">
+                <button onclick="app.openBracketModal()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold text-amber-600 dark:text-amber-400 border border-slate-200 dark:border-slate-700 flex items-center gap-2">
                     <i class="fa-solid fa-sitemap"></i> <span data-i18n="viewBracket">Сетка плей-офф</span>
                 </button>
             </div>
 
-            <p class="text-center text-xs text-slate-400" data-i18n="playoffInstruction">Выбери победителя пары на выбывание:</p>
+            <p class="text-center text-xs text-slate-500 dark:text-slate-400" data-i18n="playoffInstruction">Выбери победителя пары на выбывание:</p>
 
-            <div id="playoff-match-progress" class="text-center text-xs font-bold text-amber-400">Матч 1 из 16</div>
+            <div id="playoff-match-progress" class="text-center text-xs font-bold text-amber-600 dark:text-amber-400">Матч 1 из 16</div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-                <div onclick="app.votePlayoff(0)" class="group cursor-pointer bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-amber-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
+                <div onclick="app.votePlayoff(0)" class="group cursor-pointer bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
                     <div id="po1-flag" class="text-4xl mb-2">🇫🇷</div>
-                    <div id="po1-pos" class="text-[10px] font-black text-amber-400 uppercase tracking-widest mb-1">FWD</div>
-                    <h3 id="po1-name" class="text-xl font-black text-white group-hover:text-amber-400 transition-colors">Килиан Мбаппе</h3>
-                    <p id="po1-club" class="text-xs text-slate-400 mt-1">Real Madrid</p>
+                    <div id="po1-pos" class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-1">FWD</div>
+                    <h3 id="po1-name" class="text-xl font-black text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Килиан Мбаппе</h3>
+                    <p id="po1-club" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Real Madrid</p>
                 </div>
 
-                <div onclick="app.votePlayoff(1)" class="group cursor-pointer bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-amber-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
+                <div onclick="app.votePlayoff(1)" class="group cursor-pointer bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 rounded-2xl p-6 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-lg">
                     <div id="po2-flag" class="text-4xl mb-2">🇧🇷</div>
-                    <div id="po2-pos" class="text-[10px] font-black text-amber-400 uppercase tracking-widest mb-1">FWD</div>
-                    <h3 id="po2-name" class="text-xl font-black text-white group-hover:text-amber-400 transition-colors">Винисиус Жуниор</h3>
-                    <p id="po2-club" class="text-xs text-slate-400 mt-1">Real Madrid</p>
+                    <div id="po2-pos" class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-1">FWD</div>
+                    <h3 id="po2-name" class="text-xl font-black text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Винисиус Жуниор</h3>
+                    <p id="po2-club" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Real Madrid</p>
                 </div>
             </div>
 
             <div class="flex justify-center">
-                <button onclick="app.undoPlayoffVote()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-2">
+                <button onclick="app.undoPlayoffVote()" class="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 shadow-sm">
                     <i class="fa-solid fa-rotate-left"></i> <span data-i18n="undo">Отменить ход</span>
                 </button>
             </div>
@@ -292,43 +302,171 @@
 
         <!-- SCREEN 4: DRAFT MODE -->
         <section id="screen-draft" class="hidden space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider" data-i18n="ideal11Title">Твоя идеальная 11</span>
-                        <span id="draft-mode-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Классический</span>
+                        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider" data-i18n="ideal11Title">Твоя идеальная 11</span>
+                        <span id="draft-mode-badge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25">Классический</span>
                     </div>
-                    <h2 id="draft-tactics-title" class="text-xl font-bold text-white">Схема 4-3-3 (БАЛАНС)</h2>
+                    <h2 id="draft-tactics-title" class="text-xl font-bold text-slate-900 dark:text-white">Схема 4-3-3 (БАЛАНС)</h2>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="text-right">
-                        <span class="text-[10px] text-slate-400 block font-bold uppercase" data-i18n="teamRating">Рейтинг команды</span>
-                        <span id="draft-total-ovr" class="text-2xl font-black text-amber-400">0</span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 block font-bold uppercase" data-i18n="teamRating">Рейтинг команды</span>
+                        <span id="draft-total-ovr" class="text-2xl font-black text-amber-600 dark:text-amber-400">0</span>
                     </div>
-                    <button onclick="app.resetDraft()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 border border-slate-700">
+                    <button onclick="app.resetDraft()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                         <i class="fa-solid fa-rotate-right"></i> <span data-i18n="reset">Сброс</span>
                     </button>
                 </div>
             </div>
 
-            <div class="football-pitch rounded-2xl min-h-[480px] p-4 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-                <div id="line-fwd" class="flex justify-around items-center z-10 my-2"></div>
-                <div id="line-mid" class="flex justify-around items-center z-10 my-2"></div>
-                <div id="line-def" class="flex justify-around items-center z-10 my-2"></div>
-                <div id="line-gk" class="flex justify-center items-center z-10 my-2"></div>
+            <!-- Pitch & Right Selection Panel Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div class="lg:col-span-2 football-pitch rounded-2xl min-h-[480px] p-4 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                    <div id="line-fwd" class="flex justify-around items-center z-10 my-2"></div>
+                    <div id="line-mid" class="flex justify-around items-center z-10 my-2"></div>
+                    <div id="line-def" class="flex justify-around items-center z-10 my-2"></div>
+                    <div id="line-gk" class="flex justify-center items-center z-10 my-2"></div>
+                </div>
+
+                <!-- Selection Panel Right Side -->
+                <div id="draft-side-panel" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between shadow-lg min-h-[400px]">
+                    <div>
+                        <h3 id="side-pick-title" class="text-base font-extrabold text-slate-900 dark:text-white mb-3 pb-2 border-b border-slate-200 dark:border-slate-800" data-i18n="selectPosition">
+                            Выберите позицию
+                        </h3>
+                        <div id="side-candidates-container" class="space-y-2">
+                            <p class="text-xs text-slate-500 dark:text-slate-400 text-center py-10" data-i18n="selectPositionHint">
+                                Нажмите на любую незаполненную позицию на поле слева, чтобы выбрать кандидата.
+                            </p>
+                        </div>
+                    </div>
+                    <div id="draft-complete-btn-wrapper" class="hidden mt-4 pt-2 border-t border-slate-200 dark:border-slate-800">
+                        <button onclick="app.finishDraftTournament()" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-md shadow-emerald-500/20">
+                            <span data-i18n="startWcTournament">Начать турнир сборных ЧМ</span> <i class="fa-solid fa-trophy ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4.5: WORLD CUP TOURNAMENT SIMULATION -->
+        <section id="screen-wc-match" class="hidden space-y-6 max-w-3xl mx-auto my-auto w-full">
+            <div class="bg-white dark:bg-slate-900 border border-emerald-500/35 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <div>
+                        <span id="wc-phase-badge" class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" data-i18n="groupStageMatchLabel">Групповой этап • Матч 1</span>
+                        <h2 id="wc-phase-title" class="text-xl font-black text-slate-900 dark:text-white mt-1" data-i18n="wcTournamentTitle">Турнир Чемпионата Мира</h2>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block" data-i18n="matchScoreLabel">Счет матча</span>
+                        <div class="text-3xl font-black tracking-widest text-emerald-500" id="wc-live-score">0 : 0</div>
+                    </div>
+                </div>
+
+                <!-- Match Live Board -->
+                <div class="grid grid-cols-3 items-center text-center bg-slate-100 dark:bg-slate-950 p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <div class="space-y-1">
+                        <div class="text-3xl">⭐</div>
+                        <h4 class="font-black text-sm sm:text-base text-slate-900 dark:text-white" data-i18n="yourNationalTeam">Ваша Сборная 11</h4>
+                        <p class="text-[10px] text-emerald-500 font-bold" id="my-team-ovr-label">ОВР: 0</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div id="wc-match-time" class="text-xl sm:text-2xl font-black text-amber-500">0'</div>
+                        <div class="text-[10px] text-slate-400 uppercase font-semibold" id="wc-match-status-text" data-i18n="matchGoingText">Идет матч...</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-3xl" id="opp-flag">🇫🇷</div>
+                        <h4 class="font-black text-sm sm:text-base text-slate-900 dark:text-white" id="opp-name">Франция</h4>
+                        <p class="text-[10px] text-slate-400 font-bold" id="opp-ovr-label">ОВР: 86</p>
+                    </div>
+                </div>
+
+                <!-- Timeline / Commentary Log -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <h5 class="text-xs font-bold text-slate-400 uppercase" data-i18n="timelineLabel">Хронология матча:</h5>
+                        <button onclick="app.openBracketModalFromMatch()" class="text-xs font-bold text-emerald-500 hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-sitemap"></i> <span data-i18n="viewBracketBtn">Посмотреть сетку плей-офф</span>
+                        </button>
+                    </div>
+                    <div id="wc-match-log" class="h-32 overflow-y-auto space-y-1.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 text-xs">
+                        <p class="text-slate-400 italic" data-i18n="whistleStartText">Свисток арбитра! Матч начался...</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button id="wc-action-btn" onclick="app.proceedWcSimulation()" class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm transition-all shadow-lg shadow-emerald-500/25">
+                        <span data-i18n="nextMinuteBtn">Следующая минута</span> ⏱️
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4.6: WORLD CUP PLAYOFF BRACKET MODAL/SCREEN -->
+        <section id="screen-wc-bracket" class="hidden space-y-6 max-w-4xl mx-auto my-auto w-full">
+            <div class="bg-white dark:bg-slate-900 border border-emerald-500/35 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+                <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-500 uppercase" data-i18n="wcPlayoffBracketTitle">Турнирная сетка Плей-офф ЧМ</span>
+                        <h2 class="text-2xl font-black text-slate-900 dark:text-white" id="wc-bracket-stage-title">1/16 Финала</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="back-to-match-btn" onclick="app.backToMatchScreen()" class="hidden px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider">
+                            <span data-i18n="backToMatchBtn">Назад к матчу</span>
+                        </button>
+                        <button id="next-match-main-btn" onclick="app.startNextWcMatch()" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider">
+                            <span data-i18n="nextMatchBtn">Начать следующий матч</span> ⚽
+                        </button>
+                    </div>
+                </div>
+                <!-- Group Stage Table Summary Container inside Bracket screen when group matches end -->
+                <div id="wc-group-stats-summary" class="hidden space-y-3 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <h3 class="text-xs font-bold text-emerald-500 uppercase" data-i18n="groupStageStatsTitle">Итоги группового этапа</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                        <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <span class="text-[10px] text-slate-400 block" data-i18n="matchesPlayedLabel">Матчей сыграно</span>
+                            <span class="text-base font-black text-slate-900 dark:text-white">3</span>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <span class="text-[10px] text-slate-400 block" data-i18n="pointsEarnedLabel">Набрано очков</span>
+                            <span class="text-base font-black text-emerald-500" id="summary-points">7</span>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <span class="text-[10px] text-slate-400 block" data-i18n="goalsScoredLabel">Забито голов</span>
+                            <span class="text-base font-black text-amber-500" id="summary-goals-for">6</span>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <span class="text-[10px] text-slate-400 block" data-i18n="goalsConcededLabel">Пропущено голов</span>
+                            <span class="text-base font-black text-red-500" id="summary-goals-against">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="wc-bracket-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[50vh] overflow-y-auto p-2"></div>
             </div>
         </section>
 
         <!-- SCREEN 5: WINNER ANNOUNCEMENT -->
         <section id="screen-winner" class="hidden space-y-6 text-center my-auto">
-            <div class="max-w-md mx-auto bg-slate-900 border border-emerald-500/30 rounded-3xl p-8 space-y-4 shadow-2xl relative overflow-hidden">
-                <div class="w-20 h-20 mx-auto rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-4xl shadow-inner">
+            <div class="max-w-2xl mx-auto bg-white dark:bg-slate-900 border border-emerald-500/35 rounded-3xl p-8 space-y-6 shadow-2xl relative overflow-hidden">
+                <div class="w-20 h-20 mx-auto rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-4xl shadow-inner">
                     <i class="fa-solid fa-trophy"></i>
                 </div>
-                <span class="text-xs font-black uppercase text-emerald-400 tracking-widest" data-i18n="winnerAnnounce">Твой главный фаворит</span>
-                <h2 id="winner-name" class="text-3xl font-black text-white">Лионель Месси</h2>
-                <p id="winner-meta" class="text-sm text-slate-400">🇦🇷 FWD • Inter Miami</p>
-                <button onclick="app.navToMenu()" class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm transition-all shadow-lg shadow-emerald-500/20">
+                <div class="space-y-1">
+                    <span id="winner-status-tag" class="text-xs font-black uppercase text-emerald-600 dark:text-emerald-400 tracking-widest" data-i18n="winnerAnnounce">Твой главный фаворит</span>
+                    <h2 id="winner-name" class="text-3xl font-black text-slate-900 dark:text-white">Лионель Месси</h2>
+                    <p id="winner-meta" class="text-sm text-slate-500 dark:text-slate-400">🇦🇷 FWD • Inter Miami</p>
+                </div>
+
+                <!-- Squad and OVR Container -->
+                <div id="winner-squad-container" class="hidden space-y-3 text-left bg-slate-100 dark:bg-slate-950 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <h4 class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase" data-i18n="assembledSquadLabel">Собранный состав и ОВР игроков:</h4>
+                    <div id="winner-squad-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1"></div>
+                </div>
+
+                <button onclick="app.navToMenu()" class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm transition-all shadow-lg shadow-emerald-500/25">
                     <span data-i18n="menu">Главное меню</span>
                 </button>
             </div>
@@ -337,40 +475,40 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-4 text-center text-xs text-slate-500">
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-4 text-center text-xs text-slate-500 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p>© 2026 Footballers Championship • 256 Players Engine</p>
+            <p>© 2026 SM Games • Автор: SyrMaksim</p>
             <p>Made with Web Audio API & Tailwind CSS</p>
         </div>
     </footer>
 
     <!-- MODAL 1: DRAFT SETUP MODAL -->
     <div id="modal-draft-setup" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl">
             <div>
-                <h3 class="text-lg font-bold text-white" data-i18n="ideal11Title">Твоя идеальная 11</h3>
-                <p class="text-xs text-slate-400" data-i18n="draftSetupSub">Настройка параметров вашей команды</p>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="ideal11Title">Твоя идеальная 11</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="draftSetupSub">Настройка параметров вашей команды</p>
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-bold text-slate-300 block" data-i18n="draftMode">Режим рейтинга (ОВР)</label>
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block" data-i18n="draftMode">Режим рейтинга (ОВР)</label>
                 <div class="grid grid-cols-2 gap-2">
-                    <button id="opt-mode-classic" onclick="app.setDraftModeOption('classic')" class="p-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-white text-xs font-bold text-center">
-                        <i class="fa-solid fa-eye block text-lg mb-1"></i>
+                    <button id="opt-mode-classic" onclick="app.setDraftModeOption('classic')" class="p-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-slate-900 dark:text-white text-xs font-bold text-center">
+                        <i class="fa-solid fa-eye block text-lg mb-1 text-emerald-600 dark:text-emerald-400"></i>
                         <span data-i18n="modeClassic">Классический</span>
-                        <span class="block text-[10px] text-slate-400 font-normal" data-i18n="modeClassicDesc">ОВР виден сразу</span>
+                        <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-normal" data-i18n="modeClassicDesc">ОВР виден сразу</span>
                     </button>
-                    <button id="opt-mode-memory" onclick="app.setDraftModeOption('memory')" class="p-3 rounded-xl border-2 border-slate-800 bg-slate-800/50 text-slate-400 text-xs font-bold text-center">
+                    <button id="opt-mode-memory" onclick="app.setDraftModeOption('memory')" class="p-3 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 text-xs font-bold text-center">
                         <i class="fa-solid fa-eye-slash block text-lg mb-1"></i>
                         <span data-i18n="modeMemory">По памяти</span>
-                        <span class="block text-[10px] text-slate-400 font-normal" data-i18n="modeMemoryDesc">ОВР скрыт (?)</span>
+                        <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-normal" data-i18n="modeMemoryDesc">ОВР скрыт (?)</span>
                     </button>
                 </div>
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-bold text-slate-300 block" data-i18n="formation">Тактическая схема</label>
-                <select id="draft-formation-select" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-xs font-bold text-white focus:outline-none focus:border-emerald-500">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block" data-i18n="formation">Тактическая схема</label>
+                <select id="draft-formation-select" class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
                     <option value="4-3-3">4-3-3 (Классическая)</option>
                     <option value="4-4-2">4-4-2 (Английская классика)</option>
                     <option value="3-5-2">3-5-2 (Атакующая)</option>
@@ -379,55 +517,43 @@
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-bold text-slate-300 block" data-i18n="tacticalFocus">Фокус команды</label>
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block" data-i18n="tacticalFocus">Фокус команды</label>
                 <div class="grid grid-cols-3 gap-2">
-                    <button id="focus-attack" onclick="app.setDraftFocus('attack')" class="p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 text-xs font-bold text-center" data-i18n="attack">Атака</button>
-                    <button id="focus-balanced" onclick="app.setDraftFocus('balanced')" class="p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-white text-xs font-bold text-center" data-i18n="balanced">Баланс</button>
-                    <button id="focus-defense" onclick="app.setDraftFocus('defense')" class="p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 text-xs font-bold text-center" data-i18n="defense">Защита</button>
+                    <button id="focus-attack" onclick="app.setDraftFocus('attack')" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold text-center" data-i18n="attack">Атака</button>
+                    <button id="focus-balanced" onclick="app.setDraftFocus('balanced')" class="p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-slate-900 dark:text-white text-xs font-bold text-center" data-i18n="balanced">Баланс</button>
+                    <button id="focus-defense" onclick="app.setDraftFocus('defense')" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold text-center" data-i18n="defense">Защита</button>
                 </div>
             </div>
 
             <div class="flex gap-2">
-                <button onclick="app.closeModal('modal-draft-setup')" class="w-1/3 py-3 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold">Отмена</button>
+                <button onclick="app.closeModal('modal-draft-setup')" class="w-1/3 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold" data-i18n="cancel">Отмена</button>
                 <button onclick="app.confirmStartDraft()" class="w-2/3 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs" data-i18n="startDraft">Начать Драфт</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: DRAFT CANDIDATE SELECTION -->
-    <div id="modal-draft-pick" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
-            <div class="flex justify-between items-center">
-                <h3 id="pick-position-title" class="text-base font-bold text-white" data-i18n="chooseCandidate">Кандидаты в вашу команду</h3>
-                <button onclick="app.closeModal('modal-draft-pick')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div id="draft-candidates-container" class="grid grid-cols-3 gap-3"></div>
-        </div>
-    </div>
-
     <!-- MODAL 3: PLAYERS DIRECTORY / CATALOG -->
     <div id="modal-directory" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl h-[85vh] flex flex-col">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl h-[85vh] flex flex-col">
             <div class="flex justify-between items-center">
-                <h3 class="text-lg font-bold text-white" data-i18n="catalogTitle">Каталог футболистов (256)</h3>
-                <button onclick="app.closeModal('modal-directory')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="catalogTitle">Каталог футболистов (256)</h3>
+                <button onclick="app.closeModal('modal-directory')" class="text-slate-400 hover:text-slate-200"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <input id="dir-search-input" oninput="app.filterDirectory()" type="text" placeholder="Поиск по имени или клубу..." class="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500">
-                <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700 text-[11px] font-bold">
+                <input id="dir-search-input" oninput="app.filterDirectory()" type="text" placeholder="Поиск по имени или клубу..." class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+                <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-[11px] font-bold">
                     <button id="cat-all" onclick="app.setDirCategory('all')" class="flex-1 py-1 rounded-lg bg-emerald-500 text-slate-950">Все</button>
-                    <button id="cat-modern" onclick="app.setDirCategory('modern')" class="flex-1 py-1 rounded-lg text-slate-300">Соврем</button>
-                    <button id="cat-legends" onclick="app.setDirCategory('legends')" class="flex-1 py-1 rounded-lg text-slate-300">Легенды</button>
-                    <button id="cat-argentina" onclick="app.setDirCategory('argentina')" class="flex-1 py-1 rounded-lg text-slate-300">🇦🇷 ЧМ</button>
+                    <button id="cat-modern" onclick="app.setDirCategory('modern')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">Соврем</button>
+                    <button id="cat-legends" onclick="app.setDirCategory('legends')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">Легенды</button>
+                    <button id="cat-argentina" onclick="app.setDirCategory('argentina')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">🇦🇷 ЧМ</button>
                 </div>
-                <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700 text-[11px] font-bold">
-                    <button id="pos-all" onclick="app.setDirPos('all')" class="flex-1 py-1 rounded-lg bg-slate-700 text-white">Все</button>
-                    <button id="pos-gk" onclick="app.setDirPos('GK')" class="flex-1 py-1 rounded-lg text-slate-300">GK</button>
-                    <button id="pos-def" onclick="app.setDirPos('DEF')" class="flex-1 py-1 rounded-lg text-slate-300">DEF</button>
-                    <button id="pos-mid" onclick="app.setDirPos('MID')" class="flex-1 py-1 rounded-lg text-slate-300">MID</button>
-                    <button id="pos-fwd" onclick="app.setDirPos('FWD')" class="flex-1 py-1 rounded-lg text-slate-300">FWD</button>
+                <div class="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-[11px] font-bold">
+                    <button id="pos-all" onclick="app.setDirPos('all')" class="flex-1 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white">Все</button>
+                    <button id="pos-gk" onclick="app.setDirPos('GK')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">GK</button>
+                    <button id="pos-def" onclick="app.setDirPos('DEF')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">DEF</button>
+                    <button id="pos-mid" onclick="app.setDirPos('MID')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">MID</button>
+                    <button id="pos-fwd" onclick="app.setDirPos('FWD')" class="flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300">FWD</button>
                 </div>
             </div>
 
@@ -437,12 +563,12 @@
 
     <!-- MODAL 4: INTERACTIVE BRACKET VIEW -->
     <div id="modal-bracket" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl h-[80vh] flex flex-col">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-4xl w-full p-6 space-y-4 shadow-2xl h-[80vh] flex flex-col">
             <div class="flex justify-between items-center">
-                <h3 class="text-lg font-bold text-white" data-i18n="bracketTitle">Сетка турнира Плей-офф</h3>
-                <button onclick="app.closeModal('modal-bracket')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white" data-i18n="bracketTitle">Сетка турнира Плей-офф</h3>
+                <button onclick="app.closeModal('modal-bracket')" class="text-slate-400 hover:text-slate-200"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div id="bracket-tree-container" class="flex-grow overflow-auto p-4 bg-slate-950/50 rounded-xl border border-slate-800 flex items-center justify-center"></div>
+            <div id="bracket-tree-container" class="flex-grow overflow-auto p-4 bg-slate-100 dark:bg-slate-950/50 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center"></div>
         </div>
     </div>
 
@@ -541,14 +667,14 @@
             ru: {
                 catalog: "Каталог",
                 tagline: "Выбери лучшего игрока или собери состав",
-                menuTitle: "Чемпионат Футболистов",
-                menuDesc: "256 футболистов, легенды и современность, ЧМ 2022/2026 и уникальный режим Драфта «Твоя идеальная 11».",
+                menuTitle: "SM Games",
+                menuDesc: "256 футболистов, легенды и современность, ЧМ 2018/2022/2026 и уникальный режим Драфта «Твоя идеальная 11».",
                 modeGroupsTitle: "Группы + Плей-офф",
                 modeGroupsDesc: "16 групп по 16 игроков. Дуэли 1 на 1 в группах с выходом 24 лучших в плей-офф.",
                 modeDirectTitle: "Прямой Плей-офф",
                 modeDirectDesc: "Олимпийская система на выбывание для всех 256 игроков. Без групповой стадии.",
                 start: "Старт",
-                otherModesTitle: "Другие режимы",
+                otherModesTitle: "Режим Драфта",
                 draftMemoText: "Используй формат драфта игроков на позиции. Соберите 11 игроков в единый состав, подбирая игроков под выбранную тактику и проверяя свою футбольную память!",
                 ideal11Title: "Твоя идеальная 11",
                 ideal11Sub: "Формат драфта «7-0» / Sete a Zero",
@@ -584,19 +710,41 @@
                 startDraft: "Начать Драфт",
                 chooseCandidate: "Кандидаты в вашу команду",
                 catalogTitle: "Каталог футболистов (256)",
-                bracketTitle: "Сетка турнира Плей-офф"
+                bracketTitle: "Сетка турнира Плей-офф",
+                selectPosition: "Выберите позицию",
+                selectPositionHint: "Нажмите на любую незаполненную позицию на поле слева, чтобы выбрать кандидата.",
+                startWcTournament: "Начать турнир сборных ЧМ",
+                cancel: "Отмена",
+                matchScoreLabel: "Счет матча",
+                yourNationalTeam: "Ваша Сборная 11",
+                matchGoingText: "Идет матч...",
+                timelineLabel: "Хронология матча:",
+                whistleStartText: "Свисток арбитра! Матч начался...",
+                nextMinuteBtn: "Следующая минута",
+                wcPlayoffBracketTitle: "Турнирная сетка Плей-офф ЧМ",
+                nextMatchBtn: "Начать следующий матч",
+                groupStageStatsTitle: "Итоги группового этапа",
+                matchesPlayedLabel: "Матчей сыграно",
+                pointsEarnedLabel: "Набрано очков",
+                goalsScoredLabel: "Забито голов",
+                goalsConcededLabel: "Пропущено голов",
+                assembledSquadLabel: "Собранный состав и ОВР игроков:",
+                groupStageMatchLabel: "Групповой этап • Матч",
+                wcTournamentTitle: "Турнир Чемпионата Мира",
+                viewBracketBtn: "Посмотреть сетку плей-офф",
+                backToMatchBtn: "Назад к матчу"
             },
             en: {
                 catalog: "Directory",
                 tagline: "Choose your goat or build your dream team",
-                menuTitle: "Footballers Championship",
-                menuDesc: "256 footballers, icons & stars, World Cup 2022/2026, and 'Your Ideal 11' Draft.",
+                menuTitle: "SM Games",
+                menuDesc: "256 footballers, icons & stars, World Cup 2018/2022/2026, and 'Your Ideal 11' Draft.",
                 modeGroupsTitle: "Groups + Playoff",
                 modeGroupsDesc: "16 groups of 16 players. 1v1 duels with top 24 reaching Playoffs.",
                 modeDirectTitle: "Direct Playoff",
                 modeDirectDesc: "Straight knockout bracket for all 256 players.",
                 start: "Start",
-                otherModesTitle: "Other Modes",
+                otherModesTitle: "Draft Mode",
                 draftMemoText: "Use position drafting format. Build an 11-player squad tailored to your tactics while testing your football memory!",
                 ideal11Title: "Your Ideal 11",
                 ideal11Sub: "7-0 / Sete a Zero Draft Format",
@@ -632,19 +780,41 @@
                 startDraft: "Start Draft",
                 chooseCandidate: "Select Candidate for Team",
                 catalogTitle: "Footballers Catalog (256)",
-                bracketTitle: "Playoff Bracket"
+                bracketTitle: "Playoff Bracket",
+                selectPosition: "Select Position",
+                selectPositionHint: "Click on any empty position on the pitch to select a candidate.",
+                startWcTournament: "Start WC National Teams Tournament",
+                cancel: "Cancel",
+                matchScoreLabel: "Match Score",
+                yourNationalTeam: "Your Dream Team 11",
+                matchGoingText: "Match in progress...",
+                timelineLabel: "Match Timeline:",
+                whistleStartText: "Referee whistle! The match has begun...",
+                nextMinuteBtn: "Next Minute",
+                wcPlayoffBracketTitle: "WC Playoff Tournament Bracket",
+                nextMatchBtn: "Start Next Match",
+                groupStageStatsTitle: "Group Stage Summary",
+                matchesPlayedLabel: "Matches Played",
+                pointsEarnedLabel: "Points Earned",
+                goalsScoredLabel: "Goals Scored",
+                goalsConcededLabel: "Goals Conceded",
+                assembledSquadLabel: "Assembled Squad & Player OVR:",
+                groupStageMatchLabel: "Group Stage • Match",
+                wcTournamentTitle: "World Cup Tournament",
+                viewBracketBtn: "View Playoff Bracket",
+                backToMatchBtn: "Back to Match"
             },
             es: {
                 catalog: "Catálogo",
                 tagline: "Elige a tu favorito o arma tu equipo",
-                menuTitle: "Campeonato de Futbolistas",
-                menuDesc: "256 futbolistas, leyendas y estrellas, Mundial 2022/2026 y modo 'Tu 11 Ideal'.",
+                menuTitle: "SM Games",
+                menuDesc: "256 futbolistas, leyendas y estrellas, Mundial 2018/2022/2026 y modo 'Tu 11 Ideal'.",
                 modeGroupsTitle: "Grupos + Eliminatorias",
                 modeGroupsDesc: "16 grupos de 16 jugadores. Duelos 1v1 y clasifican los 24 mejores.",
                 modeDirectTitle: "Eliminación Directa",
                 modeDirectDesc: "Torneo de eliminación directa para los 256 jugadores.",
                 start: "Iniciar",
-                otherModesTitle: "Otros Modos",
+                otherModesTitle: "Modo Draft",
                 draftMemoText: "¡Usa el formato de draft por posiciones. Reúne 11 jugadores según la táctica elegida y pon a prueba tu memoria futbolística!",
                 ideal11Title: "Tu 11 Ideal",
                 ideal11Sub: "Formato Draft 7-0 / Sete a Zero",
@@ -680,7 +850,29 @@
                 startDraft: "Comenzar Draft",
                 chooseCandidate: "Elige un Candidato",
                 catalogTitle: "Catálogo de Futbolistas (256)",
-                bracketTitle: "Cuadro de Eliminatorias"
+                bracketTitle: "Cuadro de Eliminatorias",
+                selectPosition: "Seleccionar Posición",
+                selectPositionHint: "Haz clic en cualquier posición vacía en el campo para elegir un candidato.",
+                startWcTournament: "Iniciar Torneo de Selecciones del Mundial",
+                cancel: "Cancelar",
+                matchScoreLabel: "Marcador",
+                yourNationalTeam: "Tu Selección 11",
+                matchGoingText: "Partido en curso...",
+                timelineLabel: "Cronología del partido:",
+                whistleStartText: "¡Silbatazo inicial! Comienza el partido...",
+                nextMinuteBtn: "Siguiente minuto",
+                wcPlayoffBracketTitle: "Cuadro de Eliminatorias del Mundial",
+                nextMatchBtn: "Iniciar siguiente partido",
+                groupStageStatsTitle: "Resumen de la Fase de Grupos",
+                matchesPlayedLabel: "Partidos jugados",
+                pointsEarnedLabel: "Puntos obtenidos",
+                goalsScoredLabel: "Goles a favor",
+                goalsConcededLabel: "Goles en contra",
+                assembledSquadLabel: "Plantilla Armada y OVR de Jugadores:",
+                groupStageMatchLabel: "Fase de Grupos • Partido",
+                wcTournamentTitle: "Torneo de la Copa del Mundo",
+                viewBracketBtn: "Ver cuadro de eliminatorias",
+                backToMatchBtn: "Volver al partido"
             }
         };
 
@@ -769,6 +961,28 @@
                 { name: { ru: "Арьен Роббен", en: "Arjen Robben", es: "Arjen Robben" }, flag: "🇳🇱", pos: "FWD", club: "Bayern Munich", ovr: 89, era: "legend" },
                 { name: { ru: "Гарет Бейл", en: "Gareth Bale", es: "Gareth Bale" }, flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿", pos: "FWD", club: "Real Madrid", ovr: 88, era: "legend" },
 
+                // Дополнительные легенды футбола
+                { name: { ru: "Бобби Чарльтон", en: "Bobby Charlton", es: "Bobby Charlton" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "MID", club: "Man United", ovr: 93, era: "legend" },
+                { name: { ru: "Джордж Бест", en: "George Best", es: "George Best" }, flag: "🇬🇧", pos: "FWD", club: "Man United", ovr: 92, era: "legend" },
+                { name: { ru: "Гордон Бэнкс", en: "Gordon Banks", es: "Gordon Banks" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "GK", club: "Stoke City", ovr: 91, era: "legend" },
+                { name: { ru: "Бобби Мур", en: "Bobby Moore", es: "Bobby Moore" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "DEF", club: "West Ham", ovr: 92, era: "legend" },
+                { name: { ru: "Питер Шмейхель", en: "Peter Schmeichel", es: "Peter Schmeichel" }, flag: "🇩🇰", pos: "GK", club: "Man United", ovr: 90, era: "legend" },
+                { name: { ru: "Микаэль Лаудруп", en: "Michael Laudrup", es: "Michael Laudrup" }, flag: "🇩🇰", pos: "MID", club: "Barcelona / Real Madrid", ovr: 91, era: "legend" },
+                { name: { ru: "Давор Шукер", en: "Davor Šuker", es: "Davor Šuker" }, flag: "🇭🇷", pos: "FWD", club: "Real Madrid", ovr: 87, era: "legend" },
+                { name: { ru: "Деян Савичевич", en: "Dejan Savićević", es: "Dejan Savićević" }, flag: "🇲🇪", pos: "MID", club: "AC Milan", ovr: 88, era: "legend" },
+                { name: { ru: "Предраг Миятович", en: "Predrag Mijatović", es: "Predrag Mijatović" }, flag: "🇲🇪", pos: "FWD", club: "Real Madrid", ovr: 86, era: "legend" },
+                { name: { ru: "Фернандо Йерро", en: "Fernando Hierro", es: "Fernando Hierro" }, flag: "🇪🇸", pos: "DEF", club: "Real Madrid", ovr: 89, era: "legend" },
+                { name: { ru: "Хосе Луис Чилаверт", en: "José Luis Chilavert", es: "José Luis Chilavert" }, flag: "🇵🇾", pos: "GK", club: "Vélez Sarsfield", ovr: 86, era: "legend" },
+                { name: { ru: "Иван Заморано", en: "Iván Zamorano", es: "Iván Zamorano" }, flag: "🇨🇱", pos: "FWD", club: "Inter / Real Madrid", ovr: 86, era: "legend" },
+                { name: { ru: "Марсело Салас", en: "Marcelo Salas", es: "Marcelo Salas" }, flag: "🇨🇱", pos: "FWD", club: "Lazio / River Plate", ovr: 86, era: "legend" },
+                { name: { ru: "Карлос Вальдеррама", en: "Carlos Valderrama", es: "Carlos Valderrama" }, flag: "🇨🇴", pos: "MID", club: "Deportivo Cali", ovr: 87, era: "legend" },
+                { name: { ru: "Клаудио Таффарел", en: "Claudio Taffarel", es: "Claudio Taffarel" }, flag: "🇧🇷", pos: "GK", club: "Galatasaray", ovr: 86, era: "legend" },
+                { name: { ru: "Альдаир", en: "Aldair", es: "Aldair" }, flag: "🇧🇷", pos: "DEF", club: "AS Roma", ovr: 87, era: "legend" },
+                { name: { ru: "Лусио", en: "Lúcio", es: "Lúcio" }, flag: "🇧🇷", pos: "DEF", club: "Bayer / Inter", ovr: 88, era: "legend" },
+                { name: { ru: "Зе Роберто", en: "Zé Roberto", es: "Zé Roberto" }, flag: "🇧🇷", pos: "MID", club: "Bayern Munich", ovr: 86, era: "legend" },
+                { name: { ru: "Жуниньо Пернамбукано", en: "Juninho Pernambucano", es: "Juninho Pernambucano" }, flag: "🇧🇷", pos: "MID", club: "Lyon", ovr: 87, era: "legend" },
+                { name: { ru: "Адриано", en: "Adriano Leite Ribeiro", es: "Adriano Leite Ribeiro" }, flag: "🇧🇷", pos: "FWD", club: "Inter Milan", ovr: 88, era: "legend" },
+
                 // Сборная Аргентины
                 { name: { ru: "Лионель Месси", en: "Lionel Messi", es: "Lionel Messi" }, flag: "🇦🇷", pos: "FWD", club: "Inter Miami", ovr: 93, era: "modern", arg: true },
                 { name: { ru: "Анхель Ди Мария", en: "Ángel Di María", es: "Ángel Di María" }, flag: "🇦🇷", pos: "FWD", club: "Benfica", ovr: 88, era: "modern", arg: true },
@@ -806,7 +1020,7 @@
                 { name: { ru: "Николас Джексон", en: "Nicolas Jackson", es: "Nicolas Jackson" }, flag: "🇸🇳", pos: "FWD", club: "Chelsea", ovr: 81, era: "modern" },
                 { name: { ru: "Садио Мане", en: "Sadio Mané", es: "Sadio Mané" }, flag: "🇸🇳", pos: "FWD", club: "Al Nassr", ovr: 85, era: "modern" },
                 { name: { ru: "Луис Суарес", en: "Luis Suárez", es: "Luis Suárez" }, flag: "🇺🇾", pos: "FWD", club: "Inter Miami", ovr: 83, era: "modern" },
-                { name: { ru: " Эрлинг Холанн", en: "Erling Haaland", es: "Erling Haaland" }, flag: "🇳🇴", pos: "FWD", club: "Man City", ovr: 91, era: "modern" },
+                { name: { ru: "Эрлинг Холанн", en: "Erling Haaland", es: "Erling Haaland" }, flag: "🇳🇴", pos: "FWD", club: "Man City", ovr: 91, era: "modern" },
                 { name: { ru: "Кевин Де Брёйне", en: "Kevin De Bruyne", es: "Kevin De Bruyne" }, flag: "🇧🇪", pos: "MID", club: "Man City", ovr: 91, era: "modern" },
                 { name: { ru: "Винисиус Жуниор", en: "Vinícius Júnior", es: "Vinícius Júnior" }, flag: "🇧🇷", pos: "FWD", club: "Real Madrid", ovr: 90, era: "modern" },
                 { name: { ru: "Джуд Беллингем", en: "Jude Bellingham", es: "Jude Bellingham" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "MID", club: "Real Madrid", ovr: 90, era: "modern" },
@@ -882,10 +1096,10 @@
                 { name: { ru: "Жоау Невеш", en: "João Neves", es: "João Neves" }, flag: "🇵🇹", pos: "MID", club: "PSG", ovr: 83, era: "modern" },
                 { name: { ru: "Диогу Кошта", en: "Diogo Costa", es: "Diogo Costa" }, flag: "🇵🇹", pos: "GK", club: "FC Porto", ovr: 85, era: "modern" },
                 { name: { ru: "Трент Александер-Арнольд", en: "Trent Alexander-Arnold", es: "Trent Alexander-Arnold" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "DEF", club: "Liverpool", ovr: 86, era: "modern" },
-                { name: { ru: " Кайл Уокер", en: "Kyle Walker", es: "Kyle Walker" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "DEF", club: "Man City", ovr: 84, era: "modern" },
+                { name: { ru: "Кайл Уокер", en: "Kyle Walker", es: "Kyle Walker" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "DEF", club: "Man City", ovr: 84, era: "modern" },
                 { name: { ru: "Джон Стоунз", en: "John Stones", es: "John Stones" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "DEF", club: "Man City", ovr: 85, era: "modern" },
                 { name: { ru: "Олли Уоткинс", en: "Ollie Watkins", es: "Ollie Watkins" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "FWD", club: "Aston Villa", ovr: 84, era: "modern" },
-                { name: { ru: " Коул Палмер", en: "Cole Palmer", es: "Cole Palmer" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "MID", club: "Chelsea", ovr: 86, era: "modern" },
+                { name: { ru: "Коул Палмер", en: "Cole Palmer", es: "Cole Palmer" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "MID", club: "Chelsea", ovr: 86, era: "modern" },
                 { name: { ru: "Кобби Мейну", en: "Kobbie Mainoo", es: "Kobbie Mainoo" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "MID", club: "Man United", ovr: 81, era: "modern" },
                 { name: { ru: "Джордан Пикфорд", en: "Jordan Pickford", es: "Jordan Pickford" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", pos: "GK", club: "Everton", ovr: 83, era: "modern" },
                 { name: { ru: "Джереми Доку", en: "Jérémy Doku", es: "Jérémy Doku" }, flag: "🇧🇪", pos: "FWD", club: "Man City", ovr: 82, era: "modern" },
@@ -924,168 +1138,236 @@
                 { name: { ru: "Виктор Цыганков", en: "Viktor Tsyhankov", es: "Viktor Tsyhankov" }, flag: "🇺🇦", pos: "MID", club: "Girona", ovr: 82, era: "modern" },
                 { name: { ru: "Артем Довбик", en: "Artem Dovbyk", es: "Artem Dovbyk" }, flag: "🇺🇦", pos: "FWD", club: "AS Roma", ovr: 84, era: "modern" },
                 { name: { ru: "Михаил Мудрик", en: "Mykhailo Mudryk", es: "Mykhailo Mudryk" }, flag: "🇺🇦", pos: "FWD", club: "Chelsea", ovr: 78, era: "modern" },
-                { name: { ru: "Эдор Камавинга", en: "Eduardo Camavinga", es: "Eduardo Camavinga" }, flag: "🇫🇷", pos: "MID", club: "Real Madrid", ovr: 84, era: "modern" },
-                { name: { ru: "Самуэль Чуквуезе", en: "Samuel Chukwueze", es: "Samuel Chukwueze" }, flag: "🇳🇬", pos: "FWD", club: "AC Milan", ovr: 79, era: "modern" },
-                { name: { ru: "Алекс Ивоби", en: "Alex Iwobi", es: "Alex Iwobi" }, flag: "🇳🇬", pos: "MID", club: "Fulham", ovr: 78, era: "modern" },
-                { name: { ru: "Уилфред Ндиди", en: "Wilfred Ndidi", es: "Wilfred Ndidi" }, flag: "🇳🇬", pos: "MID", club: "Leicester City", ovr: 80, era: "modern" },
-                { name: { ru: "Ола Айна", en: "Ola Aina", es: "Ola Aina" }, flag: "🇳🇬", pos: "DEF", club: "Nottingham Forest", ovr: 77, era: "modern" },
-                { name: { ru: "Келвин Бэсси", en: "Calvin Bassey", es: "Calvin Bassey" }, flag: "🇳🇬", pos: "DEF", club: "Fulham", ovr: 78, era: "modern" },
-                { name: { ru: "Стэнли Нвабали", en: "Stanley Nwabali", es: "Stanley Nwabali" }, flag: "🇳🇬", pos: "GK", club: "Chippa United", ovr: 75, era: "modern" },
-                { name: { ru: "Фоларин Балогун", en: "Folarin Balogun", es: "Folarin Balogun" }, flag: "🇺🇸", pos: "FWD", club: "AS Monaco", ovr: 79, era: "modern" },
+
+                // Дополнительные топ-игроки европейских и мировых клубов
+                { name: { ru: "Доминик Собослаи", en: "Dominik Szoboszlai", es: "Dominik Szoboszlai" }, flag: "🇭🇺", pos: "MID", club: "Liverpool", ovr: 85, era: "modern" },
+                { name: { ru: "Виктор Дьёкереш", en: "Viktor Gyökeres", es: "Viktor Gyökeres" }, flag: "🇸🇪", pos: "FWD", club: "Sporting CP", ovr: 85, era: "modern" },
+                { name: { ru: "Бреннан Джонсон", en: "Brennan Johnson", es: "Brennan Johnson" }, flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿", pos: "FWD", club: "Tottenham", ovr: 80, era: "modern" },
+                { name: { ru: "Мэтти Кэш", en: "Matty Cash", es: "Matty Cash" }, flag: "🇵🇱", pos: "DEF", club: "Aston Villa", ovr: 79, era: "modern" },
+                { name: { ru: "Пётр Зелиньский", en: "Piotr Zieliński", es: "Piotr Zieliński" }, flag: "🇵🇱", pos: "MID", club: "Inter Milan", ovr: 83, era: "modern" },
+                { name: { ru: "Мартин Эдегор", en: "Martin Ødegaard", es: "Martin Ødegaard" }, flag: "🇳🇴", pos: "MID", club: "Arsenal", ovr: 89, era: "modern" },
+                { name: { ru: "Александер Исак", en: "Alexander Isak", es: "Alexander Isak" }, flag: "🇸🇪", pos: "FWD", club: "Newcastle", ovr: 85, era: "modern" },
+                { name: { ru: "Санти Хименес", en: "Santiago Giménez", es: "Santiago Giménez" }, flag: "🇲🇽", pos: "FWD", club: "Feyenoord", ovr: 82, era: "modern" },
+                { name: { ru: "Эдсон Альварес", en: "Edson Álvarez", es: "Edson Álvarez" }, flag: "🇲🇽", pos: "MID", club: "West Ham", ovr: 81, era: "modern" },
+                { name: { ru: "Ирвинг Лосано", en: "Hirving Lozano", es: "Hirving Lozano" }, flag: "🇲🇽", pos: "FWD", club: "PSV", ovr: 80, era: "modern" },
                 { name: { ru: "Кристиан Пулишич", en: "Christian Pulisic", es: "Christian Pulisic" }, flag: "🇺🇸", pos: "FWD", club: "AC Milan", ovr: 83, era: "modern" },
                 { name: { ru: "Уэстон Маккенни", en: "Weston McKennie", es: "Weston McKennie" }, flag: "🇺🇸", pos: "MID", club: "Juventus", ovr: 80, era: "modern" },
-                { name: { ru: " Юнус Муса", en: "Yunus Musah", es: "Yunus Musah" }, flag: "🇺🇸", pos: "MID", club: "AC Milan", ovr: 77, era: "modern" },
-                { name: { ru: "Сержиньо Дест", en: "Sergiño Dest", es: "Sergiño Dest" }, flag: "🇺🇸", pos: "DEF", club: "PSV Eindhoven", ovr: 78, era: "modern" },
-                { name: { ru: "Энтони Робинсон", en: "Antonee Robinson", es: "Antonee Robinson" }, flag: "🇺🇸", pos: "DEF", club: "Fulham", ovr: 80, era: "modern" },
-                { name: { ru: "Мэтт Тернер", en: "Matt Turner", es: "Matt Turner" }, flag: "🇺🇸", pos: "GK", club: "Crystal Palace", ovr: 76, era: "modern" },
-                { name: { ru: "Сантьяго Хименес", en: "Santiago Giménez", es: "Santiago Giménez" }, flag: "🇲🇽", pos: "FWD", club: "Feyenoord", ovr: 82, era: "modern" },
-                { name: { ru: "Эдсон Альварес", en: "Edson Álvarez", es: "Edson Álvarez" }, flag: "🇲🇽", pos: "MID", club: "West Ham", ovr: 81, era: "modern" },
-                { name: { ru: "Ирвинг Лосано", en: "Hirving Lozano", es: "Hirving Lozano" }, flag: "🇲🇽", pos: "FWD", club: "PSV Eindhoven", ovr: 79, era: "modern" },
-                { name: { ru: "Сесар Монтес", en: "César Montes", es: "César Montes" }, flag: "🇲🇽", pos: "DEF", club: "Lokomotiv Moscow", ovr: 77, era: "modern" },
-                { name: { ru: "Гильермо Очоа", en: "Guillermo Ochoa", es: "Guillermo Ochoa" }, flag: "🇲🇽", pos: "GK", club: "AVS", ovr: 77, era: "modern" },
-                { name: { ru: "Пьеро Инкапье", en: "Piero Hincapié", es: "Piero Hincapié" }, flag: "🇪🇨", pos: "DEF", club: "Bayer Leverkusen", ovr: 82, era: "modern" },
-                { name: { ru: "Мойсес Кайседо", en: "Moisés Caicedo", es: "Moisés Caicedo" }, flag: "🇪🇨", pos: "MID", club: "Chelsea", ovr: 83, era: "modern" },
+                { name: { ru: "Тимоти Веа", en: "Timothy Weah", es: "Timothy Weah" }, flag: "🇺🇸", pos: "FWD", club: "Juventus", ovr: 78, era: "modern" },
+                { name: { ru: "Альфонсо Дэвис", en: "Alphonso Davies", es: "Alphonso Davies" }, flag: "🇨🇦", pos: "DEF", club: "Bayern Munich", ovr: 84, era: "modern" },
+                { name: { ru: "Джонатан Дэвид", en: "Jonathan David", es: "Jonathan David" }, flag: "🇨🇦", pos: "FWD", club: "Lille", ovr: 82, era: "modern" },
+                { name: { ru: "Мойзес Кайседо", en: "Moisés Caicedo", es: "Moisés Caicedo" }, flag: "🇪🇨", pos: "MID", club: "Chelsea", ovr: 83, era: "modern" },
+                { name: { ru: "Пьеро Инкапье", en: "Piero Hincapié", es: "Piero Hincapié" }, flag: "🇪🇨", pos: "DEF", club: "Bayer Leverkusen", ovr: 81, era: "modern" },
                 { name: { ru: "Энер Валенсия", en: "Enner Valencia", es: "Enner Valencia" }, flag: "🇪🇨", pos: "FWD", club: "Internacional", ovr: 78, era: "modern" },
-                { name: { ru: "Виллиан Пачо", en: "Willian Pacho", es: "Willian Pacho" }, flag: "🇪🇨", pos: "DEF", club: "PSG", ovr: 81, era: "modern" },
-                { name: { ru: "Кендри Паэс", en: "Kendry Páez", es: "Kendry Páez" }, flag: "🇪🇨", pos: "MID", club: "Independiente del Valle", ovr: 76, era: "modern" },
-                { name: { ru: "Мигель Альмирон", en: "Miguel Almirón", es: "Miguel Almirón" }, flag: "🇵🇾", pos: "MID", club: "Newcastle", ovr: 79, era: "modern" },
+                { name: { ru: "Саломон Рондон", en: "Salomón Rondón", es: "Salomón Rondón" }, flag: "🇻🇪", pos: "FWD", club: "Pachuca", ovr: 78, era: "modern" },
+                { name: { ru: "Йеферсон Сотельдо", en: "Yeferson Soteldo", es: "Yeferson Soteldo" }, flag: "🇻🇪", pos: "FWD", club: "Gremio", ovr: 77, era: "modern" },
+                { name: { ru: "Мигель Альмирон", en: "Miguel Almirón", es: "Miguel Almirón" }, flag: "🇵🇾", pos: "FWD", club: "Newcastle", ovr: 80, era: "modern" },
                 { name: { ru: "Хулио Энсисо", en: "Julio Enciso", es: "Julio Enciso" }, flag: "🇵🇾", pos: "FWD", club: "Brighton", ovr: 77, era: "modern" },
-                { name: { ru: "Густаво Гомес", en: "Gustavo Gómez", es: "Gustavo Gómez" }, flag: "🇵🇾", pos: "DEF", club: "Palmeiras", ovr: 79, era: "modern" },
-                { name: { ru: "Саломон Рондон", en: "Salomón Rondón", es: "Salomón Rondón" }, flag: "🇻🇪", pos: "FWD", club: "Pachuca", ovr: 77, era: "modern" },
-                { name: { ru: "Йеферсон Сотельдо", en: "Yeferson Soteldo", es: "Yeferson Soteldo" }, flag: "🇻🇪", pos: "MID", club: "Grêmio", ovr: 76, era: "modern" },
-                { name: { ru: "Джон Дуран", en: "Jhon Durán", es: "Jhon Durán" }, flag: "🇨🇴", pos: "FWD", club: "Aston Villa", ovr: 80, era: "modern" },
-                { name: { ru: "Давинсон Санчес", en: "Davinson Sánchez", es: "Davinson Sánchez" }, flag: "🇨🇴", pos: "DEF", club: "Galatasaray", ovr: 78, era: "modern" },
-                { name: { ru: "Даниэль Муньос", en: "Daniel Muñoz", es: "Daniel Muñoz" }, flag: "🇨🇴", pos: "DEF", club: "Crystal Palace", ovr: 80, era: "modern" },
-                { name: { ru: "Камило Варгас", en: "Camilo Vargas", es: "Camilo Vargas" }, flag: "🇨🇴", pos: "GK", club: "Atlas", ovr: 78, era: "modern" },
-                { name: { ru: "Джефферсон Лерма", en: "Jefferson Lerma", es: "Jefferson Lerma" }, flag: "🇨🇴", pos: "MID", club: "Crystal Palace", ovr: 79, era: "modern" },
-                { name: { ru: "Алексис Санчес", en: "Alexis Sánchez", es: "Alexis Sánchez" }, flag: "🇨🇱", pos: "FWD", club: "Udinese", ovr: 79, era: "modern" },
-                { name: { ru: "Эдуардо Варгас", en: "Eduardo Vargas", es: "Eduardo Vargas" }, flag: "🇨🇱", pos: "FWD", club: "Atlético Mineiro", ovr: 75, era: "modern" },
-                { name: { ru: "Гильермо Марипан", en: "Guillermo Maripán", es: "Guillermo Maripán" }, flag: "🇨🇱", pos: "DEF", club: "Torino", ovr: 77, era: "modern" },
-                { name: { ru: "Джовани Ло Сельсо", en: "Giovani Lo Celso", es: "Giovani Lo Celso" }, flag: "🇦🇷", pos: "MID", club: "Real Betis", ovr: 81, era: "modern", arg: true },
-                { name: { ru: "Валентин Карбони", en: "Valentín Carboni", es: "Valentín Carboni" }, flag: "🇦🇷", pos: "MID", club: "Marseille", ovr: 76, era: "modern", arg: true },
-                { name: { ru: "Матиас Суле", en: "Matias Soulé", es: "Matias Soulé" }, flag: "🇦🇷", pos: "FWD", club: "AS Roma", ovr: 79, era: "modern", arg: true },
-                { name: { ru: "Кастельянос", en: "Taty Castellanos", es: "Taty Castellanos" }, flag: "🇦🇷", pos: "FWD", club: "Lazio", ovr: 79, era: "modern", arg: true },
-                { name: { ru: "Марко Лисандро", en: "Lisandro López", es: "Lisandro López" }, flag: "🇦🇷", pos: "DEF", club: "Khaleej", ovr: 75, era: "modern" },
-                { name: { ru: "Эмилиано Буэндия", en: "Emiliano Buendía", es: "Emiliano Buendía" }, flag: "🇦🇷", pos: "MID", club: "Aston Villa", ovr: 78, era: "modern" },
-                { name: { ru: "Хуан Фойт", en: "Juan Foyth", es: "Juan Foyth" }, flag: "🇦🇷", pos: "DEF", club: "Villarreal", ovr: 80, era: "modern" },
-                { name: { ru: "Факундо Буонанотте", en: "Facundo Buonanotte", es: "Facundo Buonanotte" }, flag: "🇦🇷", pos: "MID", club: "Leicester City", ovr: 77, era: "modern" },
-                { name: { ru: "Маркос Сенеси", en: "Marcos Senesi", es: "Marcos Senesi" }, flag: "🇦🇷", pos: "DEF", club: "Bournemouth", ovr: 79, era: "modern" },
-                { name: { ru: "Неуэн Перес", en: "Nehuén Pérez", es: "Nehuén Pérez" }, flag: "🇦🇷", pos: "DEF", club: "FC Porto", ovr: 78, era: "modern" },
-                { name: { ru: "Валентин Кастельянос", en: "Valentin Castellanos", es: "Valentin Castellanos" }, flag: "🇦🇷", pos: "FWD", club: "Lazio", ovr: 79, era: "modern" },
-                { name: { ru: "Лукас Окампос", en: "Lucas Ocampos", es: "Lucas Ocampos" }, flag: "🇦🇷", pos: "FWD", club: "Monterrey", ovr: 79, era: "modern" },
-                { name: { ru: "Эрик Ламела", en: "Erik Lamela", es: "Erik Lamela" }, flag: "🇦🇷", pos: "MID", club: "AEK Athens", ovr: 77, era: "modern" },
-                { name: { ru: "Хоакин Корреа", en: "Joaquín Correa", es: "Joaquín Correa" }, flag: "🇦🇷", pos: "FWD", club: "Inter Milan", ovr: 76, era: "modern" },
-                { name: { ru: "Лукас Мартинес Куарта", en: "Lucas Martínez Quarta", es: "Lucas Martínez Quarta" }, flag: "🇦🇷", pos: "DEF", club: "Fiorentina", ovr: 78, era: "modern" },
-                { name: { ru: "Пауло Гассанига", en: "Paulo Gazzaniga", es: "Paulo Gazzaniga" }, flag: "🇦🇷", pos: "GK", club: "Girona", ovr: 79, era: "modern" },
-                { name: { ru: "Вальтер Бенитес", en: "Walter Benítez", es: "Walter Benítez" }, flag: "🇦🇷", pos: "GK", club: "PSV Eindhoven", ovr: 80, era: "modern" },
-                { name: { ru: "Хуан Муссо", en: "Juan Musso", es: "Juan Musso" }, flag: "🇦🇷", pos: "GK", club: "Atlético Madrid", ovr: 78, era: "modern" },
-                { name: { ru: "Агустин Марчесин", en: "Agustín Marchesín", es: "Agustín Marchesín" }, flag: "🇦🇷", pos: "GK", club: "Grêmio", ovr: 76, era: "modern" },
-                { name: { ru: "Санти Касерeс", en: "Santiago Cáseres", es: "Santiago Cáseres" }, flag: "🇦🇷", pos: "MID", club: "Vélez Sarsfield", ovr: 74, era: "modern" },
-                { name: { ru: "Федерико Редондо", en: "Federico Redondo", es: "Federico Redondo" }, flag: "🇦🇷", pos: "MID", club: "Inter Miami", ovr: 76, era: "modern" },
-                { name: { ru: "Эсекьель Фернандес", en: "Eequiel Fernández", es: "Ezekiel Fernández" }, flag: "🇦🇷", pos: "MID", club: "Al Qadsiah", ovr: 78, era: "modern" },
-                { name: { ru: "Кристиан Медина", en: "Cristian Medina", es: "Cristian Medina" }, flag: "🇦🇷", pos: "MID", club: "Boca Juniors", ovr: 77, era: "modern" },
-                { name: { ru: "Клаудио Эчеверри", en: "Claudio Echeverri", es: "Claudio Echeverri" }, flag: "🇦🇷", pos: "MID", club: "River Plate", ovr: 76, era: "modern" },
-                { name: { ru: "Франко Мастантуоно", en: "Franco Mastantuono", es: "Franco Mastantuono" }, flag: "🇦🇷", pos: "MID", club: "River Plate", ovr: 75, era: "modern" },
-                { name: { ru: "Джастин Лерма", en: "Justin Lerma", es: "Justin Lerma" }, flag: "🇪🇨", pos: "MID", club: "Independiente del Valle", ovr: 72, era: "modern" },
-                { name: { ru: "Лукас Бельтран", en: "Lucas Beltrán", es: "Lucas Beltrán" }, flag: "🇦🇷", pos: "FWD", club: "Fiorentina", ovr: 77, era: "modern" },
-                { name: { ru: "Адольфо Гайч", en: "Adolfo Gaich", es: "Adolfo Gaich" }, flag: "🇦🇷", pos: "FWD", club: "Antalyaspor", ovr: 73, era: "modern" },
-                { name: { ru: "Педро де ла Вега", en: "Pedro de la Vega", es: "Pedro de la Vega" }, flag: "🇦🇷", pos: "FWD", club: "Seattle Sounders", ovr: 75, era: "modern" },
-                { name: { ru: "Санти Пьеротти", en: "Santiago Pierotti", es: "Santiago Pierotti" }, flag: "🇦🇷", pos: "FWD", club: "Lecce", ovr: 73, era: "modern" },
-                { name: { ru: "Херемиас Ледесма", en: "Jeremías Ledesma", es: "Jeremías Ledesma" }, flag: "🇦🇷", pos: "GK", club: "River Plate", ovr: 78, era: "modern" },
-                { name: { ru: "Себастьян Дриусси", en: "Sebastián Driussi", es: "Sebastián Driussi" }, flag: "🇦🇷", pos: "FWD", club: "Austin FC", ovr: 77, era: "modern" },
-                { name: { ru: "Лусиано Акоста", en: "Luciano Acosta", es: "Luciano Acosta" }, flag: "🇦🇷", pos: "MID", club: "FC Cincinnati", ovr: 79, era: "modern" },
-                { name: { ru: "Эмануэль Беносо", en: "Emanuel Reynoso", es: "Emanuel Reynoso" }, flag: "🇦🇷", pos: "MID", club: "Tijuana", ovr: 75, era: "modern" },
-                { name: { ru: "Густаво Боу", en: "Gustavo Bou", es: "Gustavo Bou" }, flag: "🇦🇷", pos: "FWD", club: "Talleres", ovr: 74, era: "modern" },
-                { name: { ru: "Рамиро Фунес Мори", en: "Ramiro Funes Mori", es: "Ramiro Funes Mori" }, flag: "🇦🇷", pos: "DEF", club: "River Plate", ovr: 73, era: "modern" },
-                { name: { ru: "Эмануэль Маммано", en: "Emanuel Mammana", es: "Emanuel Mammana" }, flag: "🇦🇷", pos: "DEF", club: "Vélez Sarsfield", ovr: 74, era: "modern" },
-                { name: { ru: "Фабрисио Бустос", en: "Fabricio Bustos", es: "Fabricio Bustos" }, flag: "🇦🇷", pos: "DEF", club: "River Plate", ovr: 76, era: "modern" },
-                { name: { ru: "Мильтон Каско", en: "Milton Casco", es: "Milton Casco" }, flag: "🇦🇷", pos: "DEF", club: "River Plate", ovr: 74, era: "modern" },
-                { name: { ru: "Маркос Рохо", en: "Marcos Rojo", es: "Marcos Rojo" }, flag: "🇦🇷", pos: "DEF", club: "Boca Juniors", ovr: 75, era: "modern" },
-                { name: { ru: "Серхио Ромеро", en: "Sergio Romero", es: "Sergio Romero" }, flag: "🇦🇷", pos: "GK", club: "Boca Juniors", ovr: 75, era: "modern" },
-                { name: { ru: "Эдуардо Сальвио", en: "Eduardo Salvio", es: "Eduardo Salvio" }, flag: "🇦🇷", pos: "MID", club: "Lanús", ovr: 75, era: "modern" },
-                { name: { ru: "Рикардо Сентурион", en: "Ricardo Centurión", es: "Ricardo Centurión" }, flag: "🇦🇷", pos: "MID", club: "Vélez Sarsfield", ovr: 72, era: "modern" },
-                { name: { ru: "Джино Перуцци", en: "Gino Peruzzi", es: "Gino Peruzzi" }, flag: "🇦🇷", pos: "DEF", club: "FC Tbilisi", ovr: 71, era: "modern" },
-                { name: { ru: "Джонатан Сильва", en: "Jonathan Silva", es: "Jonathan Silva" }, flag: "🇦🇷", pos: "DEF", club: "Pafos", ovr: 72, era: "modern" },
-                { name: { ru: "Матиас Варгас", en: "Matías Vargas", es: "Matías Vargas" }, flag: "🇦🇷", pos: "MID", club: "Shanghai Port", ovr: 76, era: "modern" },
-                { name: { ru: "Игнасио Пуссетто", en: "Ignacio Pussetto", es: "Ignacio Pussetto" }, flag: "🇦🇷", pos: "FWD", club: "Pumas UNAM", ovr: 75, era: "modern" },
-                { name: { ru: "Николас Бланди", en: "Nicolás Blandi", es: "Nicolás Blandi" }, flag: "🇦🇷", pos: "FWD", club: "Danubio", ovr: 70, era: "modern" },
-                { name: { ru: "Лукас Пратто", en: "Lucas Pratto", es: "Lucas Pratto" }, flag: "🇦🇷", pos: "FWD", club: "Olimpia", ovr: 71, era: "modern" },
-                { name: { ru: "Мауро Сарате", en: "Mauro Zárate", es: "Mauro Zárate" }, flag: "🇦🇷", pos: "FWD", club: "Free Agent", ovr: 72, era: "modern" },
-                { name: { ru: "Макси Родригес", en: "Maxi Rodríguez", es: "Maxi Rodríguez" }, flag: "🇦🇷", pos: "MID", club: "Newell's", ovr: 80, era: "legend" },
-                { name: { ru: "Мартин Палермо", en: "Martín Palermo", es: "Martín Palermo" }, flag: "🇦🇷", pos: "FWD", club: "Boca Juniors", ovr: 82, era: "legend" },
-                { name: { ru: "Ариэль Ортега", en: "Ariel Ortega", es: "Ariel Ortega" }, flag: "🇦🇷", pos: "MID", club: "River Plate", ovr: 85, era: "legend" },
-                { name: { ru: "Марсело Гальярдо", en: "Marcelo Gallardo", es: "Marcelo Gallardo" }, flag: "🇦🇷", pos: "MID", club: "River Plate", ovr: 83, era: "legend" },
-                { name: { ru: "Диего Симеоне", en: "Diego Simeone", es: "Diego Simeone" }, flag: "🇦🇷", pos: "MID", club: "Atlético / Lazio", ovr: 85, era: "legend" },
-                { name: { ru: "Клаудио Каниджа", en: "Claudio Caniggia", es: "Claudio Caniggia" }, flag: "🇦🇷", pos: "FWD", club: "Atalanta / Boca", ovr: 86, era: "legend" },
-                { name: { ru: "Роберто Айяла", en: "Roberto Ayala", es: "Roberto Ayala" }, flag: "🇦🇷", pos: "DEF", club: "Valencia", ovr: 87, era: "legend" },
-                { name: { ru: "Вольтер Самуэль", en: "Walter Samuel", es: "Walter Samuel" }, flag: "🇦🇷", pos: "DEF", club: "Inter Milan", ovr: 87, era: "legend" },
-                { name: { ru: "Габриэль Хайнце", en: "Gabriel Heinze", es: "Gabriel Heinze" }, flag: "🇦🇷", pos: "DEF", club: "Man United / Real Madrid", ovr: 83, era: "legend" },
-                { name: { ru: "Уго Компаньяро", en: "Hugo Campagnaro", es: "Hugo Campagnaro" }, flag: "🇦🇷", pos: "DEF", club: "Napoli", ovr: 80, era: "legend" },
-                { name: { ru: "Хосе Шамот", en: "José Chamot", es: "José Chamot" }, flag: "🇦🇷", pos: "DEF", club: "Lazio / AC Milan", ovr: 80, era: "legend" }
-            ];
+                { name: { ru: "Ренато Тапия", en: "Renato Tapia", es: "Renato Tapia" }, flag: "🇵🇪", pos: "MID", club: "Leganés", ovr: 78, era: "modern" },
+                { name: { ru: "Педро Гальесе", en: "Pedro Gallese", es: "Pedro Gallese" }, flag: "🇵🇪", pos: "GK", club: "Orlando City", ovr: 77, era: "modern" },
+                { name: { ru: "Алексис Санчес", en: "Alexis Sánchez", es: "Alexis Sánchez" }, flag: "🇨🇱", pos: "FWD", club: "Udinese", ovr: 80, era: "modern" },
+                { name: { ru: "Артуро Видаль", en: "Arturo Vidal", es: "Arturo Vidal" }, flag: "🇨🇱", pos: "MID", club: "Colo-Colo", ovr: 79, era: "modern" },
+                { name: { ru: "Гильермо Очоа", en: "Guillermo Ochoa", es: "Guillermo Ochoa" }, flag: "🇲🇽", pos: "GK", club: "AVS", ovr: 78, era: "modern" },
+                { name: { ru: "Сесар Монтес", en: "César Montes", es: "César Montes" }, flag: "🇲🇽", pos: "DEF", club: "Lokomotiv Moscow", ovr: 77, era: "modern" },
+                { name: { ru: "Сердар Азмун", en: "Sardar Azmoun", es: "Sardar Azmoun" }, flag: "🇮🇷", pos: "FWD", club: "Shabab Al Ahli", ovr: 79, era: "modern" },
+                { name: { ru: "Мехди Тареми", en: "Mehdi Taremi", es: "Mehdi Taremi" }, flag: "🇮🇷", pos: "FWD", club: "Inter Milan", ovr: 82, era: "modern" },
+                { name: { ru: "Рицу Доан", en: "Ritsu Doan", es: "Ritsu Doan" }, flag: "🇯🇵", pos: "FWD", club: "Freiburg", ovr: 79, era: "modern" },
+                { name: { ru: "Ао Танака", en: "Ao Tanaka", es: "Ao Tanaka" }, flag: "🇯🇵", pos: "MID", club: "Leeds United", ovr: 76, era: "modern" },
+                { name: { ru: "Ли Кан Ин", en: "Lee Kang-in", es: "Lee Kang-in" }, flag: "🇰🇷", pos: "MID", club: "PSG", ovr: 81, era: "modern" },
+                { name: { ru: "Хван Хи Чхан", en: "Hwang Hee-chan", es: "Hwang Hee-chan" }, flag: "🇰🇷", pos: "FWD", club: "Wolves", ovr: 79, era: "modern" },
+                { name: { ru: "Матиас Оливера", en: "Mathías Olivera", es: "Mathías Olivera" }, flag: "🇺🇾", pos: "DEF", club: "Napoli", ovr: 79, era: "modern" },
+                { name: { ru: "Мануэль Угарте", en: "Manuel Ugarte", es: "Manuel Ugarte" }, flag: "🇺🇾", pos: "MID", club: "Man United", ovr: 81, era: "modern" },
+                { name: { ru: "Факундо Пеллистри", en: "Facundo Pellistri", es: "Facundo Pellistri" }, flag: "🇺🇾", pos: "FWD", club: "Panathinaikos", ovr: 77, era: "modern" },
+                { name: { ru: "Джорджиан Де Арраскаета", en: "Giorgian de Arrascaeta", es: "Giorgian de Arrascaeta" }, flag: "🇺🇾", pos: "MID", club: "Flamengo", ovr: 81, era: "modern" },
+                { name: { ru: "Серхио Роче", en: "Sergio Rochet", es: "Sergio Rochet" }, flag: "🇺🇾", pos: "GK", club: "Internacional", ovr: 78, era: "modern" },
+                { name: { ru: "Исмаэль Беннасер", en: "Ismaël Bennacer", es: "Ismaël Bennacer" }, flag: "🇩🇿", pos: "MID", club: "AC Milan", ovr: 81, era: "modern" },
+                { name: { ru: "Рияд Марез", en: "Riyad Mahrez", es: "Riyad Mahrez" }, flag: "🇩🇿", pos: "FWD", club: "Al Ahli", ovr: 84, era: "modern" },
+                { name: { ru: "Франк Кессье", en: "Franck Kessié", es: "Franck Kessié" }, flag: "🇨🇮", pos: "MID", club: "Al Ahli", ovr: 82, era: "modern" },
+                { name: { ru: "Симон Кьер", en: "Simon Kjær", es: "Simon Kjær" }, flag: "🇩🇰", pos: "DEF", club: "AC Milan", ovr: 80, era: "modern" },
+                { name: { ru: "Кристиан Эриксен", en: "Christian Eriksen", es: "Christian Eriksen" }, flag: "🇩🇰", pos: "MID", club: "Man United", ovr: 80, era: "modern" },
+                { name: { ru: "Расмус Хёйлунн", en: "Rasmus Højlund", es: "Rasmus Højlund" }, flag: "🇩🇰", pos: "FWD", club: "Man United", ovr: 80, era: "modern" },
+                { name: { ru: "Каспер Шмейхель", en: "Kasper Schmeichel", es: "Kasper Schmeichel" }, flag: "🇩🇰", pos: "GK", club: "Celtic", ovr: 80, era: "modern" },
+                { name: { ru: "Томаш Соучек", en: "Tomáš Souček", es: "Tomáš Souček" }, flag: "🇨🇿", pos: "MID", club: "West Ham", ovr: 80, era: "modern" },
+                { name: { ru: "Патрик Шик", en: "Patrik Schick", es: "Patrik Schick" }, flag: "🇨🇿", pos: "FWD", club: "Bayer Leverkusen", ovr: 81, era: "modern" },
+                { name: { ru: "Матео Ковачич", en: "Mateo Kovačić", es: "Mateo Kovačić" }, flag: "🇭🇷", pos: "MID", club: "Man City", ovr: 83, era: "modern" },
+                { name: { ru: "Йошко Гвардиол", en: "Joško Gvardiol", es: "Joško Gvardiol" }, flag: "🇭🇷", pos: "DEF", club: "Man City", ovr: 85, era: "modern" },
+                { name: { ru: "Доминик Ливакович", en: "Dominik Livaković", es: "Dominik Livaković" }, flag: "🇭🇷", pos: "GK", club: "Fenerbahçe", ovr: 81, era: "modern" },
+                { name: { ru: "Марио Пашалич", en: "Mario Pašalić", es: "Mario Pašalić" }, flag: "🇭🇷", pos: "MID", club: "Atalanta", ovr: 80, era: "modern" },
+                { name: { ru: "Андрей Крамарич", en: "Andrej Kramarić", es: "Andrej Kramarić" }, flag: "🇭🇷", pos: "FWD", club: "Hoffenheim", ovr: 81, era: "modern" },
+                { name: { ru: "Эльсеид Хюсай", en: "Elseid Hysaj", es: "Elseid Hysaj" }, flag: "🇦🇱", pos: "DEF", club: "Lazio", ovr: 77, era: "modern" },
+                { name: { ru: "Томас Стракоша", en: "Thomas Strakosha", es: "Thomas Strakosha" }, flag: "🇦🇱", pos: "GK", club: "AEK Athens", ovr: 77, era: "modern" },
+                { name: { ru: "Армандо Броя", en: "Armando Broja", es: "Armando Broja" }, flag: "🇦🇱", pos: "FWD", club: "Everton", ovr: 76, era: "modern" }
+            ].slice(0, 256);
         }
 
-        class App {
+        class FootballApp {
             constructor() {
                 this.lang = 'ru';
-                this.allPlayers = buildPlayersDatabase();
-                this.currentScreen = 'screen-menu';
+                this.database = buildPlayersDatabase();
                 
+                // Group Tournament State
                 this.groups = [];
-                this.activeGroupIdx = 0;
+                this.currentGroupIdx = 0;
+                this.currentDuelIdx = 0;
+                this.groupHistory = [];
                 this.groupSubTab = 'duels';
-                
-                this.playoffPairs = [];
+
+                // Playoff State
+                this.playoffRounds = [];
+                this.currentRoundIdx = 0;
+                this.currentMatchIdx = 0;
                 this.playoffHistory = [];
 
-                this.draftMode = 'classic';
+                // Draft State
+                this.draftModeOption = 'classic';
                 this.draftFormation = '4-3-3';
                 this.draftFocus = 'balanced';
-                this.draftSquad = {};
+                this.draftSlots = [];
                 this.selectedSlotIndex = null;
-                this.pickedPlayersSet = new Set();
 
+                // Расширенный пул команд с годами (исключаем повторы одинаковых команд одного года)
+                this.randomNationalTeamsPool = [
+                    { name: { ru: "Новая Зеландия", en: "New Zealand", es: "Nueva Zelanda" }, flag: "🇳🇿", ovr: 70, year: 2026 },
+                    { name: { ru: "Катар", en: "Qatar", es: "Catar" }, flag: "🇶🇦", ovr: 71, year: 2022 },
+                    { name: { ru: "Катар", en: "Qatar", es: "Catar" }, flag: "🇶🇦", ovr: 72, year: 2026 },
+                    { name: { ru: "Саудовская Аравия", en: "Saudi Arabia", es: "Arabia Saudita" }, flag: "🇸🇦", ovr: 73, year: 2022 },
+                    { name: { ru: "Саудовская Аравия", en: "Saudi Arabia", es: "Arabia Saudita" }, flag: "🇸🇦", ovr: 74, year: 2026 },
+                    { name: { ru: "Кюрасао", en: "Curaçao", es: "Curazao" }, flag: "🇨🇼", ovr: 69, year: 2026 },
+                    { name: { ru: "ОАЭ", en: "UAE", es: "EAU" }, flag: "🇦🇪", ovr: 72, year: 2026 },
+                    { name: { ru: "Узбекистан", en: "Uzbekistan", es: "Uzbekistán" }, flag: "🇺🇿", ovr: 75, year: 2026 },
+                    { name: { ru: "Иран", en: "Iran", es: "Irán" }, flag: "🇮🇷", ovr: 76, year: 2018 },
+                    { name: { ru: "Иран", en: "Iran", es: "Irán" }, flag: "🇮🇷", ovr: 77, year: 2022 },
+                    { name: { ru: "Иран", en: "Iran", es: "Irán" }, flag: "🇮🇷", ovr: 78, year: 2026 },
+                    { name: { ru: "Австралия", en: "Australia", es: "Australia" }, flag: "🇦🇺", ovr: 76, year: 2018 },
+                    { name: { ru: "Австралия", en: "Australia", es: "Australia" }, flag: "🇦🇺", ovr: 78, year: 2022 },
+                    { name: { ru: "Австралия", en: "Australia", es: "Australia" }, flag: "🇦🇺", ovr: 79, year: 2026 },
+                    { name: { ru: "Южная Корея", en: "South Korea", es: "Corea del Sur" }, flag: "🇰🇷", ovr: 79, year: 2018 },
+                    { name: { ru: "Южная Корея", en: "South Korea", es: "Corea del Sur" }, flag: "🇰🇷", ovr: 81, year: 2022 },
+                    { name: { ru: "Южная Корея", en: "South Korea", es: "Corea del Sur" }, flag: "🇰🇷", ovr: 83, year: 2026 },
+                    { name: { ru: "Япония", en: "Japan", es: "Japón" }, flag: "🇯🇵", ovr: 80, year: 2018 },
+                    { name: { ru: "Япония", en: "Japan", es: "Japón" }, flag: "🇯🇵", ovr: 82, year: 2022 },
+                    { name: { ru: "Япония", en: "Japan", es: "Japón" }, flag: "🇯🇵", ovr: 84, year: 2026 },
+                    { name: { ru: "США", en: "USA", es: "EE. UU." }, flag: "🇺🇸", ovr: 79, year: 2022 },
+                    { name: { ru: "США", en: "USA", es: "EE. UU." }, flag: "🇺🇸", ovr: 82, year: 2026 },
+                    { name: { ru: "Мексика", en: "Mexico", es: "México" }, flag: "🇲🇽", ovr: 80, year: 2018 },
+                    { name: { ru: "Мексика", en: "Mexico", es: "México" }, flag: "🇲🇽", ovr: 81, year: 2022 },
+                    { name: { ru: "Мексика", en: "Mexico", es: "México" }, flag: "🇲🇽", ovr: 82, year: 2026 },
+                    { name: { ru: "Канада", en: "Canada", es: "Canadá" }, flag: "🇨🇦", ovr: 78, year: 2022 },
+                    { name: { ru: "Канада", en: "Canada", es: "Canadá" }, flag: "🇨🇦", ovr: 81, year: 2026 },
+                    { name: { ru: "Уругвай", en: "Uruguay", es: "Uruguay" }, flag: "🇺🇾", ovr: 84, year: 2018 },
+                    { name: { ru: "Уругвай", en: "Uruguay", es: "Uruguay" }, flag: "🇺🇾", ovr: 85, year: 2022 },
+                    { name: { ru: "Уругвай", en: "Uruguay", es: "Uruguay" }, flag: "🇺🇾", ovr: 86, year: 2026 },
+                    { name: { ru: "Колумбия", en: "Colombia", es: "Colombia" }, flag: "🇨🇴", ovr: 83, year: 2018 },
+                    { name: { ru: "Колумбия", en: "Colombia", es: "Colombia" }, flag: "🇨🇴", ovr: 85, year: 2026 },
+                    { name: { ru: "Хорватия", en: "Croatia", es: "Croacia" }, flag: "🇭🇷", ovr: 86, year: 2018 },
+                    { name: { ru: "Хорватия", en: "Croatia", es: "Croacia" }, flag: "🇭🇷", ovr: 85, year: 2022 },
+                    { name: { ru: "Хорватия", en: "Croatia", es: "Croacia" }, flag: "🇭🇷", ovr: 84, year: 2026 },
+                    { name: { ru: "Нидерланды", en: "Netherlands", es: "Países Bajos" }, flag: "🇳🇱", ovr: 87, year: 2022 },
+                    { name: { ru: "Нидерланды", en: "Netherlands", es: "Países Bajos" }, flag: "🇳🇱", ovr: 88, year: 2026 },
+                    { name: { ru: "Португалия", en: "Portugal", es: "Portugal" }, flag: "🇵🇹", ovr: 86, year: 2018 },
+                    { name: { ru: "Португалия", en: "Portugal", es: "Portugal" }, flag: "🇵🇹", ovr: 87, year: 2022 },
+                    { name: { ru: "Португалия", en: "Portugal", es: "Portugal" }, flag: "🇵🇹", ovr: 88, year: 2026 },
+                    { name: { ru: "Бельгия", en: "Belgium", es: "Bélgica" }, flag: "🇧🇪", ovr: 88, year: 2018 },
+                    { name: { ru: "Бельгия", en: "Belgium", es: "Bélgica" }, flag: "🇧🇪", ovr: 86, year: 2022 },
+                    { name: { ru: "Бельгия", en: "Belgium", es: "Bélgica" }, flag: "🇧🇪", ovr: 85, year: 2026 },
+                    { name: { ru: "Италия", en: "Italy", es: "Italia" }, flag: "🇮🇹", ovr: 87, year: 2026 },
+                    { name: { ru: "Испания", en: "Spain", es: "España" }, flag: "🇪🇸", ovr: 87, year: 2018 },
+                    { name: { ru: "Испания", en: "Spain", es: "España" }, flag: "🇪🇸", ovr: 88, year: 2022 },
+                    { name: { ru: "Испания", en: "Spain", es: "España" }, flag: "🇪🇸", ovr: 90, year: 2026 },
+                    { name: { ru: "Германия", en: "Germany", es: "Alemania" }, flag: "🇩🇪", ovr: 89, year: 2018 },
+                    { name: { ru: "Германия", en: "Germany", es: "Alemania" }, flag: "🇩🇪", ovr: 87, year: 2022 },
+                    { name: { ru: "Германия", en: "Germany", es: "Alemania" }, flag: "🇩🇪", ovr: 89, year: 2026 },
+                    { name: { ru: "Бразилия", en: "Brazil", es: "Brasil" }, flag: "🇧🇷", ovr: 90, year: 2018 },
+                    { name: { ru: "Бразилия", en: "Brazil", es: "Brasil" }, flag: "🇧🇷", ovr: 90, year: 2022 },
+                    { name: { ru: "Бразилия", en: "Brazil", es: "Brasil" }, flag: "🇧🇷", ovr: 91, year: 2026 },
+                    { name: { ru: "Аргентина", en: "Argentina", es: "Argentina" }, flag: "🇦🇷", ovr: 88, year: 2018 },
+                    { name: { ru: "Аргентина", en: "Argentina", es: "Argentina" }, flag: "🇦🇷", ovr: 91, year: 2022 },
+                    { name: { ru: "Аргентина", en: "Argentina", es: "Argentina" }, flag: "🇦🇷", ovr: 90, year: 2026 },
+                    { name: { ru: "Франция", en: "France", es: "Francia" }, flag: "🇫🇷", ovr: 91, year: 2018 },
+                    { name: { ru: "Франция", en: "France", es: "Francia" }, flag: "🇫🇷", ovr: 92, year: 2022 },
+                    { name: { ru: "Франция", en: "France", es: "Francia" }, flag: "🇫🇷", ovr: 91, year: 2026 },
+                    { name: { ru: "Англия", en: "England", es: "Inglaterra" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", ovr: 87, year: 2018 },
+                    { name: { ru: "Англия", en: "England", es: "Inglaterra" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", ovr: 89, year: 2022 },
+                    { name: { ru: "Англия", en: "England", es: "Inglaterra" }, flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", ovr: 90, year: 2026 }
+                ];
+
+                this.wcStageIndex = 0; // 0: Groups, 1: 1/16, 2: 1/8, 3: 1/4, 4: Semi, 5: Final
+                this.wcCurrentMatchIdx = 0;
+                this.wcGroupMatchesPlayed = 0;
+                this.wcGroupPoints = 0;
+                this.wcGoalsFor = 0;
+                this.wcGoalsAgainst = 0;
+                this.wcBracketResults = []; 
+                this.usedOpponentSignatures = new Set(); // Чтобы исключить одинаковые команды с одинаковым годом повторно
+
+                // Match Simulation Live State
+                this.simMatchInterval = null;
+                this.simCurrentMinute = 0;
+                this.simTargetMinute = 90;
+                this.simExtraTime = 0;
+                this.simMyGoals = 0;
+                this.simOppGoals = 0;
+                this.simOpponent = null;
+                this.simIsExtraTimePhase = false;
+
+                // Directory Filters
                 this.dirCategory = 'all';
                 this.dirPos = 'all';
+
+                this.init();
             }
 
             init() {
-                this.updateI18nUI();
-                this.renderDirectory();
+                this.updateThemeUI();
+                this.applyTranslations();
             }
 
-            changeLanguage(lang) {
-                this.lang = lang;
-                this.updateI18nUI();
-                this.renderDirectory();
-                if (this.currentScreen === 'screen-groups') this.renderGroupView();
-                if (this.currentScreen === 'screen-playoff') this.renderPlayoffMatch();
-                if (this.currentScreen === 'screen-draft') this.renderDraftPitch();
+            toggleTheme() {
+                document.documentElement.classList.toggle('dark');
+                sound.playClick();
             }
 
-            updateI18nUI() {
-                const dict = i18n[this.lang] || i18n.ru;
-                document.querySelectorAll('[data-i18n]').forEach(el => {
-                    const key = el.getAttribute('data-i18n');
-                    if (dict[key]) el.textContent = dict[key];
-                });
-            }
+            updateThemeUI() {}
 
             toggleSound() {
                 sound.enabled = !sound.enabled;
                 const btn = document.getElementById('sound-toggle-btn');
-                btn.classList.toggle('text-slate-500', !sound.enabled);
-                btn.classList.toggle('text-emerald-400', sound.enabled);
-                if (sound.enabled) sound.playClick();
+                if (sound.enabled) {
+                    btn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                    btn.classList.remove('opacity-50');
+                } else {
+                    btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                    btn.classList.add('opacity-50');
+                }
+            }
+
+            changeLanguage(lang) {
+                if (i18n[lang]) {
+                    this.lang = lang;
+                    this.applyTranslations();
+                    sound.playClick();
+                }
+            }
+
+            applyTranslations() {
+                const dict = i18n[this.lang];
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (dict[key]) {
+                        el.textContent = dict[key];
+                    }
+                });
+                if (this.selectedSlotIndex !== null) {
+                    this.renderDraftSidePanel();
+                }
             }
 
             showScreen(screenId) {
-                ['screen-menu', 'screen-groups', 'screen-playoff', 'screen-draft', 'screen-winner'].forEach(id => {
-                    document.getElementById(id).classList.add('hidden');
+                ['screen-menu', 'screen-groups', 'screen-playoff', 'screen-draft', 'screen-wc-match', 'screen-wc-bracket', 'screen-winner'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('hidden');
                 });
-                document.getElementById(screenId).classList.remove('hidden');
-                this.currentScreen = screenId;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                const target = document.getElementById(screenId);
+                if (target) target.classList.remove('hidden');
             }
 
             navToMenu() {
@@ -1093,246 +1375,33 @@
                 this.showScreen('screen-menu');
             }
 
-            startTournament(mode) {
-                sound.playKick();
-                const shuffled = [...this.allPlayers].sort(() => Math.random() - 0.5);
-
-                if (mode === 'groups') {
-                    this.groups = [];
-                    for (let i = 0; i < 16; i++) {
-                        const groupPlayers = shuffled.slice(i * 16, (i + 1) * 16).map(p => ({
-                            ...p,
-                            wins: 0,
-                            eliminated: false
-                        }));
-
-                        const duels = [];
-                        for (let j = 0; j < 8; j++) {
-                            duels.push([groupPlayers[j * 2], groupPlayers[j * 2 + 1]]);
-                        }
-
-                        this.groups.push({
-                            name: `Group ${String.fromCharCode(65 + i)}`,
-                            players: groupPlayers,
-                            duels: duels,
-                            currentDuelIdx: 0,
-                            history: []
-                        });
-                    }
-                    this.activeGroupIdx = 0;
-                    this.groupSubTab = 'duels';
-                    this.renderGroupPills();
-                    this.renderGroupView();
-                    this.showScreen('screen-groups');
-                } else {
-                    this.initPlayoff(shuffled);
-                }
-            }
-
-            renderGroupPills() {
-                const container = document.getElementById('group-pills-container');
-                container.innerHTML = '';
-                this.groups.forEach((g, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = `px-2.5 py-1 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                        idx === this.activeGroupIdx 
-                            ? 'bg-emerald-500 text-slate-950 font-black shadow-md' 
-                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                    }`;
-                    btn.textContent = String.fromCharCode(65 + idx);
-                    btn.onclick = () => {
-                        sound.playClick();
-                        this.activeGroupIdx = idx;
-                        this.renderGroupPills();
-                        this.renderGroupView();
-                    };
-                    container.appendChild(btn);
-                });
-            }
-
-            setGroupSubTab(tab) {
+            closeModal(modalId) {
                 sound.playClick();
-                this.groupSubTab = tab;
-                document.getElementById('btn-group-duels').className = tab === 'duels' 
-                    ? 'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 shadow-md'
-                    : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
-                document.getElementById('btn-group-standings').className = tab === 'standings'
-                    ? 'px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 shadow-md'
-                    : 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700';
-
-                document.getElementById('group-subtab-duels').classList.toggle('hidden', tab !== 'duels');
-                document.getElementById('group-subtab-standings').classList.toggle('hidden', tab !== 'standings');
-
-                this.renderGroupView();
+                const el = document.getElementById(modalId);
+                if (el) el.classList.add('hidden');
             }
 
-            renderGroupView() {
-                const g = this.groups[this.activeGroupIdx];
-                document.getElementById('current-group-title').textContent = `Группа ${String.fromCharCode(65 + this.activeGroupIdx)}`;
-
-                if (this.groupSubTab === 'duels') {
-                    if (g.currentDuelIdx < g.duels.length) {
-                        const pair = g.duels[g.currentDuelIdx];
-                        document.getElementById('group-duel-progress').textContent = `Дуэль ${g.currentDuelIdx + 1} из ${g.duels.length}`;
-                        
-                        document.getElementById('p1-flag').textContent = pair[0].flag;
-                        document.getElementById('p1-pos').textContent = pair[0].pos;
-                        document.getElementById('p1-name').textContent = pair[0].name[this.lang] || pair[0].name.ru;
-                        document.getElementById('p1-club').textContent = pair[0].club;
-
-                        document.getElementById('p2-flag').textContent = pair[1].flag;
-                        document.getElementById('p2-pos').textContent = pair[1].pos;
-                        document.getElementById('p2-name').textContent = pair[1].name[this.lang] || pair[1].name.ru;
-                        document.getElementById('p2-club').textContent = pair[1].club;
-                    } else {
-                        document.getElementById('group-duel-progress').textContent = 'Дуэли в группе завершены!';
-                    }
-                } else {
-                    const sorted = [...g.players].sort((a, b) => b.wins - a.wins);
-                    const tbody = document.getElementById('group-table-body');
-                    tbody.innerHTML = '';
-                    sorted.forEach((p, idx) => {
-                        const tr = document.createElement('tr');
-                        tr.className = idx < 2 ? 'bg-emerald-500/10 font-semibold' : '';
-                        tr.innerHTML = `
-                            <td class="py-2 text-slate-400">${idx + 1}</td>
-                            <td class="py-2 text-white flex items-center gap-2">
-                                <span>${p.flag}</span>
-                                <span>${p.name[this.lang] || p.name.ru}</span>
-                            </td>
-                            <td class="py-2 text-emerald-400 font-bold">${p.pos}</td>
-                            <td class="py-2 text-right font-black text-amber-400">${p.wins}</td>
-                            <td class="py-2 text-right">
-                                ${idx < 2 ? '<span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold">Выход</span>' : '<span class="text-[10px] text-slate-500">Группа</span>'}
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                }
-            }
-
-            voteGroupDuel(choiceIdx) {
-                sound.playKick();
-                const g = this.groups[this.activeGroupIdx];
-                if (g.currentDuelIdx >= g.duels.length) return;
-
-                const pair = g.duels[g.currentDuelIdx];
-                const winner = pair[choiceIdx];
-                winner.wins += 1;
-
-                g.history.push({ duelIdx: g.currentDuelIdx, winner: winner });
-                g.currentDuelIdx++;
-
-                let allGroupsDone = this.groups.every(group => group.currentDuelIdx >= group.duels.length);
-                if (allGroupsDone) {
-                    const playoffQualified = [];
-                    this.groups.forEach(group => {
-                        const sorted = [...group.players].sort((a, b) => b.wins - a.wins);
-                        playoffQualified.push(sorted[0], sorted[1]);
-                    });
-                    this.initPlayoff(playoffQualified);
-                } else {
-                    this.renderGroupView();
-                }
-            }
-
-            undoGroupVote() {
-                const g = this.groups[this.activeGroupIdx];
-                if (g.history.length === 0) return;
-                sound.playUndo();
-                const last = g.history.pop();
-                last.winner.wins -= 1;
-                g.currentDuelIdx--;
-                this.renderGroupView();
-            }
-
-            initPlayoff(playersList) {
-                this.playoffPairs = [];
-                for (let i = 0; i < playersList.length; i += 2) {
-                    if (playersList[i + 1]) {
-                        this.playoffPairs.push([playersList[i], playersList[i + 1]]);
-                    }
-                }
-                this.playoffCurrentIdx = 0;
-                this.playoffNextRound = [];
-                this.playoffHistory = [];
-                this.renderPlayoffMatch();
-                this.showScreen('screen-playoff');
-            }
-
-            renderPlayoffMatch() {
-                if (this.playoffCurrentIdx >= this.playoffPairs.length) {
-                    if (this.playoffNextRound.length === 1) {
-                        this.showWinner(this.playoffNextRound[0]);
-                        return;
-                    }
-                    this.initPlayoff(this.playoffNextRound);
-                    return;
-                }
-
-                const totalPairs = this.playoffPairs.length;
-                document.getElementById('playoff-round-title').textContent = totalPairs === 1 ? 'ФИНАЛ' : `1/${totalPairs} Финала`;
-                document.getElementById('playoff-match-progress').textContent = `Матч ${this.playoffCurrentIdx + 1} из ${totalPairs}`;
-
-                const pair = this.playoffPairs[this.playoffCurrentIdx];
-                document.getElementById('po1-flag').textContent = pair[0].flag;
-                document.getElementById('po1-pos').textContent = pair[0].pos;
-                document.getElementById('po1-name').textContent = pair[0].name[this.lang] || pair[0].name.ru;
-                document.getElementById('po1-club').textContent = pair[0].club;
-
-                document.getElementById('po2-flag').textContent = pair[1].flag;
-                document.getElementById('po2-pos').textContent = pair[1].pos;
-                document.getElementById('po2-name').textContent = pair[1].name[this.lang] || pair[1].name.ru;
-                document.getElementById('po2-club').textContent = pair[1].club;
-            }
-
-            votePlayoff(choiceIdx) {
-                sound.playKick();
-                const pair = this.playoffPairs[this.playoffCurrentIdx];
-                const winner = pair[choiceIdx];
-                this.playoffNextRound.push(winner);
-                this.playoffHistory.push({ pair: pair, winner: winner });
-                this.playoffCurrentIdx++;
-                this.renderPlayoffMatch();
-            }
-
-            undoPlayoffVote() {
-                if (this.playoffHistory.length === 0) return;
-                sound.playUndo();
-                this.playoffHistory.pop();
-                this.playoffNextRound.pop();
-                this.playoffCurrentIdx--;
-                this.renderPlayoffMatch();
-            }
-
-            showWinner(player) {
-                sound.playFanfare();
-                document.getElementById('winner-name').textContent = player.name[this.lang] || player.name.ru;
-                document.getElementById('winner-meta').textContent = `${player.flag} ${player.pos} • ${player.club}`;
-                this.showScreen('screen-winner');
-            }
-
-            openBracketModal() {
-                sound.playClick();
-                const container = document.getElementById('bracket-tree-container');
-                container.innerHTML = '<p class="text-slate-400 text-xs">Интерактивная сетка активного раунда плей-офф построена.</p>';
-                this.openModal('modal-bracket');
-            }
-
+            // ==========================================
+            // DRAFT MODE ("Твоя идеальная 11") LOGIC
+            // ==========================================
             openDraftSetupModal() {
                 sound.playClick();
-                this.openModal('modal-draft-setup');
+                document.getElementById('modal-draft-setup').classList.remove('hidden');
             }
 
             setDraftModeOption(mode) {
                 sound.playClick();
-                this.draftMode = mode;
-                document.getElementById('opt-mode-classic').className = mode === 'classic'
-                    ? 'p-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-white text-xs font-bold text-center'
-                    : 'p-3 rounded-xl border-2 border-slate-800 bg-slate-800/50 text-slate-400 text-xs font-bold text-center';
-                document.getElementById('opt-mode-memory').className = mode === 'memory'
-                    ? 'p-3 rounded-xl border-2 border-amber-500 bg-amber-500/10 text-white text-xs font-bold text-center'
-                    : 'p-3 rounded-xl border-2 border-slate-800 bg-slate-800/50 text-slate-400 text-xs font-bold text-center';
+                this.draftModeOption = mode;
+                const btnClassic = document.getElementById('opt-mode-classic');
+                const btnMemory = document.getElementById('opt-mode-memory');
+                
+                if (mode === 'classic') {
+                    btnClassic.className = "p-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-slate-900 dark:text-white text-xs font-bold text-center";
+                    btnMemory.className = "p-3 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 text-xs font-bold text-center";
+                } else {
+                    btnMemory.className = "p-3 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-slate-900 dark:text-white text-xs font-bold text-center";
+                    btnClassic.className = "p-3 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 text-xs font-bold text-center";
+                }
             }
 
             setDraftFocus(focus) {
@@ -1340,147 +1409,942 @@
                 this.draftFocus = focus;
                 ['attack', 'balanced', 'defense'].forEach(f => {
                     const btn = document.getElementById(`focus-${f}`);
-                    if (f === focus) {
-                        btn.className = 'p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-white text-xs font-bold text-center';
-                    } else {
-                        btn.className = 'p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 text-xs font-bold text-center';
+                    if (btn) {
+                        if (f === focus) {
+                            btn.className = "p-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-slate-900 dark:text-white text-xs font-bold text-center";
+                        } else {
+                            btn.className = "p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold text-center";
+                        }
                     }
                 });
             }
 
             confirmStartDraft() {
-                sound.playKick();
-                this.draftFormation = document.getElementById('draft-formation-select').value;
+                sound.playClick();
+                const sel = document.getElementById('draft-formation-select');
+                this.draftFormation = sel ? sel.value : '4-3-3';
                 this.closeModal('modal-draft-setup');
-                this.resetDraft();
+                this.initDraft();
                 this.showScreen('screen-draft');
             }
 
-            resetDraft() {
-                this.draftSquad = {};
-                this.pickedPlayersSet.clear();
-                document.getElementById('draft-mode-badge').textContent = this.draftMode === 'classic' ? 'Классический' : 'По памяти';
-                document.getElementById('draft-tactics-title').textContent = `Схема ${this.draftFormation} (${this.draftFocus.toUpperCase()})`;
+            initDraft() {
+                const badge = document.getElementById('draft-mode-badge');
+                if (badge) {
+                    badge.textContent = this.draftModeOption === 'classic' ? (this.lang === 'en' ? 'Classic' : (this.lang === 'es' ? 'Clásico' : 'Классический')) : (this.lang === 'en' ? 'Memory' : (this.lang === 'es' ? 'Memoria' : 'По памяти'));
+                }
+
+                const focusName = this.draftFocus === 'attack' ? (this.lang === 'en' ? 'ATTACK' : (this.lang === 'es' ? 'ATAQUE' : 'АТАКА')) : (this.draftFocus === 'defense' ? (this.lang === 'en' ? 'DEFENSE' : (this.lang === 'es' ? 'DEFENSA' : 'ЗАЩИТА')) : (this.lang === 'en' ? 'BALANCED' : (this.lang === 'es' ? 'BALANCE' : 'БАЛАНС')));
+                const titleEl = document.getElementById('draft-tactics-title');
+                if (titleEl) {
+                    titleEl.textContent = `${this.lang === 'en' ? 'Formation' : (this.lang === 'es' ? 'Formación' : 'Схема')} ${this.draftFormation} (${focusName})`;
+                }
+
+                this.selectedSlotIndex = null;
+                this.setupDraftSlots();
                 this.renderDraftPitch();
-                this.updateDraftOVR();
+                this.renderDraftSidePanel();
+                this.updateDraftTotalOvr();
+            }
+
+            setupDraftSlots() {
+                const formMap = {
+                    '4-3-3': [
+                        { role: 'LW', line: 'fwd', posType: 'FWD' },
+                        { role: 'ST', line: 'fwd', posType: 'FWD' },
+                        { role: 'RW', line: 'fwd', posType: 'FWD' },
+                        { role: 'CM', line: 'mid', posType: 'MID' },
+                        { role: 'CAM', line: 'mid', posType: 'MID' },
+                        { role: 'CM', line: 'mid', posType: 'MID' },
+                        { role: 'LB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'RB', line: 'def', posType: 'DEF' },
+                        { role: 'GK', line: 'gk', posType: 'GK' }
+                    ],
+                    '4-4-2': [
+                        { role: 'ST', line: 'fwd', posType: 'FWD' },
+                        { role: 'ST', line: 'fwd', posType: 'FWD' },
+                        { role: 'LM', line: 'mid', posType: 'MID' },
+                        { role: 'CM', line: 'mid', posType: 'MID' },
+                        { role: 'CM', line: 'mid', posType: 'MID' },
+                        { role: 'RM', line: 'mid', posType: 'MID' },
+                        { role: 'LB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'RB', line: 'def', posType: 'DEF' },
+                        { role: 'GK', line: 'gk', posType: 'GK' }
+                    ],
+                    '3-5-2': [
+                        { role: 'ST', line: 'fwd', posType: 'FWD' },
+                        { role: 'ST', line: 'fwd', posType: 'FWD' },
+                        { role: 'LWB', line: 'mid', posType: 'MID' },
+                        { role: 'CM', line: 'mid', posType: 'MID' },
+                        { role: 'CAM', line: 'mid', posType: 'MID' },
+                        { role: 'CM', line: 'mid', posType: 'MID' },
+                        { role: 'RWB', line: 'mid', posType: 'MID' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'GK', line: 'gk', posType: 'GK' }
+                    ],
+                    '4-2-3-1': [
+                        { role: 'ST', line: 'fwd', posType: 'FWD' },
+                        { role: 'LAM', line: 'mid', posType: 'MID' },
+                        { role: 'CAM', line: 'mid', posType: 'MID' },
+                        { role: 'RAM', line: 'mid', posType: 'MID' },
+                        { role: 'CDM', line: 'mid', posType: 'MID' },
+                        { role: 'CDM', line: 'mid', posType: 'MID' },
+                        { role: 'LB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'CB', line: 'def', posType: 'DEF' },
+                        { role: 'RB', line: 'def', posType: 'DEF' },
+                        { role: 'GK', line: 'gk', posType: 'GK' }
+                    ]
+                };
+
+                const template = formMap[this.draftFormation] || formMap['4-3-3'];
+                this.draftSlots = template.map((item, idx) => ({
+                    id: idx,
+                    role: item.role,
+                    line: item.line,
+                    posType: item.posType,
+                    player: null,
+                    candidates: []
+                }));
             }
 
             renderDraftPitch() {
-                const formations = {
-                    '4-3-3': { fwd: 3, mid: 3, def: 4, gk: 1 },
-                    '4-4-2': { fwd: 2, mid: 4, def: 4, gk: 1 },
-                    '3-5-2': { fwd: 2, mid: 5, def: 3, gk: 1 },
-                    '4-2-3-1': { fwd: 1, mid: 5, def: 4, gk: 1 }
-                };
-                const config = formations[this.draftFormation] || formations['4-3-3'];
-
                 const lineFwd = document.getElementById('line-fwd');
                 const lineMid = document.getElementById('line-mid');
                 const lineDef = document.getElementById('line-def');
                 const lineGk = document.getElementById('line-gk');
+
+                if (!lineFwd || !lineMid || !lineDef || !lineGk) return;
 
                 lineFwd.innerHTML = '';
                 lineMid.innerHTML = '';
                 lineDef.innerHTML = '';
                 lineGk.innerHTML = '';
 
-                let slotId = 0;
-                const createSlot = (posLabel) => {
-                    const currentSlot = slotId++;
-                    const player = this.draftSquad[currentSlot];
+                this.draftSlots.forEach((slot, index) => {
+                    const isSelected = this.selectedSlotIndex === index;
+                    const isFilled = slot.player !== null;
 
                     const card = document.createElement('div');
-                    card.onclick = () => this.openDraftPickModal(currentSlot, posLabel);
-                    card.className = `cursor-pointer transition-all duration-200 text-center flex flex-col items-center justify-center p-1.5 rounded-xl border ${
-                        player 
-                            ? 'bg-slate-900/90 border-emerald-500 shadow-lg text-white w-16 sm:w-20' 
-                            : 'bg-slate-900/50 border-dashed border-slate-400/50 hover:border-emerald-400 active-slot w-14 sm:w-16 h-16 sm:h-20'
-                    }`;
+                    card.onclick = () => this.selectDraftSlot(index);
+                    
+                    let borderClass = 'border-slate-300/40 bg-slate-900/60 text-white';
+                    if (isSelected) borderClass = 'border-emerald-400 bg-emerald-950/80 ring-2 ring-emerald-400 active-slot';
+                    else if (isFilled) borderClass = 'border-emerald-500/80 bg-slate-900/90 text-white';
 
-                    if (player) {
-                        const ovrDisplay = this.draftMode === 'classic' ? player.ovr : '?';
+                    card.className = `cursor-pointer transition-all duration-200 rounded-xl p-2 border ${borderClass} flex flex-col items-center justify-center text-center w-20 sm:w-24 min-h-[70px] sm:min-h-[85px] shadow-lg hover:scale-105`;
+
+                    if (isFilled) {
+                        const showOvr = this.draftModeOption === 'classic';
                         card.innerHTML = `
-                            <div class="text-base sm:text-xl leading-none mb-0.5">${player.flag}</div>
-                            <div class="text-[9px] font-black uppercase text-emerald-400">${player.pos}</div>
-                            <div class="text-[10px] font-extrabold truncate w-full px-0.5">${player.name[this.lang] || player.name.ru}</div>
-                            <div class="text-[9px] font-bold text-amber-400 bg-amber-400/10 px-1 rounded mt-0.5">${ovrDisplay}</div>
+                            <div class="text-xs font-black text-emerald-400 flex items-center gap-1">
+                                <span>${slot.role}</span>
+                                ${showOvr ? `<span class="bg-emerald-500 text-slate-950 px-1 rounded text-[9px]">${slot.player.ovr}</span>` : ''}
+                            </div>
+                            <div class="text-lg my-0.5">${slot.player.flag}</div>
+                            <div class="text-[10px] font-extrabold truncate w-full px-1 text-slate-100">${slot.player.name[this.lang] || slot.player.name.ru}</div>
                         `;
                     } else {
                         card.innerHTML = `
-                            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-emerald-400 text-xs mb-1">
+                            <div class="text-xs font-black text-emerald-400/80 mb-1">${slot.role}</div>
+                            <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/50 text-xs">
                                 <i class="fa-solid fa-plus"></i>
                             </div>
-                            <div class="text-[9px] font-bold text-slate-300 uppercase">${posLabel}</div>
+                            <div class="text-[9px] text-slate-300/60 mt-1 uppercase font-bold">${slot.posType}</div>
                         `;
                     }
-                    return card;
-                };
 
-                for (let i = 0; i < config.fwd; i++) lineFwd.appendChild(createSlot('FWD'));
-                for (let i = 0; i < config.mid; i++) lineMid.appendChild(createSlot('MID'));
-                for (let i = 0; i < config.def; i++) lineDef.appendChild(createSlot('DEF'));
-                for (let i = 0; i < config.gk; i++) lineGk.appendChild(createSlot('GK'));
-            }
-
-            openDraftPickModal(slotIdx, posLabel) {
-                sound.playClick();
-                this.selectedSlotIndex = slotIdx;
-                document.getElementById('pick-position-title').textContent = `Выберите игрока на позицию: ${posLabel}`;
-
-                const available = this.allPlayers.filter(p => !this.pickedPlayersSet.has(p.name.ru));
-                
-                let posMatches = available.filter(p => p.pos === posLabel);
-                if (posMatches.length < 3) posMatches = available;
-
-                const candidates = [...posMatches].sort(() => Math.random() - 0.5).slice(0, 3);
-
-                const container = document.getElementById('draft-candidates-container');
-                container.innerHTML = '';
-
-                candidates.forEach(player => {
-                    const card = document.createElement('div');
-                    card.onclick = () => this.selectCandidateForDraft(player);
-                    card.className = 'group cursor-pointer bg-slate-800 hover:bg-slate-700/90 border border-slate-700 hover:border-emerald-500 rounded-xl p-4 text-center transition-all duration-200 transform hover:-translate-y-1 shadow-md';
-
-                    const ovrVal = this.draftMode === 'classic' ? player.ovr : '?';
-                    card.innerHTML = `
-                        <div class="text-3xl mb-1">${player.flag}</div>
-                        <div class="text-[10px] font-bold text-emerald-400 uppercase">${player.pos}</div>
-                        <h4 class="text-sm font-black text-white group-hover:text-emerald-400 truncate">${player.name[this.lang] || player.name.ru}</h4>
-                        <p class="text-[11px] text-slate-400 truncate">${player.club}</p>
-                        <div class="mt-2 text-xs font-black text-amber-400 bg-amber-400/10 py-1 rounded">ОВР: ${ovrVal}</div>
-                    `;
-                    container.appendChild(card);
+                    if (slot.line === 'fwd') lineFwd.appendChild(card);
+                    else if (slot.line === 'mid') lineMid.appendChild(card);
+                    else if (slot.line === 'def') lineDef.appendChild(card);
+                    else if (slot.line === 'gk') lineGk.appendChild(card);
                 });
-
-                this.openModal('modal-draft-pick');
             }
 
-            selectCandidateForDraft(player) {
-                sound.playKick();
-                if (this.selectedSlotIndex !== null) {
-                    this.draftSquad[this.selectedSlotIndex] = player;
-                    this.pickedPlayersSet.add(player.name.ru);
+            selectDraftSlot(index) {
+                sound.playClick();
+                this.selectedSlotIndex = index;
+
+                const slot = this.draftSlots[index];
+
+                if (!slot.candidates || slot.candidates.length === 0) {
+                    const alreadyPickedNames = new Set(
+                        this.draftSlots.filter(s => s.player).map(s => s.player.name.ru)
+                    );
+
+                    let pool = this.database.filter(p => !alreadyPickedNames.has(p.name.ru));
+
+                    let posPool = pool.filter(p => p.pos === slot.posType);
+                    if (posPool.length < 5) {
+                        posPool = pool;
+                    }
+
+                    const shuffled = [...posPool].sort(() => 0.5 - Math.random());
+                    slot.candidates = shuffled.slice(0, 5);
                 }
-                this.closeModal('modal-draft-pick');
+
                 this.renderDraftPitch();
-                this.updateDraftOVR();
+                this.renderDraftSidePanel();
             }
 
-            updateDraftOVR() {
-                const players = Object.values(this.draftSquad);
-                if (players.length === 0) {
-                    document.getElementById('draft-total-ovr').textContent = '0';
+            renderDraftSidePanel() {
+                const container = document.getElementById('side-candidates-container');
+                const titleEl = document.getElementById('side-pick-title');
+                const completeWrapper = document.getElementById('draft-complete-btn-wrapper');
+
+                if (!container || !titleEl || !completeWrapper) return;
+
+                const isAllFilled = this.draftSlots.every(s => s.player !== null);
+                if (isAllFilled) {
+                    completeWrapper.classList.remove('hidden');
+                } else {
+                    completeWrapper.classList.add('hidden');
+                }
+
+                if (this.selectedSlotIndex === null) {
+                    titleEl.textContent = i18n[this.lang].selectPosition;
+                    container.innerHTML = `
+                        <p class="text-xs text-slate-500 dark:text-slate-400 text-center py-10" data-i18n="selectPositionHint">
+                            ${i18n[this.lang].selectPositionHint}
+                        </p>
+                    `;
                     return;
                 }
-                const sum = players.reduce((acc, p) => acc + p.ovr, 0);
-                const avg = Math.round(sum / players.length);
-                document.getElementById('draft-total-ovr').textContent = avg.toString();
+
+                const slot = this.draftSlots[this.selectedSlotIndex];
+                titleEl.textContent = `${i18n[this.lang].selectPosition}: ${slot.role} (${slot.posType})`;
+
+                container.innerHTML = '';
+
+                slot.candidates.forEach(player => {
+                    const isSelectedPlayer = slot.player && slot.player.name.ru === player.name.ru;
+                    const card = document.createElement('div');
+
+                    let activeBorder = isSelectedPlayer
+                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 ring-1 ring-emerald-500'
+                        : 'border-slate-200 dark:border-slate-800 hover:border-emerald-500 bg-slate-50 dark:bg-slate-800/60';
+
+                    card.className = `cursor-pointer rounded-xl p-3 border ${activeBorder} flex items-center justify-between transition-all duration-150`;
+                    card.onclick = () => this.pickCandidateForSlot(this.selectedSlotIndex, player);
+
+                    const nameStr = player.name[this.lang] || player.name.ru;
+                    const showOvr = this.draftModeOption === 'classic';
+
+                    card.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${player.flag}</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <span>${nameStr}</span>
+                                    ${isSelectedPlayer ? '<i class="fa-solid fa-circle-check text-emerald-500 text-xs"></i>' : ''}
+                                </h4>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">${player.club}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-black text-amber-600 dark:text-amber-400">${showOvr ? player.ovr : '?'}</span>
+                            <span class="block text-[9px] text-slate-400 font-bold">${player.pos}</span>
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                });
             }
 
+            pickCandidateForSlot(slotIndex, player) {
+                sound.playKick();
+                this.draftSlots[slotIndex].player = player;
+
+                const nextEmptyIndex = this.draftSlots.findIndex((s, idx) => idx > slotIndex && s.player === null);
+                if (nextEmptyIndex !== -1) {
+                    this.selectDraftSlot(nextEmptyIndex);
+                } else {
+                    const firstEmpty = this.draftSlots.findIndex(s => s.player === null);
+                    if (firstEmpty !== -1) {
+                        this.selectDraftSlot(firstEmpty);
+                    } else {
+                        this.renderDraftPitch();
+                        this.renderDraftSidePanel();
+                    }
+                }
+
+                this.updateDraftTotalOvr();
+            }
+
+            updateDraftTotalOvr() {
+                const totalOvrEl = document.getElementById('draft-total-ovr');
+                if (!totalOvrEl) return;
+
+                const filledSlots = this.draftSlots.filter(s => s.player !== null);
+                if (filledSlots.length === 0) {
+                    totalOvrEl.textContent = '0';
+                    return;
+                }
+
+                const sum = filledSlots.reduce((acc, s) => acc + s.player.ovr, 0);
+                const avg = Math.round(sum / filledSlots.length);
+                totalOvrEl.textContent = avg.toString();
+            }
+
+            resetDraft() {
+                sound.playUndo();
+                this.initDraft();
+            }
+
+            // ==========================================
+            // WORLD CUP TOURNAMENT & MATCH SIMULATION
+            // ==========================================
+            finishDraftTournament() {
+                sound.playFanfare();
+                this.wcStageIndex = 0; // 0: Groups, 1: 1/16, 2: 1/8, 3: 1/4, 4: Semi, 5: Final
+                this.wcGroupMatchesPlayed = 0;
+                this.wcGroupPoints = 0;
+                this.wcGoalsFor = 0;
+                this.wcGoalsAgainst = 0;
+                this.wcBracketResults = [];
+                this.usedOpponentSignatures.clear();
+                this.startNextWcMatch();
+            }
+
+            startNextWcMatch() {
+                sound.playClick();
+                
+                // ВЫБОР СОПЕРНИКА БЕЗ ПОВТОРЕНИЯ КОМАНДЫ С ОДИНАКОВЫМ ГОДОМ
+                let availablePool = this.randomNationalTeamsPool.filter(t => {
+                    const sig = `${t.name.ru}_${t.year}`;
+                    return !this.usedOpponentSignatures.has(sig);
+                });
+
+                if (availablePool.length === 0) {
+                    this.usedOpponentSignatures.clear();
+                    availablePool = [...this.randomNationalTeamsPool];
+                }
+
+                if (this.wcStageIndex === 0) {
+                    const weakPool = availablePool.filter(t => t.ovr <= 76);
+                    const poolToUse = weakPool.length > 0 ? weakPool : availablePool;
+                    const shuffled = [...poolToUse].sort(() => 0.5 - Math.random());
+                    this.simOpponent = JSON.parse(JSON.stringify(shuffled[0]));
+                } else {
+                    const baseOvrTarget = 75 + (this.wcStageIndex * 3);
+                    const matchingPool = availablePool.filter(t => t.ovr >= baseOvrTarget - 3 && t.ovr <= baseOvrTarget + 4);
+                    const poolToUse = matchingPool.length > 0 ? matchingPool : availablePool;
+                    const shuffled = [...poolToUse].sort(() => 0.5 - Math.random());
+                    this.simOpponent = JSON.parse(JSON.stringify(shuffled[0]));
+                    this.simOpponent.ovr = Math.min(94, baseOvrTarget + Math.floor(Math.random() * 3));
+                }
+
+                this.usedOpponentSignatures.add(`${this.simOpponent.name.ru}_${this.simOpponent.year}`);
+
+                this.simCurrentMinute = 0;
+                this.simTargetMinute = 90;
+                this.simExtraTime = Math.floor(Math.random() * 5) + 1;
+                this.simMyGoals = 0;
+                this.simOppGoals = 0;
+                this.simIsExtraTimePhase = false;
+
+                const badge = document.getElementById('wc-phase-badge');
+                const title = document.getElementById('wc-phase-title');
+                
+                const oppNameLocalized = this.simOpponent.name[this.lang] || this.simOpponent.name.ru;
+                const oppDisplayWithYear = `${oppNameLocalized} (${this.simOpponent.year})`;
+
+                if (this.wcStageIndex === 0) {
+                    badge.textContent = `${i18n[this.lang].groupStageMatchLabel} ${this.wcGroupMatchesPlayed + 1} из 3`;
+                    title.textContent = i18n[this.lang].wcTournamentTitle;
+                } else if (this.wcStageIndex === 1) {
+                    badge.textContent = this.lang === 'en' ? "Playoff • Round of 32" : (this.lang === 'es' ? "Eliminatorias • Dieciseisavos" : "Плей-офф • 1/16 Финала");
+                    title.textContent = this.lang === 'en' ? "Knockout Stage" : (this.lang === 'es' ? "Fase eliminatoria" : "Стадия на выбывание");
+                } else if (this.wcStageIndex === 2) {
+                    badge.textContent = this.lang === 'en' ? "Playoff • Round of 16" : (this.lang === 'es' ? "Eliminatorias • Octavos" : "Плей-офф • 1/8 Финала");
+                    title.textContent = this.lang === 'en' ? "Round of 16" : (this.lang === 'es' ? "Octavos de final" : "Раунд 1/8 финала");
+                } else if (this.wcStageIndex === 3) {
+                    badge.textContent = this.lang === 'en' ? "Playoff • Quarter-finals" : (this.lang === 'es' ? "Eliminatorias • Cuartos" : "Плей-офф • 1/4 Финала");
+                    title.textContent = this.lang === 'en' ? "Quarter-finals" : (this.lang === 'es' ? "Cuartos de final" : "Четвертьфинал");
+                } else if (this.wcStageIndex === 4) {
+                    badge.textContent = this.lang === 'en' ? "Playoff • Semi-finals" : (this.lang === 'es' ? "Eliminatorias • Semifinal" : "Плей-офф • Полуфинал");
+                    title.textContent = this.lang === 'en' ? "Semi-finals" : (this.lang === 'es' ? "Semifinal" : "Борьба за финал");
+                } else if (this.wcStageIndex === 5) {
+                    badge.textContent = this.lang === 'en' ? "Main Match • WORLD CUP FINAL" : (this.lang === 'es' ? "Gran Partido • FINAL DEL MUNDIAL" : "Главный Матч • ФИНАЛ ЧМ");
+                    title.textContent = this.lang === 'en' ? "World Cup Final" : (this.lang === 'es' ? "Final de la Copa del Mundo" : "Финал Чемпионата Мира");
+                }
+
+                document.getElementById('wc-live-score').textContent = "0 : 0";
+                document.getElementById('wc-match-time').textContent = "0'";
+                document.getElementById('wc-match-status-text').textContent = i18n[this.lang].matchGoingText;
+                document.getElementById('opp-flag').textContent = this.simOpponent.flag;
+                document.getElementById('opp-name').textContent = oppDisplayWithYear;
+                document.getElementById('opp-ovr-label').textContent = `ОВР: ${this.simOpponent.ovr}`;
+
+                const myOvr = parseInt(document.getElementById('draft-total-ovr').textContent) || 80;
+                document.getElementById('my-team-ovr-label').textContent = `ОВР: ${myOvr}`;
+
+                const logContainer = document.getElementById('wc-match-log');
+                logContainer.innerHTML = `<p class="text-emerald-500 font-bold">${this.lang === 'en' ? 'Match started! Opponent —' : (this.lang === 'es' ? '¡Partido iniciado! Rival —' : 'Матч начался! Соперник —')} ${oppDisplayWithYear} (${this.simOpponent.flag}).</p>`;
+
+                const actionBtn = document.getElementById('wc-action-btn');
+                actionBtn.textContent = this.lang === 'en' ? "Simulate Match ⏱️" : (this.lang === 'es' ? "Simular Partido ⏱️" : "Симулировать матч ⏱️");
+                actionBtn.onclick = () => app.runLiveMatchSimulation();
+
+                this.showScreen('screen-wc-match');
+            }
+
+            runLiveMatchSimulation() {
+                sound.playClick();
+                const actionBtn = document.getElementById('wc-action-btn');
+                actionBtn.disabled = true;
+                actionBtn.classList.add('opacity-50');
+
+                const myOvr = parseInt(document.getElementById('draft-total-ovr').textContent) || 80;
+                const oppOvr = this.simOpponent.ovr;
+                const myChance = Math.max(0.12, (myOvr / (myOvr + oppOvr)));
+
+                this.simMatchInterval = setInterval(() => {
+                    this.simCurrentMinute++;
+
+                    if (this.simCurrentMinute === 46) {
+                        document.getElementById('wc-match-status-text').textContent = this.lang === 'en' ? "Half-time (45+ min)" : (this.lang === 'es' ? "Medio tiempo (45+ min)" : "Перерыв (45+ мин)");
+                    } else if (this.simCurrentMinute > 46 && this.simCurrentMinute < 90) {
+                        document.getElementById('wc-match-status-text').textContent = this.lang === 'en' ? "Second half..." : (this.lang === 'es' ? "Segundo tiempo..." : "Второй тайм...");
+                    } else if (this.simCurrentMinute === 90) {
+                        document.getElementById('wc-match-status-text').textContent = this.lang === 'en' ? `Extra time (+${this.simExtraTime} min)` : (this.lang === 'es' ? `Tiempo extra (+${this.simExtraTime} min)` : `Доп. время (+${this.simExtraTime} мин)`);
+                        this.simTargetMinute = 90 + this.simExtraTime;
+                    }
+
+                    document.getElementById('wc-match-time').textContent = `${this.simCurrentMinute}'`;
+
+                    if (Math.random() < 0.045) {
+                        const oppNameLocalized = this.simOpponent.name[this.lang] || this.simOpponent.name.ru;
+                        const oppDisplayWithYear = `${oppNameLocalized} (${this.simOpponent.year})`;
+
+                        if (Math.random() < myChance) {
+                            this.simMyGoals++;
+                            sound.playKick();
+                            this.appendLog(this.lang === 'en' ? `⚽ GOAL! Your team scores at minute ${this.simCurrentMinute}!` : (this.lang === 'es' ? `⚽ ¡GOL! ¡Tu equipo marca en el minuto ${this.simCurrentMinute}!` : `⚽ ГОЛ! Ваша команда забивает на ${this.simCurrentMinute}-й минуте!`));
+                        } else {
+                            this.simOppGoals++;
+                            this.appendLog(this.lang === 'en' ? `❌ GOAL CONCEDED! ${oppDisplayWithYear} scores at minute ${this.simCurrentMinute}.` : (this.lang === 'es' ? `❌ ¡GOL EN CONTRA! ${oppDisplayWithYear} marca en el minuto ${this.simCurrentMinute}.` : `❌ ГОЛ пропущен! ${oppDisplayWithYear} забивает на ${this.simCurrentMinute}-й минуте.`));
+                        }
+                        document.getElementById('wc-live-score').textContent = `${this.simMyGoals} : ${this.simOppGoals}`;
+                    }
+
+                    if (this.simCurrentMinute >= this.simTargetMinute) {
+                        clearInterval(this.simMatchInterval);
+
+                        if (this.simMyGoals === this.simOppGoals && this.wcStageIndex > 0) {
+                            if (!this.simIsExtraTimePhase) {
+                                this.simIsExtraTimePhase = true;
+                                this.simTargetMinute = 120;
+                                document.getElementById('wc-match-status-text').textContent = this.lang === 'en' ? "Draw! Extra time (up to 120 min)..." : (this.lang === 'es' ? "¡Empate! Tiempo extra (hasta 120 min)..." : "Ничья! Экстра-тайм (до 120 мин)...");
+                                this.appendLog(this.lang === 'en' ? "⚠️ Regular time ended in a draw. Extra time begins!" : (this.lang === 'es' ? "⚠️ El tiempo reglamentario terminó en empate. ¡Comienza el tiempo extra!" : "⚠️ Основное время завершилось вничью. Назначается дополнительное время!"));
+                                actionBtn.disabled = false;
+                                actionBtn.classList.remove('opacity-50');
+                                actionBtn.textContent = this.lang === 'en' ? "Continue Extra Time ⏱️" : (this.lang === 'es' ? "Continuar tiempo extra ⏱️" : "Продолжить экстра-тайм ⏱️");
+                                return;
+                            } else {
+                                if (Math.random() > 0.5) {
+                                    this.simMyGoals++;
+                                    this.appendLog(this.lang === 'en' ? "🎯 Won in penalty shootout!" : (this.lang === 'es' ? "🎯 ¡Victoria en tanda de penaltis!" : "🎯 Победа в серии послематчевых пенальти!"));
+                                } else {
+                                    this.simOppGoals++;
+                                    this.appendLog(this.lang === 'en' ? "💔 Lost in penalty shootout." : (this.lang === 'es' ? "💔 Derrota en tanda de penaltis." : "💔 Поражение в серии послематчевых пенальти."));
+                                }
+                                document.getElementById('wc-live-score').textContent = `${this.simMyGoals} : ${this.simOppGoals}`;
+                            }
+                        }
+
+                        actionBtn.disabled = false;
+                        actionBtn.classList.remove('opacity-50');
+                        actionBtn.textContent = this.lang === 'en' ? "Match Result (Next) ➡️" : (this.lang === 'es' ? "Resultado (Siguiente) ➡️" : "Итог матча (Далее) ➡️");
+                        actionBtn.onclick = () => app.handleMatchResult();
+                    }
+                }, 35);
+            }
+
+            appendLog(text) {
+                const logContainer = document.getElementById('wc-match-log');
+                const p = document.createElement('p');
+                p.textContent = text;
+                logContainer.appendChild(p);
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+
+            handleMatchResult() {
+                sound.playClick();
+                const isWin = this.simMyGoals > this.simOppGoals;
+                const isDraw = this.simMyGoals === this.simOppGoals;
+
+                this.wcGoalsFor += this.simMyGoals;
+                this.wcGoalsAgainst += this.simOppGoals;
+
+                if (this.wcStageIndex === 0) {
+                    if (isWin || isDraw) {
+                        this.wcGroupPoints += isWin ? 3 : 1;
+                    }
+                    this.wcGroupMatchesPlayed++;
+
+                    if (this.wcGroupMatchesPlayed < 3) {
+                        this.startNextWcMatch();
+                    } else {
+                        this.showGroupStageStatsSummary();
+                    }
+                } else {
+                    const stageNamesMap = ["", (this.lang === 'en' ? "Round of 32" : (this.lang === 'es' ? "Dieciseisavos" : "1/16 Финала")), (this.lang === 'en' ? "Round of 16" : (this.lang === 'es' ? "Octavos" : "1/8 Финала")), (this.lang === 'en' ? "Quarter-finals" : (this.lang === 'es' ? "Cuartos" : "Четвертьфинал")), (this.lang === 'en' ? "Semi-finals" : (this.lang === 'es' ? "Semifinal" : "Полуфинал")), (this.lang === 'en' ? "WORLD CUP FINAL" : (this.lang === 'es' ? "FINAL DEL MUNDIAL" : "ФИНАЛ"))];
+                    
+                    const oppNameLocalized = this.simOpponent.name[this.lang] || this.simOpponent.name.ru;
+                    const oppDisplayWithYear = `${oppNameLocalized} (${this.simOpponent.year})`;
+
+                    this.wcBracketResults.push({
+                        stage: stageNamesMap[this.wcStageIndex] || "Playoff",
+                        opponent: oppDisplayWithYear,
+                        flag: this.simOpponent.flag,
+                        score: `${this.simMyGoals} : ${this.simOppGoals}`,
+                        won: isWin
+                    });
+
+                    if (isWin) {
+                        if (this.wcStageIndex === 5) {
+                            this.finishAllWcStages();
+                        } else {
+                            this.wcStageIndex++;
+                            this.showBracketTransition();
+                        }
+                    } else {
+                        alert(this.lang === 'en' ? "You lost the knockout match and exited the World Cup!" : (this.lang === 'es' ? "¡Perdiste el partido de eliminación y fuiste eliminado del Mundial!" : "Вы проиграли матч на выбывание и завершили выступление на Чемпионате Мира!"));
+                        this.navToMenu();
+                    }
+                }
+            }
+
+            showGroupStageStatsSummary() {
+                const statSummary = document.getElementById('wc-group-stats-summary');
+                if (statSummary) statSummary.classList.remove('hidden');
+
+                document.getElementById('summary-points').textContent = this.wcGroupPoints.toString();
+                document.getElementById('summary-goals-for').textContent = this.wcGoalsFor.toString();
+                document.getElementById('summary-goals-against').textContent = this.wcGoalsAgainst.toString();
+
+                if (this.wcGroupPoints >= 4) {
+                    alert(this.lang === 'en' ? `Group stage successfully passed! Points: ${this.wcGroupPoints}. Moving to playoffs!` : (this.lang === 'es' ? `¡Fase de grupos superada con éxito! Puntos: ${this.wcGroupPoints}. ¡A octavos!` : `Групповой этап успешно пройден! Очков: ${this.wcGroupPoints}. Переход в плей-офф турнира!`));
+                    this.wcStageIndex = 1;
+                    this.showBracketTransition();
+                } else {
+                    alert(this.lang === 'en' ? `You were eliminated after the group stage with ${this.wcGroupPoints} points.` : (this.lang === 'es' ? `Fuiste eliminado tras la fase de grupos con solo ${this.wcGroupPoints} puntos.` : `Вы выбыли из турнира после группового этапа, набрав всего ${this.wcGroupPoints} очков.`));
+                    this.navToMenu();
+                }
+            }
+
+            openBracketModalFromMatch() {
+                sound.playClick();
+                this.showBracketTransition(true);
+            }
+
+            backToMatchScreen() {
+                sound.playClick();
+                this.showScreen('screen-wc-match');
+            }
+
+            showBracketTransition(fromMatch = false) {
+                const stageNames = ["", (this.lang === 'en' ? "Round of 32" : (this.lang === 'es' ? "Dieciseisavos" : "1/16 Финала")), (this.lang === 'en' ? "Round of 16" : (this.lang === 'es' ? "Octavos" : "1/8 Финала")), (this.lang === 'en' ? "Quarter-finals" : (this.lang === 'es' ? "Cuartos" : "Четвертьфинал")), (this.lang === 'en' ? "Semi-finals" : (this.lang === 'es' ? "Semifinal" : "Полуфинал")), (this.lang === 'en' ? "WORLD CUP FINAL" : (this.lang === 'es' ? "FINAL" : "ФИНАЛ"))];
+                document.getElementById('wc-bracket-stage-title').textContent = stageNames[this.wcStageIndex] || "Playoff";
+                
+                const container = document.getElementById('wc-bracket-container');
+                container.innerHTML = '';
+
+                const backBtn = document.getElementById('back-to-match-btn');
+                const nextBtn = document.getElementById('next-match-main-btn');
+
+                if (fromMatch) {
+                    if (backBtn) backBtn.classList.remove('hidden');
+                    if (nextBtn) nextBtn.classList.add('hidden');
+                } else {
+                    if (backBtn) backBtn.classList.add('hidden');
+                    if (nextBtn) nextBtn.classList.remove('hidden');
+                }
+
+                if (this.wcBracketResults.length > 0) {
+                    const historyTitle = document.createElement('div');
+                    historyTitle.className = "col-span-full font-bold text-xs text-emerald-500 uppercase tracking-wider mb-1";
+                    historyTitle.textContent = this.lang === 'en' ? "Played Playoff Matches & Scores:" : (this.lang === 'es' ? "Partidos y Marcadores Jugados:" : "Сыгранные матчи плей-офф и счета:");
+                    container.appendChild(historyTitle);
+
+                    this.wcBracketResults.forEach(res => {
+                        const matchCard = document.createElement('div');
+                        matchCard.className = "bg-slate-100 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs";
+                        matchCard.innerHTML = `
+                            <div>
+                                <span class="text-[10px] text-amber-500 font-bold block">${res.stage}</span>
+                                <span class="font-bold text-slate-800 dark:text-slate-200">⭐ ${this.lang === 'en' ? 'Team 11' : (this.lang === 'es' ? 'Equipo 11' : 'Сборная 11')} vs ${res.flag} ${res.opponent}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-sm font-black text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">${res.score}</span>
+                                <span class="block text-[9px] ${res.won ? 'text-emerald-500' : 'text-red-500'} font-bold mt-0.5">${res.won ? (this.lang === 'en' ? 'WIN' : (this.lang === 'es' ? 'VICTORIA' : 'ПОБЕДА')) : (this.lang === 'en' ? 'LOSS' : (this.lang === 'es' ? 'DERROTA' : 'ПОРАЖЕНИЕ'))}</span>
+                            </div>
+                        `;
+                        container.appendChild(matchCard);
+                    });
+                } else {
+                    container.innerHTML = `
+                        <div class="col-span-full p-6 text-center space-y-2 bg-emerald-500/10 rounded-2xl border border-emerald-500/30">
+                            <i class="fa-solid fa-trophy text-3xl text-emerald-500"></i>
+                            <h3 class="font-black text-base">${this.lang === 'en' ? 'Group Stage Completed!' : (this.lang === 'es' ? '¡Fase de grupos finalizada!' : 'Групповой этап завершен!')}</h3>
+                            <p class="text-xs text-slate-400">${this.lang === 'en' ? 'Playoff bracket is ready. Knockout matches ahead.' : (this.lang === 'es' ? 'Cuadro listo. Partidos eliminatorios en camino.' : 'Сетка плей-офф сформирована. Впереди матчи на вылет.')}</p>
+                        </div>
+                    `;
+                }
+
+                this.showScreen('screen-wc-bracket');
+            }
+
+            finishAllWcStages() {
+                sound.playFanfare();
+                const squadList = document.getElementById('winner-squad-list');
+                const squadContainer = document.getElementById('winner-squad-container');
+                const winnerName = document.getElementById('winner-name');
+                const winnerMeta = document.getElementById('winner-meta');
+                const winnerStatusTag = document.getElementById('winner-status-tag');
+
+                if (squadList && squadContainer) {
+                    squadList.innerHTML = '';
+                    squadContainer.classList.remove('hidden');
+
+                    this.draftSlots.forEach(slot => {
+                        if (slot.player) {
+                            const item = document.createElement('div');
+                            item.className = "flex items-center justify-between bg-white dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-slate-800 text-xs";
+                            item.innerHTML = `
+                                <div class="flex items-center gap-2">
+                                    <span class="font-black text-emerald-500 w-6">${slot.role}</span>
+                                    <span>${slot.player.flag}</span>
+                                    <span class="font-bold text-slate-800 dark:text-slate-200">${slot.player.name[this.lang] || slot.player.name.ru}</span>
+                                </div>
+                                <span class="font-black text-amber-500">${slot.player.ovr} OVR</span>
+                            `;
+                            squadList.appendChild(item);
+                        }
+                    });
+                }
+
+                if (winnerName) winnerName.textContent = this.lang === 'en' ? "World Champion 2026!" : (this.lang === 'es' ? "¡Campeón del Mundo 2026!" : "Чемпион Мира 2026!");
+                if (winnerMeta) winnerMeta.textContent = `${this.lang === 'en' ? 'Formation' : (this.lang === 'es' ? 'Formación' : 'Схема')} ${this.draftFormation} • OVR: ${document.getElementById('draft-total-ovr').textContent}`;
+                if (winnerStatusTag) winnerStatusTag.textContent = this.lang === 'en' ? "You won the World Cup Final!" : (this.lang === 'es' ? "¡Ganaste la Final de la Copa del Mundo!" : "Вы выиграли Финал Чемпионата Мира!");
+
+                this.showScreen('screen-winner');
+            }
+
+            // ==========================================
+            // TOURNAMENT MODES (GROUPS & DIRECT PLAYOFF)
+            // ==========================================
+            startTournament(type) {
+                sound.playClick();
+                if (type === 'direct') {
+                    this.initDirectPlayoff();
+                    this.showScreen('screen-playoff');
+                } else {
+                    this.initGroupStage();
+                    this.showScreen('screen-groups');
+                }
+            }
+
+            initGroupStage() {
+                const shuffled = [...this.database].sort(() => 0.5 - Math.random());
+                this.groups = [];
+                for (let i = 0; i < 16; i++) {
+                    const groupPlayers = shuffled.slice(i * 16, (i + 1) * 16).map(p => ({ ...p, wins: 0 }));
+                    this.groups.push({
+                        name: String.fromCharCode(65 + i),
+                        players: groupPlayers,
+                        duels: this.generateGroupDuels(groupPlayers),
+                        currentDuel: 0
+                    });
+                }
+                this.currentGroupIdx = 0;
+                this.groupHistory = [];
+                this.renderGroupStage();
+            }
+
+            generateGroupDuels(players) {
+                const duels = [];
+                for (let i = 0; i < players.length; i += 2) {
+                    duels.push([players[i], players[i + 1]]);
+                }
+                return duels;
+            }
+
+            renderGroupStage() {
+                const group = this.groups[this.currentGroupIdx];
+                document.getElementById('current-group-title').textContent = `${this.lang === 'en' ? 'Group' : (this.lang === 'es' ? 'Grupo' : 'Группа')} ${group.name}`;
+                
+                const pillsContainer = document.getElementById('group-pills-container');
+                pillsContainer.innerHTML = '';
+                this.groups.forEach((g, idx) => {
+                    const btn = document.createElement('button');
+                    btn.onclick = () => {
+                        this.currentGroupIdx = idx;
+                        this.renderGroupStage();
+                    };
+                    const active = idx === this.currentGroupIdx ? 'bg-emerald-500 text-slate-950 font-black' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold';
+                    btn.className = `px-3 py-1 rounded-xl text-xs transition-all ${active}`;
+                    btn.textContent = g.name;
+                    pillsContainer.appendChild(btn);
+                });
+
+                document.getElementById('group-duel-progress').textContent = `${this.lang === 'en' ? 'Duel' : (this.lang === 'es' ? 'Duelo' : 'Дуэль')} ${group.currentDuel + 1} ${this.lang === 'en' ? 'of' : (this.lang === 'es' ? 'de' : 'из')} ${group.duels.length}`;
+
+                if (group.currentDuel < group.duels.length) {
+                    const pair = group.duels[group.currentDuel];
+                    document.getElementById('p1-flag').textContent = pair[0].flag;
+                    document.getElementById('p1-pos').textContent = pair[0].pos;
+                    document.getElementById('p1-name').textContent = pair[0].name[this.lang] || pair[0].name.ru;
+                    document.getElementById('p1-club').textContent = pair[0].club;
+
+                    document.getElementById('p2-flag').textContent = pair[1].flag;
+                    document.getElementById('p2-pos').textContent = pair[1].pos;
+                    document.getElementById('p2-name').textContent = pair[1].name[this.lang] || pair[1].name.ru;
+                    document.getElementById('p2-club').textContent = pair[1].club;
+                }
+
+                this.renderGroupStandings();
+            }
+
+            voteGroupDuel(winnerIdx) {
+                sound.playKick();
+                const group = this.groups[this.currentGroupIdx];
+                if (group.currentDuel >= group.duels.length) return;
+
+                const pair = group.duels[group.currentDuel];
+                const winner = pair[winnerIdx];
+                winner.wins += 1;
+
+                this.groupHistory.push({
+                    groupIdx: this.currentGroupIdx,
+                    duelIdx: group.currentDuel,
+                    winner: winner
+                });
+
+                group.currentDuel++;
+
+                if (group.currentDuel >= group.duels.length) {
+                    if (this.currentGroupIdx < this.groups.length - 1) {
+                        this.currentGroupIdx++;
+                    } else {
+                        this.finishGroupStage();
+                        return;
+                    }
+                }
+
+                this.renderGroupStage();
+            }
+
+            undoGroupVote() {
+                if (this.groupHistory.length === 0) return;
+                sound.playUndo();
+                const last = this.groupHistory.pop();
+                const group = this.groups[last.groupIdx];
+                last.winner.wins -= 1;
+                group.currentDuel = last.duelIdx;
+                this.currentGroupIdx = last.groupIdx;
+                this.renderGroupStage();
+            }
+
+            setGroupSubTab(tab) {
+                sound.playClick();
+                this.groupSubTab = tab;
+                const duelsEl = document.getElementById('group-subtab-duels');
+                const standingsEl = document.getElementById('group-subtab-standings');
+                const btnDuels = document.getElementById('btn-group-duels');
+                const btnStandings = document.getElementById('btn-group-standings');
+
+                if (tab === 'duels') {
+                    duelsEl.classList.remove('hidden');
+                    standingsEl.classList.add('hidden');
+                    btnDuels.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 shadow-md";
+                    btnStandings.className = "px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700";
+                } else {
+                    duelsEl.classList.add('hidden');
+                    standingsEl.classList.remove('hidden');
+                    btnStandings.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500 text-slate-950 shadow-md";
+                    btnDuels.className = "px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700";
+                }
+            }
+
+            renderGroupStandings() {
+                const group = this.groups[this.currentGroupIdx];
+                const tbody = document.getElementById('group-table-body');
+                if (!tbody) return;
+                tbody.innerHTML = '';
+
+                const sorted = [...group.players].sort((a, b) => b.wins - a.wins);
+
+                sorted.forEach((p, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/40";
+                    tr.innerHTML = `
+                        <td class="py-2 font-bold text-slate-400">${idx + 1}</td>
+                        <td class="py-2 font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span>${p.flag}</span> <span>${p.name[this.lang] || p.name.ru}</span>
+                        </td>
+                        <td class="py-2 text-slate-500 font-semibold">${p.pos}</td>
+                        <td class="py-2 text-right font-black text-emerald-500">${p.wins}</td>
+                        <td class="py-2 text-right">
+                            ${idx < 2 ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500">${this.lang === 'en' ? 'Qualify' : (this.lang === 'es' ? 'Clasifica' : 'Выход')}</span>` : `<span class="text-slate-400 text-[10px]">${this.lang === 'en' ? 'Out' : (this.lang === 'es' ? 'Fuera' : 'Вылет')}</span>`}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            finishGroupStage() {
+                let qualified = [];
+                this.groups.forEach(g => {
+                    const sorted = [...g.players].sort((a, b) => b.wins - a.wins);
+                    qualified.push(sorted[0], sorted[1]);
+                });
+
+                this.playoffRounds = [qualified];
+                this.currentRoundIdx = 0;
+                this.currentMatchIdx = 0;
+                this.playoffHistory = [];
+
+                this.showScreen('screen-playoff');
+                this.renderPlayoffRound();
+            }
+
+            initDirectPlayoff() {
+                const shuffled = [...this.database].sort(() => 0.5 - Math.random());
+                this.playoffRounds = [shuffled];
+                this.currentRoundIdx = 0;
+                this.currentMatchIdx = 0;
+                this.playoffHistory = [];
+                this.renderPlayoffRound();
+            }
+
+            renderPlayoffRound() {
+                const currentPool = this.playoffRounds[this.currentRoundIdx];
+                const roundNames = {
+                    256: (this.lang === 'en' ? "Round of 256" : (this.lang === 'es' ? "Dieciseisavos (256)" : "1/128 Финала")),
+                    128: (this.lang === 'en' ? "Round of 128" : (this.lang === 'es' ? "Dieciseisavos (128)" : "1/64 Финала")),
+                    64: (this.lang === 'en' ? "Round of 64" : (this.lang === 'es' ? "Dieciseisavos (64)" : "1/32 Финала")),
+                    32: (this.lang === 'en' ? "Round of 32" : (this.lang === 'es' ? "Dieciseisavos" : "1/16 Финала")),
+                    16: (this.lang === 'en' ? "Round of 16" : (this.lang === 'es' ? "Octavos de final" : "1/8 Финала")),
+                    8: (this.lang === 'en' ? "Quarter-finals" : (this.lang === 'es' ? "Cuartos de final" : "1/4 Финала")),
+                    4: (this.lang === 'en' ? "Semi-finals" : (this.lang === 'es' ? "Semifinal" : "1/2 Финала")),
+                    2: (this.lang === 'en' ? "FINAL" : (this.lang === 'es' ? "FINAL" : "ФИНАЛ"))
+                };
+
+                const title = roundNames[currentPool.length] || "Playoff";
+                document.getElementById('playoff-round-title').textContent = title;
+
+                const totalMatches = currentPool.length / 2;
+                document.getElementById('playoff-match-progress').textContent = `${this.lang === 'en' ? 'Match' : (this.lang === 'es' ? 'Partido' : 'Матч')} ${this.currentMatchIdx + 1} ${this.lang === 'en' ? 'of' : (this.lang === 'es' ? 'de' : 'из')} ${totalMatches}`;
+
+                const p1 = currentPool[this.currentMatchIdx * 2];
+                const p2 = currentPool[this.currentMatchIdx * 2 + 1];
+
+                document.getElementById('po1-flag').textContent = p1.flag;
+                document.getElementById('po1-pos').textContent = p1.pos;
+                document.getElementById('po1-name').textContent = p1.name[this.lang] || p1.name.ru;
+                document.getElementById('po1-club').textContent = p1.club;
+
+                document.getElementById('po2-flag').textContent = p2.flag;
+                document.getElementById('po2-pos').textContent = p2.pos;
+                document.getElementById('po2-name').textContent = p2.name[this.lang] || p2.name.ru;
+                document.getElementById('po2-club').textContent = p2.club;
+            }
+
+            votePlayoff(winnerSlot) {
+                sound.playKick();
+                const currentPool = this.playoffRounds[this.currentRoundIdx];
+                const winner = currentPool[this.currentMatchIdx * 2 + winnerSlot];
+
+                if (!this.playoffRounds[this.currentRoundIdx + 1]) {
+                    this.playoffRounds[this.currentRoundIdx + 1] = [];
+                }
+
+                this.playoffRounds[this.currentRoundIdx + 1].push(winner);
+
+                this.playoffHistory.push({
+                    roundIdx: this.currentRoundIdx,
+                    matchIdx: this.currentMatchIdx,
+                    winner: winner
+                });
+
+                this.currentMatchIdx++;
+
+                if (this.currentMatchIdx >= currentPool.length / 2) {
+                    const nextPool = this.playoffRounds[this.currentRoundIdx + 1];
+                    if (nextPool.length === 1) {
+                        this.announceWinner(nextPool[0]);
+                        return;
+                    } else {
+                        this.currentRoundIdx++;
+                        this.currentMatchIdx = 0;
+                    }
+                }
+
+                this.renderPlayoffRound();
+            }
+
+            undoPlayoffVote() {
+                if (this.playoffHistory.length === 0) return;
+                sound.playUndo();
+
+                const last = this.playoffHistory.pop();
+                const nextPool = this.playoffRounds[last.roundIdx + 1];
+                if (nextPool) nextPool.pop();
+
+                this.currentRoundIdx = last.roundIdx;
+                this.currentMatchIdx = last.matchIdx;
+                this.renderPlayoffRound();
+            }
+
+            announceWinner(player) {
+                sound.playFanfare();
+                document.getElementById('winner-squad-container').classList.add('hidden');
+                document.getElementById('winner-name').textContent = player.name[this.lang] || player.name.ru;
+                document.getElementById('winner-meta').textContent = `${player.flag} ${player.pos} • ${player.club}`;
+                document.getElementById('winner-status-tag').textContent = i18n[this.lang].winnerAnnounce;
+                this.showScreen('screen-winner');
+            }
+
+            openBracketModal() {
+                sound.playClick();
+                const modal = document.getElementById('modal-bracket');
+                const container = document.getElementById('bracket-tree-container');
+                if (!modal || !container) return;
+
+                container.innerHTML = '';
+                const tree = document.createElement('div');
+                tree.className = "flex gap-6 items-center min-w-max p-4";
+
+                this.playoffRounds.forEach((round, rIdx) => {
+                    const col = document.createElement('div');
+                    col.className = "flex flex-col justify-around gap-2";
+                    round.forEach(p => {
+                        const card = document.createElement('div');
+                        card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-2 text-xs font-bold text-slate-800 dark:text-slate-200 shadow-sm flex items-center gap-2";
+                        card.innerHTML = `<span>${p.flag}</span> <span>${p.name[this.lang] || p.name.ru}</span>`;
+                        col.appendChild(card);
+                    });
+                    tree.appendChild(col);
+                });
+
+                container.appendChild(tree);
+                modal.classList.remove('hidden');
+            }
+
+            // ==========================================
+            // PLAYERS DIRECTORY / CATALOG MODAL
+            // ==========================================
             openDirectoryModal() {
                 sound.playClick();
-                this.openModal('modal-directory');
+                document.getElementById('modal-directory').classList.remove('hidden');
                 this.renderDirectory();
             }
 
@@ -1489,9 +2353,11 @@
                 this.dirCategory = cat;
                 ['all', 'modern', 'legends', 'argentina'].forEach(c => {
                     const btn = document.getElementById(`cat-${c}`);
-                    btn.className = c === cat 
-                        ? 'px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold' 
-                        : 'px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700';
+                    if (btn) {
+                        btn.className = c === cat
+                            ? "flex-1 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold"
+                            : "flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300 font-bold";
+                    }
                 });
                 this.renderDirectory();
             }
@@ -1501,10 +2367,11 @@
                 this.dirPos = pos;
                 ['all', 'gk', 'def', 'mid', 'fwd'].forEach(p => {
                     const btn = document.getElementById(`pos-${p}`);
-                    const match = p === 'all' ? 'all' : p.toUpperCase();
-                    btn.className = match === pos 
-                        ? 'px-2 py-1 rounded-lg bg-slate-800 text-emerald-400 font-bold' 
-                        : 'px-2 py-1 rounded-lg bg-slate-800 text-slate-300';
+                    if (btn) {
+                        btn.className = p.toLowerCase() === pos.toLowerCase()
+                            ? "flex-1 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white font-bold"
+                            : "flex-1 py-1 rounded-lg text-slate-600 dark:text-slate-300 font-bold";
+                    }
                 });
                 this.renderDirectory();
             }
@@ -1514,61 +2381,48 @@
             }
 
             renderDirectory() {
-                const search = (document.getElementById('dir-search-input')?.value || '').toLowerCase();
                 const grid = document.getElementById('dir-players-grid');
+                const searchInput = document.getElementById('dir-search-input');
+                const search = searchInput ? searchInput.value.toLowerCase() : '';
                 if (!grid) return;
 
                 grid.innerHTML = '';
 
-                const filtered = this.allPlayers.filter(p => {
-                    const nameMatch = (p.name[this.lang] || p.name.ru).toLowerCase().includes(search) || p.club.toLowerCase().includes(search);
-                    
-                    let catMatch = true;
-                    if (this.dirCategory === 'modern') catMatch = p.era === 'modern';
-                    if (this.dirCategory === 'legends') catMatch = p.era === 'legend';
-                    if (this.dirCategory === 'argentina') catMatch = p.arg === true || p.flag === '🇦🇷';
+                let filtered = this.database.filter(p => {
+                    if (this.dirCategory === 'modern' && p.era !== 'modern') return false;
+                    if (this.dirCategory === 'legends' && p.era !== 'legend') return false;
+                    if (this.dirCategory === 'argentina' && !p.arg) return false;
 
-                    let posMatch = true;
-                    if (this.dirPos !== 'all') posMatch = p.pos === this.dirPos;
+                    if (this.dirPos !== 'all' && p.pos !== this.dirPos) return false;
 
-                    return nameMatch && catMatch && posMatch;
+                    const nameStr = (p.name[this.lang] || p.name.ru).toLowerCase();
+                    const clubStr = p.club.toLowerCase();
+
+                    return nameStr.includes(search) || clubStr.includes(search);
                 });
 
-                filtered.forEach(player => {
+                filtered.forEach(p => {
                     const card = document.createElement('div');
-                    card.className = 'bg-slate-800/80 border border-slate-700/60 rounded-xl p-2.5 flex items-center justify-between text-xs';
+                    card.className = "bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex items-center justify-between text-xs";
                     card.innerHTML = `
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="text-xl">${player.flag}</span>
-                            <div class="truncate">
-                                <div class="font-bold text-white truncate">${player.name[this.lang] || player.name.ru}</div>
-                                <div class="text-[10px] text-slate-400 truncate">${player.club}</div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">${p.flag}</span>
+                            <div>
+                                <h4 class="font-bold text-slate-900 dark:text-white">${p.name[this.lang] || p.name.ru}</h4>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">${p.club}</p>
                             </div>
                         </div>
-                        <div class="text-right shrink-0">
-                            <span class="text-[10px] font-bold text-emerald-400 block">${player.pos}</span>
-                            <span class="text-xs font-black text-amber-400">${player.ovr}</span>
+                        <div class="text-right">
+                            <span class="font-black text-amber-500">${p.ovr}</span>
+                            <span class="block text-[9px] text-slate-400 uppercase font-extrabold">${p.pos}</span>
                         </div>
                     `;
                     grid.appendChild(card);
                 });
             }
-
-            openModal(modalId) {
-                document.getElementById(modalId)?.classList.remove('hidden');
-            }
-
-            closeModal(modalId) {
-                sound.playClick();
-                document.getElementById(modalId)?.classList.add('hidden');
-            }
         }
 
-        let app;
-        window.addEventListener('DOMContentLoaded', () => {
-            app = new App();
-            app.init();
-        });
+        const app = new FootballApp();
     </script>
 </body>
 </html>
