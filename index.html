@@ -193,6 +193,56 @@
                     <i class="fa-solid fa-shirt"></i> <span data-i18n="play">Играть</span>
                 </button>
             </div>
+            <div class="max-w-4xl mx-auto bg-gradient-to-r from-amber-50 via-white to-white dark:from-amber-950 dark:via-slate-900 dark:to-slate-900 border border-amber-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="space-y-2 text-center md:text-left">
+                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-amber-500 text-slate-950" data-i18n="pen_badge">Новый режим</span>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="pen_title">Пенальти</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="pen_desc"></p>
+                </div>
+                <button onclick="penalty.open()" class="px-8 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-lg shrink-0 flex items-center gap-2">
+                    <i class="fa-solid fa-futbol"></i> <span data-i18n="play">Играть</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- PENALTY MODE: SETUP -->
+        <section id="screen-pen-setup" class="hidden space-y-4 max-w-5xl mx-auto w-full">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-black" data-i18n="pen_title">Пенальти</h2>
+                <button onclick="app.navToMenu()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold" data-i18n="pen_back">В меню</button>
+            </div>
+            <div><p class="text-xs font-bold mb-2" data-i18n="pen_diff">Сложность</p><div id="pen-diff" class="grid grid-cols-2 md:grid-cols-4 gap-2"></div></div>
+            <div id="pen-opts" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+            <div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                    <p class="text-xs font-bold" data-i18n="pen_pick">Выбери сборную</p>
+                    <input id="pen-q" oninput="penalty.find(this.value)" type="text" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-500 sm:w-64">
+                </div>
+                <div id="pen-teams" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-[34vh] overflow-y-auto pr-1"></div>
+            </div>
+            <div><p class="text-xs font-bold mb-2" data-i18n="pen_squad">Состав</p><div id="pen-squad" class="flex flex-wrap gap-2 min-h-[44px]"></div></div>
+            <button id="pen-start" onclick="penalty.start()" class="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm opacity-40" data-i18n="pen_start" disabled>Начать серию</button>
+        </section>
+
+        <!-- PENALTY MODE: GAME -->
+        <section id="screen-pen-game" class="hidden space-y-3 max-w-2xl mx-auto w-full">
+            <div class="flex items-center justify-between gap-2">
+                <div id="pen-info" class="text-sm"></div>
+                <div class="flex gap-2">
+                    <button onclick="penalty.bracket()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold flex items-center gap-1"><i class="fa-solid fa-sitemap"></i> <span data-i18n="pen_br">Сетка</span></button>
+                    <button onclick="app.navToMenu()" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold" data-i18n="pen_back">В меню</button>
+                </div>
+            </div>
+            <div id="pen-br" class="hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-3"></div>
+            <div id="pen-score" class="space-y-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-3"></div>
+            <div id="pen-who" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-3 py-2"></div>
+            <div class="relative rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-700">
+                <canvas id="pen-cv" width="640" height="420" class="w-full block"></canvas>
+                <div id="pen-zones" class="absolute grid grid-cols-3 grid-rows-2" style="left:26.5%;top:23.8%;width:47%;height:26.2%"></div>
+                <div id="pen-end" class="hidden absolute inset-0 bg-slate-950/80 flex flex-col items-center justify-center text-center text-white p-4"></div>
+            </div>
+            <p id="pen-msg" class="text-center text-sm font-bold text-amber-600 dark:text-amber-400 min-h-[20px]"></p>
+            <div id="pen-picker" class="flex flex-wrap gap-2 justify-center"></div>
         </section>
 
         <!-- SCREEN 2: GROUP STAGE -->
@@ -2424,5 +2474,209 @@
 
         const app = new FootballApp();
     </script>
+<script>
+(()=>{
+// code|flag|ru|en|es|stars|shirt|shorts|socks|default look (skin 0-3 + hair k/n/y/r/s)|GK|outfield players: Name:number[:look]
+const RAW=`ARG|🇦🇷|Аргентина|Argentina|Argentina|5|#6CACE4|#111111|#ffffff|1k|E. Martínez:23:0k|Molina:26;Romero:13:0n;L. Martínez:6;Tagliafico:3;De Paul:7;E. Fernández:24;Mac Allister:20:0n;Messi:10:1n;J. Álvarez:9;Lautaro:22;Almada:16
+ESP|🇪🇸|Испания|Spain|España|5|#C60B1E|#1a2a6c|#C60B1E|0n|Unai Simón:23:0k|Porro:12;Laporte:14;Cubarsí:22;Cucurella:24;Rodri:16;Fabián:8;Pedri:20:1k;Yamal:19:2k;N. Williams:17:2k;Oyarzabal:21;F. Torres:7
+FRA|🇫🇷|Франция|France|Francia|5|#1E3A8A|#ffffff|#C8102E|3k|Maignan:16|Koundé:5;Saliba:17;Konaté:15;T. Hernández:19:1k;Tchouaméni:8;Rabiot:14:0n;Dembélé:7:1k;Olise:11;Mbappé:10;Thuram:9;Doué:20
+ENG|🏴󠁧󠁢󠁥󠁮󠁧󠁿|Англия|England|Inglaterra|5|#f8fafc|#1a2a6c|#f8fafc|0n|Pickford:1|Konsa:2:3k;Guéhi:6:3k;Stones:5;R. James:24:3k;Rice:4;Bellingham:10:2k;Saka:7:3k;Kane:9;Rashford:11:2k;Mainoo:16:2k;Watkins:19:1k
+BRA|🇧🇷|Бразилия|Brazil|Brasil|5|#FFDF00|#1a4fb5|#ffffff|1k|Alisson:1:0k|Danilo:13;Marquinhos:4;G. Magalhães:3;Alex Sandro:6:2k;Casemiro:5;B. Guimarães:8;Paquetá:20;Raphinha:11;Vinícius Jr:7:2k;Neymar:10;Cunha:9
+POR|🇵🇹|Португалия|Portugal|Portugal|5|#C8102E|#046A38|#C8102E|0k|Diogo Costa:1|N. Semedo:2:2k;Rúben Dias:3;Cancelo:20:0n;N. Mendes:19:2k;Vitinha:23;B. Fernandes:8:0n;B. Silva:10;Ronaldo:7:1k;Leão:17:2k;G. Ramos:9;J. Félix:11
+GER|🇩🇪|Германия|Germany|Alemania|5|#f8fafc|#111111|#f8fafc|0n|Neuer:1|Rüdiger:2:3k;Tah:4:2k;Schlotterbeck:15;Raum:22;Kimmich:6:0y;Goretzka:8;Musiala:10:2k;Wirtz:17;Sané:19:2k;Havertz:7
+NED|🇳🇱|Нидерланды|Netherlands|Países Bajos|4.5|#F36C21|#ffffff|#F36C21|0n|Verbruggen:1|Dumfries:22:2k;Van Dijk:4:3k;Aké:5:2k;Van de Ven:15:1k;Reijnders:14:1k;De Jong:21:0y;Gravenberch:8:3k;Gakpo:11:2k;Depay:10:2k;Malen:18:2k;Weghorst:9
+BEL|🇧🇪|Бельгия|Belgium|Bélgica|4.5|#C8102E|#C8102E|#C8102E|0n|Courtois:1|Castagne:21;Debast:2;Mechele:4;De Cuyper:5;Onana:24:3k;Tielemans:8;De Bruyne:7:0r;Doku:11:3k;Trossard:10;Lukaku:9:3k;De Ketelaere:17
+CRO|🇭🇷|Хорватия|Croatia|Croacia|4.5|#E4002B|#ffffff|#0a3a8f|0n|Livaković:1|Stanišić:2;Gvardiol:4;Šutalo:6;Pongračić:3;Kovačić:8;Modrić:10:0y;M. Pašalić:15;Vlašić:13;Kramarić:9;Perišić:14;Baturina:16
+MAR|🇲🇦|Марокко|Morocco|Marruecos|4.5|#C1272D|#006233|#C1272D|1k|Bounou:1|Hakimi:2:2k;Mazraoui:3;Riad:18;El Ouahdi:13;Amrabat:4;Ounahi:8;El Khannouss:23;B. Díaz:10;Talbi:7;El Kaabi:20;Rahimi:9
+URU|🇺🇾|Уругвай|Uruguay|Uruguay|4.5|#6CACE4|#111111|#111111|0k|Rochet:1|Varela:13;Giménez:2;Araújo:4;Olivera:16;Ugarte:5;Bentancur:6;Valverde:8;De la Cruz:7:1k;De Arrascaeta:10:1k;D. Núñez:9;Pellistri:11
+COL|🇨🇴|Колумбия|Colombia|Colombia|4.5|#FCD116|#003893|#CE1126|1k|Ospina:1|Muñoz:2;Lucumí:3:2k;D. Sánchez:23:2k;Mojica:17:2k;Lerma:16:2k;Ríos:6;J. Arias:11:2k;James:10:1n;Carrascal:8;L. Díaz:7;Córdoba:9:2k
+NOR|🇳🇴|Норвегия|Norway|Noruega|4.5|#BA0C2F|#00205B|#ffffff|0y|Nyland:1|Ryerson:26;Ajer:3;Østigård:4;Wolfe:5;Berg:6;Berge:8;Ødegaard:10:0n;Nusa:20;Sørloth:7;Haaland:9;Strand Larsen:11
+JPN|🇯🇵|Япония|Japan|Japón|4|#0A2A7A|#0A2A7A|#0A2A7A|0k|Suzuki:1:1k|Sugawara:2;Itakura:4;Taniguchi:3;Ito:21;Endo:6;Tanaka:7;Kubo:8;Doan:10;Kamada:15;Maeda:11;Ueda:18
+USA|🇺🇸|США|USA|EE. UU.|4|#f8fafc|#1a2a6c|#C8102E|0n|Turner:1|Dest:2:2k;Richards:3:2k;A. Robinson:5:2k;Scally:23;Adams:4:2k;McKennie:8:0y;Reyna:7:0y;Pulisic:10:0n;Weah:21:2k;Balogun:20:2k;Pepi:9:1k
+MEX|🇲🇽|Мексика|Mexico|México|4|#006847|#ffffff|#CE1126|1k|Rangel:1|Sánchez:2;Montes:3;Vásquez:5;Gallardo:23;E. Álvarez:4;Romo:7;Fidalgo:8;Vega:10;R. Jiménez:9;S. Giménez:11;Pineda:17
+SUI|🇨🇭|Швейцария|Switzerland|Suiza|4|#D52B1E|#ffffff|#D52B1E|0n|Kobel:1|Widmer:3;Akanji:5:2k;Elvedi:4;R. Rodríguez:13;Freuler:8;Xhaka:10;Zakaria:6:2k;Vargas:17:2k;Ndoye:11:2k;Embolo:7:2k;Amdouni:23:2k
+SEN|🇸🇳|Сенегал|Senegal|Senegal|4|#f8fafc|#00853F|#FDEF42|3k|É. Mendy:16|Diatta:14;Koulibaly:3;Niakhaté:4;Jakobs:12;I. Gueye:5;P. Gueye:6;P. M. Sarr:17;Mané:10;I. Sarr:18;I. Ndiaye:13;N. Jackson:15
+TUR|🇹🇷|Турция|Türkiye|Turquía|4|#E30A17|#ffffff|#E30A17|0k|Günok:1|Çelik:2;Demiral:3;Bardakçı:14;Kadıoğlu:20;Çalhanoğlu:10;Özcan:5;Güler:8;K. Yıldız:11;Akturkoğlu:7;Akgün:19;Gül:9
+AUT|🇦🇹|Австрия|Austria|Austria|4|#ED2939|#ffffff|#ED2939|0n|Schlager:1|Posch:5;Danso:3:3k;Lienhart:15;Alaba:8:2k;X. Schlager:4;Seiwald:6;Laimer:20;Sabitzer:9;Schmid:18;Arnautović:7;Gregoritsch:11
+KOR|🇰🇷|Южная Корея|South Korea|Corea del Sur|4|#CD2E3A|#1a2a6c|#CD2E3A|0k|Kim Seung-gyu:1|Lee Han-beom:2;Kim Min-jae:4;Seol Young-woo:22;Park Jin-seob:16;Hwang In-beom:6;Paik Seung-ho:8;Lee Jae-sung:10;Lee Kang-in:19;Hwang Hee-chan:11;Son:7;Cho Gue-sung:9
+ECU|🇪🇨|Эквадор|Ecuador|Ecuador|4|#FFD100|#1a3a8a|#CE1126|1k|Galíndez:1|Preciado:17;F. Torres:2:2k;Pacho:6:2k;Hincapié:3;Estupiñán:7:2k;Caicedo:23:2k;Páez:10;Plata:19:2k;E. Valencia:13:2s;Angulo:20:2k;Yeboah:9:2k
+SWE|🇸🇪|Швеция|Sweden|Suecia|4|#FECB00|#006AA7|#FECB00|0y|Zetterström:1|Lagerbielke:2;Lindelöf:3;Hien:4:2k;Gudmundsson:5;Svensson:8;Karlström:16;Ayari:18:1k;Bergvall:7;Elanga:11:2k;Isak:9:2k;Gyökeres:17:0n
+DEN|🇩🇰|Дания|Denmark|Dinamarca|4|#C8102E|#ffffff|#C8102E|0n|Schmeichel:1|Kristensen:2;Vestergaard:3;Andersen:6;Maehle:5;Højbjerg:23;Hjulmand:8;Eriksen:10;Damsgaard:14;Skov Olsen:11;Højlund:9;Wind:19
+NGA|🇳🇬|Нигерия|Nigeria|Nigeria|4|#008751|#ffffff|#008751|3k|Nwabali:1|Aina:2;Troost-Ekong:5;Bassey:4;Sanusi:3;Ndidi:25;Iwobi:17;Onyeka:8;Chukwueze:21;Lookman:18;Osimhen:9;Boniface:14
+ITA|🇮🇹|Италия|Italy|Italia|4.5|#0A5FB4|#ffffff|#0A5FB4|0k|Donnarumma:1|Di Lorenzo:2;Bastoni:13;Calafiori:5;Dimarco:3;Barella:18;Tonali:8;Locatelli:16;Chiesa:14;Raspadori:10;Kean:7:3k;Retegui:9:0n
+CZE|🇨🇿|Чехия|Czechia|Chequia|3.5|#D7141A|#ffffff|#11457E|0n|Kovář:1|Coufal:5;Hranáč:4;Zima:2;Holeš:3;Souček:22;Červ:12;Provod:17;Hložek:9;Schick:10;Chytil:13;Sulc:15
+SCO|🏴󠁧󠁢󠁳󠁣󠁴󠁿|Шотландия|Scotland|Escocia|3.5|#0a1f5c|#ffffff|#0a1f5c|0n|Gunn:1|Hickey:2;Hendry:13;Souttar:15;Robertson:3;Tierney:6;McTominay:4;McGinn:7:0r;Ferguson:19;Christie:11;Adams:10:2k;Dykes:9
+CAN|🇨🇦|Канада|Canada|Canadá|3.5|#D80621|#D80621|#D80621|0n|St. Clair:1|Johnston:2;Cornelius:13;Bombito:15:2k;Davies:19:3k;Eustáquio:7;Koné:8:2k;Buchanan:17:3k;Millar:11;J. David:10:2k;Larin:9:2k;Oluwaseyi:12:3k
+AUS|🇦🇺|Австралия|Australia|Australia|3.5|#FFCD00|#006B3F|#FFCD00|0n|Ryan:1:0y|Degenek:2;Circati:3;Souttar:19;Behich:16;Metcalfe:8;Irvine:22;O’Neill:13;Leckie:7;Irankunda:17:2k;Mabil:11:3k;Touré:9:3k
+EGY|🇪🇬|Египет|Egypt|Egipto|3.5|#CE1126|#ffffff|#111111|1k|El Shenawy:1|Hany:3;Abdelmaguid:4;Rabia:5;Hafez:15;Ashour:8;Attia:19;Salah:10;Trézéguet:7;Marmoush:22;Hamza:9;Ziko:11
+ALG|🇩🇿|Алжир|Algeria|Argelia|3.5|#f8fafc|#006233|#f8fafc|1k|Mastil:1:0k|Mandi:2;Bensebaini:21:2k;Aït-Nouri:15:2k;Belghali:17;Bentaleb:19;Zerrouki:6;Aouar:8;Chaibi:10;Mahrez:7;Gouiri:9;Amoura:18
+IRN|🇮🇷|Иран|Iran|Irán|3.5|#f8fafc|#f8fafc|#D0021B|1k|Beiranvand:1|Rezaeian:23;Kanaani:13;Khalilzadeh:4;Mohammadi:5;Hajsafi:3;Ezatolahi:6:1s;Ghoddos:14;Jahanbakhsh:7;Taremi:9;Ghayedi:10;Alipour:11
+CIV|🇨🇮|Кот-д’Ивуар|Ivory Coast|Costa de Marfil|3.5|#F77F00|#ffffff|#009E60|3k|Y. Fofana:1|Singo:5;Agbadou:20;Ndicka:21;Konan:3;Kessié:8;Sangaré:18;S. Fofana:6;Pépé:19;Adingra:10;Amad:15:2k;Bonny:9
+PAR|🇵🇾|Парагвай|Paraguay|Paraguay|3.5|#D52B1E|#1a3a8a|#D52B1E|1k|Gatito Fernández:1|Velázquez:2;Alderete:3;G. Gómez:15;Alonso:6;Cubas:14;Ojeda:20;D. Gómez:8;Almirón:10;Sosa:7;Enciso:19;Sanabria:9
+GHA|🇬🇭|Гана|Ghana|Ghana|3.5|#f8fafc|#111111|#FCD116|3k|Ati-Zigi:1|Seidu:2;Mumin:6;Adjetey:4;Baba:17;Partey:5;Yirenkyi:3;Fatawu:7;Semenyo:11;Sulemana:22;I. Williams:19;J. Ayew:9
+TUN|🇹🇳|Тунис|Tunisia|Túnez|3.5|#E70013|#ffffff|#E70013|1k|Chamakh:1|Valery:20:2k;Talbi:3;Bronn:6;Abdi:2;Skhiri:17;Khedira:13:0n;Mejbri:10;Achouri:7;Gharbi:11;Saad:8;Mastouri:9
+BIH|🇧🇦|Босния и Герцеговина|Bosnia & Herz.|Bosnia y Herzegovina|3.5|#1B4DB1|#ffffff|#1B4DB1|0n|Vasilj:1|Dedić:7;Muharemović:4:2k;Katić:18;Kolašinac:5;Gigović:8;Tahirović:6;Memić:15;Bajraktarević:20;Demirović:10;Džeko:11;Alajbegović:19
+UKR|🇺🇦|Украина|Ukraine|Ucrania|3.5|#FFD500|#1a4fb5|#FFD500|0n|Trubin:12|Konoplya:2;Svatok:4;Bondar:5;Mykolenko:16;Stepanenko:6;Sudakov:14;Zinchenko:17;Mudryk:10:2k;Yarmolenko:7;Tsygankov:15;Dovbyk:21
+RUS|🇷🇺|Россия|Russia|Rusia|3.5|#D52B1E|#ffffff|#D52B1E|0n|Safonov:1|M. Fernandes:2:2k;Dzhikiya:14;Diveev:4;Karavaev:18;Zobnin:5;Kuzyaev:7;Golovin:10;A. Miranchuk:17;Sobolev:9;Chalov:11;Smolov:6
+POL|🇵🇱|Польша|Poland|Polonia|3.5|#f8fafc|#C8102E|#f8fafc|0n|Szczęsny:1|Cash:2;Bednarek:5;Kiwior:14;Bereszyński:18;Zieliński:20;Szymański:21;Zalewski:7;Frankowski:22;Piotrowski:10;Lewandowski:9;Piątek:19
+SRB|🇷🇸|Сербия|Serbia|Serbia|3.5|#C6363C|#1a2a6c|#C6363C|0n|Rajković:1|Pavlović:2;Milenković:4;Veljković:6;Birmančević:11;Lukić:5;Milinković-Savić:20;Tadić:10;Ilić:8;Mitrović:9;Vlahović:18;Jović:7
+CMR|🇨🇲|Камерун|Cameroon|Camerún|3.5|#007A5E|#CE1126|#FCD116|3k|Onana:24|Fai:2;Castelletto:3;Nkoulou:4;Tolo:5;Kunde:6;Anguissa:8;Aboubakar:10;Choupo-Moting:13;Mbeumo:19;Toko Ekambi:7;Bassogog:20
+CHI|🇨🇱|Чили|Chile|Chile|3.5|#D52B1E|#1a3a8a|#f8fafc|1k|Cortés:1|Isla:4;Maripán:18;Kuscevic:2;Suazo:3;Vidal:8;Aránguiz:20;A. Sánchez:7;Brereton:11;Valdivia:10;Vargas:9;Dávila:15
+WAL|🏴󠁧󠁢󠁷󠁬󠁳󠁿|Уэльс|Wales|Gales|3.5|#C8102E|#ffffff|#C8102E|0n|Hennessey:1|Roberts:2;Rodon:6;Mepham:5;Davies:3;Ampadu:4;Wilson:8;Ramsey:10;Johnson:18;Moore:9;Brooks:19;James:11
+HUN|🇭🇺|Венгрия|Hungary|Hungría|3.5|#CE2939|#ffffff|#477050|0n|Gulácsi:1|Fiola:2;Orbán:5;Szalai:3;Lang:11;Nagy:8;Schäfer:13;Szoboszlai:10;Sallai:20;Gazdag:17;Varga:19;Ádám:9
+KSA|🇸🇦|Саудовская Аравия|Saudi Arabia|Arabia Saudita|3|#006C35|#ffffff|#006C35|1k|Al-Aqidi:1|Majrashi:2;Lajami:3;Al-Amri:4;Al-Tambakti:5;Kanno:23;Al-Khaibari:15;N. Al-Dawsari:6;S. Al-Dawsari:10;Al-Shehri:11;Al-Buraikan:9;Yahya:8
+QAT|🇶🇦|Катар|Qatar|Catar|3|#8A1538|#ffffff|#8A1538|1k|Abunada:1|P. Miguel:2;Khoukhi:16;L. Mendes:3;Al-Brake:18;Boudiaf:12;Madibo:23;Hatem:6;Afif:11;Al-Haydos:10;Almoez Ali:19:2k;Muntari:9:2k
+UZB|🇺🇿|Узбекистан|Uzbekistan|Uzbekistán|3|#f8fafc|#1a4fb5|#f8fafc|1k|Yusupov:1|Khusanov:2;Alijonov:3;Sayfiev:4;Ashurmatov:5;Shukurov:7;Masharipov:10;Fayzullaev:22;Urunov:11;Khamdamov:17;Shomurodov:14;Sergeev:21
+JOR|🇯🇴|Иордания|Jordan|Jordania|3|#f8fafc|#C8102E|#111111|1k|Abulaila:1|Abu Hashish:2;Nasib:3;Al-Arab:5;Haddad:23;Jamous:6;Al-Rawabdeh:8;Ayed:14;Al-Taamari:10;O. Al-Fakhouri:11;Olwan:9;Abu Zrayq:7
+IRQ|🇮🇶|Ирак|Iraq|Irak|3|#f8fafc|#007A3D|#f8fafc|1k|Talib:1|Sulaka:2;H. Ali:3;Tahseen:4;Hashim:5;Younis:6;Amyn:7;Bayesh:8;Iqbal:14;Al-Ammari:16;Al-Hamadi:9;M. Ali:10
+NZL|🇳🇿|Новая Зеландия|New Zealand|Nueva Zelanda|3|#f8fafc|#f8fafc|#111111|0n|Crocombe:1|Payne:2;De Vries:3;Bindon:4;Boxall:5;Cacace:13;Bell:6;Stamenić:8;Thomas:23;Garbett:7;Singh:10:1k;Wood:9
+PAN|🇵🇦|Панама|Panama|Panamá|3|#D21034|#1a3a8a|#D21034|1k|Mejía:1|Murillo:23:2k;Córdoba:3;Escobar:4;Blackman:2;Carrasquilla:8;Godoy:20;Harvey:14;Bárcenas:11;I. Díaz:10;Fajardo:17;Waterman:18:2k
+HAI|🇭🇹|Гаити|Haiti|Haití|3|#1a3a8a|#D21034|#1a3a8a|3k|Placide:1|Arcus:2;Ade:4;Delcroix:5;Experience:8;Sainte:6;Bellegarde:10;L. Pierre:14;Etienne:7;Nazon:9;Pierrot:20;Isidor:18
+CUW|🇨🇼|Кюрасао|Curaçao|Curazao|3|#1a3a8a|#1a3a8a|#FFD100|3k|Room:1|Sambo:2;Obispo:18;Floranus:5;Brenet:20;Roemeratoe:6;J. Bacuna:7;L. Bacuna:10;Chong:21;Kuwas:17;Locadia:9;Hansen:12
+CPV|🇨🇻|Кабо-Верде|Cape Verde|Cabo Verde|3|#003893|#003893|#f8fafc|3k|Vozinha:1|Stopira:2;Diney:3;R. Lopes:4;L. Costa:5;K. Pina:6;J. Cabral:7;Monteiro:10;D. Duarte:14;Livramento:19;R. Mendes:20;Benchimol:9
+RSA|🇿🇦|ЮАР|South Africa|Sudáfrica|3|#FFB612|#007749|#FFB612|3k|R. Williams:1|Mudau:20;Sibisi:19;Okon:21;Modiba:6;Mokoena:4;Mbatha:5;Zwane:11;Appolis:7;Mofokeng:10;Foster:9;Rayners:15
+COD|🇨🇩|ДР Конго|DR Congo|RD Congo|3|#F7D618|#CE1021|#007FFF|3k|Mpasi:1|Wan-Bissaka:2;Mbemba:22;Tuanzebe:4;Masuaku:26;Moutoussamy:8;Sadiki:14;Bongonda:10;Mbuku:7;Wissa:20;Bakambu:17;Mayele:19
+KAZ|🇰🇿|Казахстан|Kazakhstan|Kazajistán|3|#00AFCA|#00AFCA|#FEC50C|1k|Anarbekov:1|Aimbetov:2;Beysebekov:3;Astanov:4;Nurgaliev:5;Kassabulat:6;Kuat:7;Zaynutdinov:8;Satpaev:9;Aksalu:10;Marochkin:11;Sagyndyk:14
+PER|🇵🇪|Перу|Peru|Perú|3|#f8fafc|#f8fafc|#D91023|1k|Gallese:1|Advíncula:17;Zambrano:4;Abram:2;Callens:6;Trauco:15;Tapia:5;Yotún:21;Carrillo:11;Cueva:10;Lapadula:9:0n;Flores:20
+CRC|🇨🇷|Коста-Рика|Costa Rica|Costa Rica|3|#D01C1F|#1a3a8a|#D01C1F|1k|Navas:1|Calvo:2;Waston:5;Duarte:4;Oviedo:6;Borges:15;Tejeda:8;Torres:20;Campbell:12;Contreras:22;Fuller:11;Bennette:19
+IRL|🇮🇪|Ирландия|Ireland|Irlanda|3|#169B62|#ffffff|#169B62|0n|Kelleher:1|Doherty:2;O’Shea:5;Collins:4;Manning:3;Cullen:6;Browne:8;Knight:7;Ferguson:10;Ogbene:15:3k;Parrott:9;Obafemi:19:3k
+GRE|🇬🇷|Греция|Greece|Grecia|3|#0D5EAF|#ffffff|#0D5EAF|0n|Vlachodimos:1|Mavropanos:3;Hatzidiakos:5;Koulierakis:4;Tsimikas:21;Siopis:6;Kourbelis:8;Bakasetas:10;Masouras:11;Tzolis:22;Pavlidis:9;Giakoumakis:20`;
+// World Cup winners: year|team|default look|GK|10 outfield players (real line-ups of the final; 1930/34/50/54/62 numbers are positional)
+const HIST=`1930|URU|0k|Ballestrero:1|Nasazzi:2;Mascheroni:3;Andrade:4:3k;Fernández:5;Gestido:6;Dorado:7;Scarone:8;Castro:9;Cea:10;Iriarte:11
+1934|ITA|0k|Combi:1|Monzeglio:2;Allemandi:3;Ferraris:4;Monti:5;Bertolini:6;Guaita:7;Meazza:8;Schiavio:9;Ferrari:10;Orsi:11
+1938|ITA|0k|Olivieri:1|Foni:2;Rava:3;Serantoni:4;Andreolo:5;Locatelli:6;Biavati:7;Meazza:8;Piola:9;Ferrari:10;Colaussi:11
+1950|URU|0k|Máspoli:1|Gambetta:2;Tejera:3;Gonzales:4;Varela:5;R. Andrade:6:3k;Ghiggia:7;Pérez:8;Míguez:9;Schiaffino:10;Morán:11
+1954|GER|0n|Turek:1|Posipal:2;Kohlmeyer:3;Eckel:4;Liebrich:5;Mai:6;Rahn:7;Morlock:8;F. Walter:9;O. Walter:10;Schäfer:11
+1958|BRA|1k|Gilmar:3|D. Santos:14;Bellini:2:0n;Orlando:15;N. Santos:12;Zito:5;Didi:6:3k;Garrincha:11:2k;Vavá:20;Pelé:10:3k;Zagallo:7
+1962|BRA|1k|Gilmar:1|D. Santos:2;Mauro:3;Zózimo:4;N. Santos:5;Zito:6;Garrincha:7:2k;Didi:8:3k;Vavá:9;Amarildo:10;Zagallo:11
+1966|ENG|0n|Banks:1|Cohen:2;Wilson:3;Stiles:4;J. Charlton:5;Moore:6;Ball:7;Hunt:21;B. Charlton:9;Hurst:10;Peters:16
+1970|BRA|1k|Félix:1|C. Alberto:4;Brito:2:3k;Piazza:3;Everaldo:16;Clodoaldo:5:3k;Gérson:8;Jairzinho:7:3k;Tostão:9;Pelé:10:3k;Rivellino:11
+1974|GER|0n|Maier:1|Vogts:2;Breitner:3;Schwarzenbeck:4;Beckenbauer:5;Bonhof:14;Overath:8;Hoeneß:12;Grabowski:7;G. Müller:13;Hölzenbein:17
+1978|ARG|1k|Fillol:5|Galván:7;Olguín:15;Passarella:19;Tarantini:20;Ardiles:2;Gallego:6;Bertoni:4;Kempes:10;Luque:14;Ortiz:16
+1982|ITA|0k|Zoff:1|Scirea:7;Bergomi:3;Gentile:6;Collovati:5;Cabrini:4;Oriali:13;Tardelli:14;Conti:16;Graziani:19;Rossi:20
+1986|ARG|1k|Pumpido:18|Cuciuffo:15;Brown:5;Ruggeri:19;Olarticoechea:6;Giusti:4;Batista:2;Enrique:12;Burruchaga:7;Maradona:10;Valdano:11
+1990|GER|0n|Illgner:1|Berthold:14;Buchwald:2;Augenthaler:4;Kohler:5;Brehme:3;Hässler:8;Matthäus:10;Littbarski:7;Klinsmann:18;Völler:9
+1994|BRA|1k|Taffarel:1|Jorginho:2;Aldair:13;Márcio Santos:15;Branco:6;Mauro Silva:5;Dunga:8;Mazinho:18;Zinho:17;Romário:11;Bebeto:7
+1998|FRA|0k|Barthez:16|Thuram:15:3k;Leboeuf:4;Desailly:8:3k;Lizarazu:3;Deschamps:7;Petit:14;Djorkaeff:6;Zidane:10:1k;Guivarc’h:9;Dugarry:11
+2002|BRA|1k|Marcos:1|Cafu:2:3k;Lúcio:3:3k;Roque Júnior:4;Edmílson:5:3k;Roberto Carlos:6:3k;Gilberto Silva:8:3k;Kléberson:15;Ronaldinho:11:3k;Rivaldo:10:3k;Ronaldo:9
+2006|ITA|0k|Buffon:1|Zambrotta:19;Cannavaro:5;Materazzi:23;Grosso:3;Gattuso:8;Pirlo:21:0n;Camoranesi:16;Perrotta:20;Totti:10;Toni:9
+2010|ESP|0k|Casillas:1|S. Ramos:15;Piqué:3;Puyol:5;Capdevila:11;Busquets:16;Xabi Alonso:14;Iniesta:6;Xavi:8;Pedro:18;Villa:7
+2014|GER|0n|Neuer:1|Lahm:16;Boateng:17:3k;Hummels:5;Höwedes:4;Schweinsteiger:7;Kroos:18;Özil:8:1k;Müller:13;Klose:11;Götze:19
+2018|FRA|0k|Lloris:1|Pavard:2;Varane:4:2k;Umtiti:5:3k;L. Hernández:21;Kanté:13:3k;Pogba:6:3k;Matuidi:14:3k;Griezmann:7;Mbappé:10:3k;Giroud:9
+2022|ARG|1k|E. Martínez:23:0k|Molina:26;Romero:13:0n;Otamendi:19;Acuña:8;De Paul:7;E. Fernández:24;Mac Allister:20:0n;Messi:10:1n;Di María:11;J. Álvarez:9
+2026|ESP|0n|Unai Simón:23:0k|Porro:12;Laporte:14;Cubarsí:22;Cucurella:24;Rodri:16;Merino:6;Fabián:8;Yamal:19:2k;N. Williams:17:2k;Oyarzabal:21`;
+const $=i=>document.getElementById(i),R=a=>a[Math.random()*a.length|0],lerp=(a,b,u)=>a+(b-a)*u,cl=u=>Math.max(0,Math.min(1,u)),cnt=a=>a.filter(x=>x==='g').length,shf=a=>a.slice().sort(()=>Math.random()-.5);
+const SK=['#f5cfae','#d9a26f','#a8703f','#5b3a24'],HC={k:'#17110b',n:'#5b3a1e',y:'#e2c35e',r:'#b5481f'};
+const PL=(s,d)=>{const q=s.split(':'),o=q[2]||d;return{n:q[0],no:+q[1],s:+o[0],h:o[1]}};
+const TEAMS=RAW.split('\n').map(l=>{const a=l.split('|');return{c:a[0],f:a[1],ru:a[2],en:a[3],es:a[4],st:+a[5],sh:a[6],sw:a[7],so:a[8],gk:PL(a[10],a[9]),p:a[11].split(';').map(s=>PL(s,a[9])).slice(0,10)}});
+const TM=Object.fromEntries(TEAMS.map(t=>[t.c,t]));
+const WC=HIST.split('\n').map(l=>{const a=l.split('|');return{yr:a[0],t:TM[a[1]],gk:PL(a[3],a[2]),p:a[4].split(';').map(s=>PL(s,a[2]))}});
+const L={
+ru:{badge:'Новый режим',title:'Пенальти',desc:'Выбери одну из 64 сборных и пройди серии пенальти. Сложность от 3★ до чемпионов мира разных лет. Сам выбираешь, кто из 11 бьёт и куда прыгает вратарь.',back:'В меню',pick:'Выбери сборную',search:'Поиск сборной…',diff:'Сложность',d0:'Лёгкий · 3–3,5★',d1:'Средний · 4–4,5★',d2:'Сложный · 5★',d3:'Экстремальный · чемпионы мира',focus:'Баланс команды',f0:'Атака',f1:'Баланс',f2:'Защита',kicks:'Ударов в серии',stages:'Соперников',auto:'Порядок бьющих',a0:'Выбираю сам',a1:'Автоматически',start:'Начать серию',squad:'Состав (вратарь и 10 игроков)',gk:'Вратарь',stage:'Соперник',goal:'ГОЛ!',save:'СЕЙВ!',miss:'МИМО!',order:'Выбери, кто бьёт (11 игроков)',aim:'Выбери угол ворот и бей!',dive:'Соперник бьёт: выбери угол прыжка вратаря',shoots:'Бьёт',won:'Победа в серии!',lost:'Поражение в серии',next:'Следующий соперник',again:'Играть заново',champ:'Все соперники пройдены, ты чемпион!',over:'Побед подряд: ',sd:'Дополнительные удары',br:'Сетка',brT:'Сетка турнира',nokit:'выбери сборную'},
+en:{badge:'New mode',title:'Penalties',desc:'Pick one of 64 national teams and win penalty shootouts. Difficulty from 3★ teams up to World Cup winners of different years. You choose which of 11 shoots and where the keeper dives.',back:'Menu',pick:'Pick your team',search:'Search team…',diff:'Difficulty',d0:'Easy · 3–3.5★',d1:'Medium · 4–4.5★',d2:'Hard · 5★',d3:'Extreme · World Cup winners',focus:'Team balance',f0:'Attack',f1:'Balanced',f2:'Defence',kicks:'Kicks per shootout',stages:'Opponents',auto:'Taker order',a0:'I choose',a1:'Automatic',start:'Start shootout',squad:'Line-up (keeper and 10 players)',gk:'Goalkeeper',stage:'Opponent',goal:'GOAL!',save:'SAVED!',miss:'MISSED!',order:'Choose who takes the kick (11 players)',aim:'Pick a corner and shoot!',dive:'Opponent shoots: pick your keeper’s dive',shoots:'Taker',won:'Shootout won!',lost:'Shootout lost',next:'Next opponent',again:'Play again',champ:'All opponents beaten, you are champion!',over:'Wins in a row: ',sd:'Sudden death',br:'Bracket',brT:'Tournament bracket',nokit:'pick a team'},
+es:{badge:'Nuevo modo',title:'Penaltis',desc:'Elige una de las 64 selecciones y gana tandas de penaltis. Dificultad desde 3★ hasta campeones del mundo de distintos años. Tú eliges cuál de los 11 lanza y hacia dónde se lanza el portero.',back:'Menú',pick:'Elige tu selección',search:'Buscar selección…',diff:'Dificultad',d0:'Fácil · 3–3,5★',d1:'Medio · 4–4,5★',d2:'Difícil · 5★',d3:'Extremo · campeones del mundo',focus:'Equilibrio del equipo',f0:'Ataque',f1:'Equilibrado',f2:'Defensa',kicks:'Tiros por tanda',stages:'Rivales',auto:'Orden de lanzadores',a0:'Elijo yo',a1:'Automático',start:'Empezar tanda',squad:'Alineación (portero y 10 jugadores)',gk:'Portero',stage:'Rival',goal:'¡GOL!',save:'¡PARADA!',miss:'¡FUERA!',order:'Elige quién lanza (11 jugadores)',aim:'¡Elige una esquina y chuta!',dive:'Tira el rival: elige hacia dónde se lanza tu portero',shoots:'Lanza',won:'¡Tanda ganada!',lost:'Tanda perdida',next:'Siguiente rival',again:'Jugar de nuevo',champ:'¡Has vencido a todos, campeón!',over:'Victorias seguidas: ',sd:'Muerte súbita',br:'Cuadro',brT:'Cuadro del torneo',nokit:'elige una selección'}};
+for(const l in L)for(const k in L[l])i18n[l]['pen_'+k]=L[l][k];
+const t=k=>(i18n[app.lang]||i18n.ru)['pen_'+k],nm=x=>x[app.lang]||x.en;
+const lum=h=>{const n=parseInt(h.slice(1),16);return(n>>16)*.3+((n>>8)&255)*.59+(n&255)*.11};
+const kit=(tm,p,alt)=>{const sh=alt?'#f8fafc':tm.sh;return{skin:SK[p.s],hair:HC[p.h]||null,shirt:sh,short:alt?'#1e293b':tm.sw,sock:alt?'#f8fafc':tm.so,num:p.no,nc:lum(sh)>140?'#111':'#fff'}};
+const gkit=(p,c)=>({skin:SK[p.s],hair:HC[p.h]||null,shirt:c,short:'#111',sock:'#111',num:p.no,nc:'#fff'});
+const av=(tm,p)=>`<svg width="30" height="38" viewBox="-16 -50 32 62"><rect x="-13" y="-22" width="26" height="30" rx="4" fill="${tm.sh}" stroke="#0004"/><circle cy="-34" r="10" fill="${SK[p.s]}"/>${HC[p.h]?`<path d="M-10-34a10 10 0 0 1 20 0z" fill="${HC[p.h]}"/>`:''}<text y="-3" text-anchor="middle" font-size="14" font-weight="800" fill="${lum(tm.sh)>140?'#111':'#fff'}">${p.no}</text></svg>`;
+let S0={t:null,d:0,focus:1,kicks:5,stages:5,auto:0,q:''},S=null;
+// ---------- sounds (Web Audio, respects the global sound switch) ----------
+const SN={amb:null,
+c(){if(!sound.enabled)return null;sound.init();return sound.ctx},
+nb(d){const c=sound.ctx,b=c.createBuffer(1,c.sampleRate*d,c.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;return b},
+noise(d,vol,type,f,q,sw,dl=0){const c=this.c();if(!c)return;const s=c.createBufferSource();s.buffer=this.nb(d);const fl=c.createBiquadFilter();fl.type=type;fl.frequency.value=f;fl.Q.value=q;const g=c.createGain(),n=c.currentTime+dl;g.gain.setValueAtTime(.001,n);g.gain.linearRampToValueAtTime(vol,n+d*sw);g.gain.exponentialRampToValueAtTime(.001,n+d);s.connect(fl);fl.connect(g);g.connect(c.destination);s.start(n)},
+tone(f1,f2,d,type,vol,dl=0){const c=this.c();if(!c)return;const o=c.createOscillator(),g=c.createGain(),n=c.currentTime+dl;o.type=type;o.frequency.setValueAtTime(f1,n);o.frequency.exponentialRampToValueAtTime(f2,n+d);g.gain.setValueAtTime(vol,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(c.destination);o.start(n);o.stop(n+d)},
+whistle(n=1){const c=this.c();if(!c)return;for(let i=0;i<n;i++){const st=c.currentTime+i*.32,o=c.createOscillator(),l=c.createOscillator(),lg=c.createGain(),g=c.createGain();o.type='sine';o.frequency.value=2900;l.frequency.value=38;lg.gain.value=90;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(.001,st);g.gain.linearRampToValueAtTime(.16,st+.02);g.gain.setValueAtTime(.16,st+.22);g.gain.exponentialRampToValueAtTime(.001,st+.27);o.connect(g);g.connect(c.destination);o.start(st);l.start(st);o.stop(st+.3);l.stop(st+.3)}},
+kick(){this.tone(170,45,.14,'triangle',.35);this.noise(.05,.2,'highpass',2500,1,.1)},
+goal(){this.noise(.18,.5,'lowpass',250,1,.05);this.noise(2.6,.55,'bandpass',950,.6,.18);this.noise(2.2,.3,'bandpass',1800,.8,.25,.1);this.tone(520,520,.5,'square',.05,.15);this.tone(780,780,.6,'square',.05,.4)},
+save(){this.noise(.2,.4,'lowpass',400,1,.05);this.noise(1.2,.3,'bandpass',700,.7,.15)},
+miss(){this.noise(1.5,.22,'bandpass',520,.8,.1);this.tone(330,110,.9,'sawtooth',.05)},
+win(){sound.playFanfare();this.noise(3,.5,'bandpass',1000,.6,.2)},
+lose(){this.noise(2,.22,'bandpass',450,.8,.1);this.tone(300,90,1.2,'sawtooth',.06)},
+ambOn(){this.ambOff();const c=this.c();if(!c)return;const s=c.createBufferSource();s.buffer=this.nb(4);s.loop=true;const f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=600;const g=c.createGain();g.gain.value=.05;s.connect(f);f.connect(g);g.connect(c.destination);s.start();this.amb=s},
+ambOff(){try{this.amb&&this.amb.stop()}catch(e){}this.amb=null}};
+// ---------- canvas ----------
+const cv=$('pen-cv'),C=cv.getContext('2d'),TX=[225,320,415],TY=[138,184];
+const tgt=(z,miss)=>{const c=z%3,r=z/3|0;return!miss?[TX[c],TY[r]]:(r==0||c==1)?[TX[c],72]:[c?505:135,184]};
+function scene(){const g=C,gr=g.createLinearGradient(0,0,0,420);gr.addColorStop(0,'#0b1220');gr.addColorStop(.2,'#1e293b');gr.addColorStop(.21,'#2f7d4f');gr.addColorStop(1,'#14532d');g.fillStyle=gr;g.fillRect(0,0,640,420);
+for(let i=0;i<260;i++){g.fillStyle=`hsl(${i*47%360},40%,${25+i*13%30}%)`;g.fillRect(i*37%640,i*17%80,4,4)}
+for(let i=0;i<8;i++){g.fillStyle=i%2?'#ffffff08':'#00000010';g.fillRect(0,95+i*40,640,40)}
+g.strokeStyle='#ffffffaa';g.lineWidth=3;g.beginPath();g.moveTo(40,212);g.lineTo(600,212);g.moveTo(150,212);g.lineTo(90,372);g.lineTo(550,372);g.lineTo(490,212);g.stroke();
+g.fillStyle='#fff';g.beginPath();g.arc(320,320,3,0,7);g.fill();
+g.fillStyle='#ffffff14';g.fillRect(170,100,300,112);g.strokeStyle='#ffffff30';g.lineWidth=1;for(let x=170;x<=470;x+=14){g.beginPath();g.moveTo(x,100);g.lineTo(x,212);g.stroke()}for(let y=100;y<=212;y+=14){g.beginPath();g.moveTo(170,y);g.lineTo(470,y);g.stroke()}
+g.strokeStyle='#fff';g.lineWidth=6;g.beginPath();g.moveTo(170,212);g.lineTo(170,100);g.lineTo(470,100);g.lineTo(470,212);g.stroke()}
+function fig(x,y,sc,o){const g=C;g.save();g.translate(x,y);g.scale(sc,sc);const la=o.leg||[0,0],aa=o.arm||[.15,-.15];
+[0,1].forEach(i=>{g.save();g.translate(i?9:-9,-58);g.rotate(la[i]);g.fillStyle=o.skin;g.fillRect(-6,0,12,52);g.fillStyle=o.sock;g.fillRect(-6,24,12,28);g.fillStyle='#111';g.fillRect(-7,50,14,6);g.restore()});
+g.fillStyle=o.short;g.fillRect(-20,-66,40,26);g.fillStyle=o.shirt;g.fillRect(-21,-106,42,46);
+[0,1].forEach(i=>{g.save();g.translate(i?24:-24,-100);g.rotate(aa[i]);g.fillStyle=o.skin;g.fillRect(-5,0,10,38);g.fillStyle=o.shirt;g.fillRect(-6,0,12,14);if(o.glove){g.fillStyle='#fde047';g.beginPath();g.arc(0,42,8,0,7);g.fill()}g.restore()});
+g.fillStyle=o.skin;g.fillRect(-4,-112,8,8);g.beginPath();g.arc(0,-120,11,0,7);g.fill();if(o.hair){g.fillStyle=o.hair;g.beginPath();g.arc(0,-121,11,0,7);g.fill()}
+if(o.num!=null){g.fillStyle=o.nc;g.font='bold 22px sans-serif';g.textAlign='center';g.fillText(o.num,0,-76)}g.restore()}
+function draw(o,e){scene();const run=cl(e/700),kk=cl((e-700)/180),fl=cl((e-880)/620),gk=cl((e-840)/560),ge=gk*gk*(3-2*gk);
+const [kx]=tgt(o.kz),c=o.kz%3,r=o.kz/3|0,gx=320+(kx-320)*.85*ge,gy=212-(r?5:38)*ge-22*Math.sin(Math.PI*ge);
+C.save();C.translate(gx,gy-40);C.rotate((c-1)*.95*ge);C.translate(-gx,-gy+40);fig(gx,gy,.71,{...o.gk,glove:1,arm:[lerp(.5,2.6,ge),-lerp(.5,2.6,ge)]});C.restore();
+let bx=322,by=314,br=9;if(fl>0){const [tx,ty]=o.out==='goal'?tgt(o.z):o.out==='save'?tgt(o.kz):tgt(o.z,1);bx=lerp(322,tx,fl);by=lerp(314,ty,fl)-55*Math.sin(Math.PI*fl);br=lerp(9,4.5,fl)}
+C.fillStyle='#0003';C.beginPath();C.ellipse(bx,by+br,br,br/3,0,0,7);C.fill();C.fillStyle='#fff';C.beginPath();C.arc(bx,by,br,0,7);C.fill();C.fillStyle='#222';C.beginPath();C.arc(bx,by,br*.38,0,7);C.fill();
+const sw=run<1?Math.sin(e*.022)*.7:0,kl=-1.3*kk*(1-.5*fl);
+fig(lerp(190,272,run),lerp(418,410,run),1.2,{...o.ke,leg:[sw,-sw+kl],arm:[-sw*.8,sw*.8]});
+if(fl>=1&&e>1500){C.font='bold 56px sans-serif';C.textAlign='center';C.lineWidth=8;C.strokeStyle='#000';C.fillStyle=o.out==='goal'?'#34d399':o.out==='save'?'#60a5fa':'#f87171';C.strokeText(o.label,320,260);C.fillText(o.label,320,260)}}
+const anim=o=>new Promise(res=>{const t0=performance.now();let a=0,b=0,c=0;(function f(n){const e=n-t0;draw(o,e);if(!a){a=1;SN.whistle(1)}if(!b&&e>860){b=1;SN.kick()}if(!c&&e>1450){c=1;SN[o.out]()}e<2600?requestAnimationFrame(f):res()})(t0)});
+// ---------- logic ----------
+const mk=(tm,gk,p,extra)=>({t:tm,gk,p,sh:[gk,...p],...extra});
+const alt=()=>S.opp.t===S.mine.t;
+function winner(){const N=S.kicks,a=S.my.length,b=S.op.length,A=cnt(S.my),B=cnt(S.op);if(a<N||b<N){if(A>B+N-b)return'me';if(B>A+N-a)return'op';return null}return a===b&&A!==B?(A>B?'me':'op'):null}
+function pose(sh,mine){const m=S.mine,o=S.opp;return mine?{ke:kit(m.t,sh),gk:gkit(o.gk,'#16a34a'),z:0,kz:1,out:'goal',label:''}:{ke:kit(o.t,sh,alt()),gk:gkit(m.gk,'#f97316'),z:0,kz:1,out:'goal',label:''}}
+function pickFrom(list,used){let a=list.filter(p=>!used.includes(p));if(!a.length){used.length=0;a=list.slice()}return a}
+function turn(){const w=winner();if(w)return finish(w);S.turn=S.my.length<=S.op.length?'me':'op';S.busy=false;
+if(S.turn==='me'){S.av=pickFrom(S.mine.sh,S.mu);S.cur=S.av[0];S.ready=false;
+ if(S0.auto){S.cur=S.av[0];S.mu.push(S.cur);S.ready=true;$('pen-picker').innerHTML='';msg(t('aim'))}
+ else{$('pen-picker').innerHTML=S.av.map((p,i)=>`<button onclick="penalty.shooter(${i})" class="flex items-center gap-1.5 px-2 py-1 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:border-amber-500 text-[11px] font-bold">${av(S.mine.t,p)}<span>#${p.no} ${p.n}</span></button>`).join('');msg(t('order'))}}
+else{const a=pickFrom(S.opp.sh,S.ou);S.cur=R(a);S.ou.push(S.cur);S.ready=true;$('pen-picker').innerHTML='';msg(t('dive'))}
+ui();draw(pose(S.cur,S.turn==='me'),0)}
+function msg(s){$('pen-msg').textContent=s}
+function who(){const me=S.turn==='me',tm=me?S.mine.t:S.opp.t,gt=me?S.opp:S.mine,p=S.cur,pk=me&&!S.ready&&!S0.auto;
+return`<div class="flex flex-wrap items-center justify-between gap-2 text-xs"><div class="flex items-center gap-2">${pk?'':av(tm,p)}<span class="opacity-70">${t('shoots')}:</span><b>${pk?'—':`${tm.f} #${p.no} ${p.n}`}</b></div><div class="flex items-center gap-2"><span class="opacity-70">${t('gk')}:</span><b>${gt.t.f} #${gt.gk.no} ${gt.gk.n}</b></div></div>`}
+const star=o=>o.yr?'🏆':o.st+'★',oname=o=>nm(o.t)+(o.yr?' '+o.yr:'');
+function ui(){const o=S.opp;$('pen-info').innerHTML=`<span class="opacity-70">${t('stage')} ${S.oi+1}/${S.opps.length}:</span> <b>${o.t.f} ${oname(o)}</b> <span class="text-amber-500">${star(o)}</span>${S.my.length>=S.kicks&&S.op.length>=S.kicks?` · <b class="text-rose-500">${t('sd')}</b>`:''}`;
+const row=(f,a,lab)=>{let d='';for(let i=0;i<Math.max(S.kicks,a.length);i++)d+=`<span class="inline-block w-4 h-4 rounded-full mx-0.5 ${a[i]==='g'?'bg-emerald-500':a[i]==='x'?'bg-rose-500':'bg-slate-300 dark:bg-slate-700'}"></span>`;return`<div class="flex items-center gap-2 text-sm"><span class="w-40 truncate font-bold">${f} ${lab}</span>${d}<b class="ml-2 text-lg">${cnt(a)}</b></div>`};
+$('pen-score').innerHTML=row(S.mine.t.f,S.my,nm(S.mine.t))+row(o.t.f,S.op,oname(o));$('pen-who').innerHTML=who();brk()}
+function brk(){$('pen-br').innerHTML=`<p class="text-xs font-bold mb-2">${t('brT')}</p><div class="flex flex-wrap gap-2">`+S.opps.map((o,i)=>{const r=S.res[i],cur=i===S.oi&&!r;return`<div class="px-3 py-2 rounded-xl border-2 text-xs font-bold ${r==='w'?'border-emerald-500 bg-emerald-500/10':r==='l'?'border-rose-500 bg-rose-500/10':cur?'border-amber-500 bg-amber-500/10':'border-slate-200 dark:border-slate-700'}">${i+1}. ${o.t.f} ${oname(o)} ${r==='w'?'✔':r==='l'?'✖':cur?'▶':''}</div>`}).join('')+'</div>'}
+function shooter(i){if(S.busy||S.turn!=='me'||S.ready)return;sound.playClick();S.cur=S.av[i];S.mu.push(S.cur);S.ready=true;$('pen-picker').innerHTML='';msg(t('aim'));ui();draw(pose(S.cur,true),0)}
+const adj=(a,b)=>a!==b&&(a%3===b%3||(a/3|0)===(b/3|0));
+async function zone(z){if(!S||!S.ready||S.busy)return;S.busy=true;S.ready=false;const me=S.turn==='me',st=S.opp.st,a=[.08,0,-.08][S0.focus];let out,kz;
+if(me){const miss=Math.random()<((z>2)?.05:.12);kz=Math.random()<Math.max(0,.05+.05*(st-3)-a/2)?z:Math.floor(Math.random()*6);
+out=miss?'miss':kz===z?'save':adj(kz,z)&&Math.random()<.1+.06*(st-3)-a?'save':'goal';if(out==='save')kz=z}
+else{const sz=Math.floor(Math.random()*6);kz=z;const miss=Math.random()<Math.max(.04,.17-.025*st);z=sz;out=miss?'miss':kz===z?(Math.random()<.9-a?'save':'goal'):adj(kz,z)&&Math.random()<.22-a?'save':'goal'}
+const o={...pose(S.cur,me),z,kz,out,label:out==='goal'?t('goal'):out==='save'?t('save'):t('miss')};
+const ok=me?out==='goal':out!=='goal';await anim(o);(me?S.my:S.op).push(out==='goal'?'g':'x');turn()}
+function finish(w){const e=$('pen-end'),last=S.oi===S.opps.length-1;S.busy=true;S.res[S.oi]=w==='me'?'w':'l';$('pen-picker').innerHTML='';SN.ambOff();SN.whistle(3);setTimeout(()=>w==='me'?SN.win():SN.lose(),700);brk();
+if(w==='me'){S.wins++;e.innerHTML=`<h3 class="text-2xl font-black text-emerald-400">${last?t('champ'):t('won')}</h3><p class="text-sm">${cnt(S.my)} : ${cnt(S.op)}</p><button onclick="penalty.${last?'again':'next'}()" class="mt-3 px-6 py-3 rounded-xl bg-emerald-500 text-slate-950 font-black text-sm">${last?t('again'):t('next')}</button>`}
+else e.innerHTML=`<h3 class="text-2xl font-black text-rose-400">${t('lost')}</h3><p class="text-sm">${cnt(S.my)} : ${cnt(S.op)} · ${t('over')}${S.wins}</p><div class="flex gap-2 justify-center mt-3"><button onclick="penalty.again()" class="px-5 py-3 rounded-xl bg-amber-500 text-slate-950 font-black text-sm">${t('again')}</button><button onclick="app.navToMenu()" class="px-5 py-3 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold text-sm">${t('back')}</button></div>`;
+e.classList.remove('hidden')}
+function begin(){S.opp=S.opps[S.oi];S.my=[];S.op=[];S.mu=[];S.ou=[];$('pen-end').classList.add('hidden');app.showScreen('screen-pen-game');SN.ambOn();SN.whistle(1);turn()}
+function setup(){const d=S0.d,tm=S0.t,pool=TEAMS.filter(x=>x!==tm&&(d==0?x.st<4:d==1?x.st>=4&&x.st<5:x.st==5)),n=Math.min(S0.stages,d==3?WC.length:pool.length);
+const opps=d==3?shf(WC).slice(0,n).map(w=>mk(w.t,w.gk,w.p,{yr:w.yr,st:5.5})):shf(pool).slice(0,n).map(x=>mk(x,x.gk,x.p,{st:x.st}));
+S={mine:mk(tm,tm.gk,tm.p),opps,oi:0,wins:0,kicks:S0.kicks,res:[]};begin()}
+const ob=(on,fn,lab)=>`<button onclick="${fn}" class="px-3 py-2 rounded-xl text-xs font-bold border-2 ${on?'border-amber-500 bg-amber-500/10':'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800'}">${lab}</button>`;
+function renderSetup(){const tm=S0.t,q=S0.q.toLowerCase();
+$('pen-diff').innerHTML=[0,1,2,3].map(i=>ob(S0.d===i,`penalty.set('d',${i})`,t('d'+i))).join('');
+$('pen-opts').innerHTML=[[t('focus'),'focus',[0,1,2].map(i=>[i,t('f'+i)])],[t('kicks'),'kicks',[[3,3],[5,5],[7,7]]],[t('stages'),'stages',[[3,3],[5,5],[8,8]]],[t('auto'),'auto',[[0,t('a0')],[1,t('a1')]]]].map(g=>`<div><p class="text-[11px] font-bold mb-1 opacity-70">${g[0]}</p><div class="flex flex-wrap gap-1.5">${g[2].map(v=>ob(S0[g[1]]===v[0],`penalty.set('${g[1]}',${v[0]})`,v[1])).join('')}</div></div>`).join('');
+const pi=$('pen-q');pi.placeholder=t('search');
+$('pen-teams').innerHTML=TEAMS.filter(x=>!q||[x.ru,x.en,x.es,x.c].some(s=>s.toLowerCase().includes(q))).map(x=>`<button onclick="penalty.team('${x.c}')" class="p-2 rounded-xl border-2 text-center ${tm===x?'border-amber-500 bg-amber-500/10':'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800'}"><div class="text-2xl">${x.f}</div><div class="text-[10px] font-bold truncate">${nm(x)}</div><div class="text-[9px] text-amber-500">${x.st}★</div></button>`).join('');
+$('pen-squad').innerHTML=tm?[tm.gk,...tm.p].map((p,i)=>`<div class="flex items-center gap-2 px-2 py-1 rounded-xl ${i?'bg-slate-100 dark:bg-slate-800':'bg-amber-500/15'} text-xs font-bold">${av(tm,p)}<span>#${p.no} ${p.n}${i?'':' · '+t('gk')}</span></div>`).join(''):`<span class="text-xs opacity-60">${t('nokit')}</span>`;
+$('pen-start').disabled=!tm;$('pen-start').classList.toggle('opacity-40',!tm)}
+// ---------- wiring ----------
+$('pen-zones').innerHTML=[0,1,2,3,4,5].map(i=>`<button onclick="penalty.zone(${i})" class="border border-white/25 hover:bg-amber-400/35 rounded-sm"></button>`).join('');
+const _ss=app.showScreen.bind(app);app.showScreen=id=>{['screen-pen-setup','screen-pen-game'].forEach(i=>$(i).classList.add('hidden'));if(id!=='screen-pen-game')SN.ambOff();_ss(id)};
+const _at=app.applyTranslations.bind(app);app.applyTranslations=()=>{_at();if(!$('screen-pen-setup').classList.contains('hidden'))renderSetup();if(!$('screen-pen-game').classList.contains('hidden')&&S){ui();$('pen-end').classList.contains('hidden')&&msg(S.turn==='me'?(S.ready?t('aim'):S0.auto?t('aim'):t('order')):t('dive'))}};
+window.penalty={open(){sound.playClick();app.showScreen('screen-pen-setup');renderSetup()},set(k,v){sound.playClick();S0[k]=v;renderSetup()},team(c){sound.playClick();S0.t=TM[c];renderSetup()},find(v){S0.q=v;renderSetup()},start(){if(S0.t){sound.playClick();setup()}},zone,shooter,bracket(){sound.playClick();$('pen-br').classList.toggle('hidden')},next(){S.oi++;begin()},again(){app.showScreen('screen-pen-setup');renderSetup()}};
+// ---------- icon fallback (if Font Awesome stylesheet is blocked, show emoji instead) ----------
+const M={trophy:'🏆',sitemap:'🔀','xmark':'✕','volume-high':'🔊','rotate-left':'↶','arrow-right':'→','volume-xmark':'🔇',volleyball:'🏐',sun:'☀️',shirt:'👕','rotate-right':'↷',plus:'＋',moon:'🌙','list-ol':'🔢','layer-group':'🗂',futbol:'⚽','eye-slash':'🙈',eye:'👁','circle-check':'✔',book:'📖'};
+const sty=document.createElement('style');sty.textContent='.no-fa .fa-solid,.no-fa .fa-regular{font-family:system-ui,"Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-style:normal;font-weight:400;display:inline-block}'+Object.keys(M).map(k=>`.no-fa .fa-${k}::before{content:"${M[k]}"}`).join('');document.head.appendChild(sty);
+const chk=()=>{const i=document.createElement('i');i.className='fa-solid fa-futbol';i.style.cssText='position:absolute;opacity:0';document.body.appendChild(i);const ok=/awesome/i.test(getComputedStyle(i).fontFamily);i.remove();document.documentElement.classList.toggle('no-fa',!ok)};
+chk();window.addEventListener('load',chk);setTimeout(chk,1500);setTimeout(chk,4000);
+})();
+</script>
 </body>
 </html>
