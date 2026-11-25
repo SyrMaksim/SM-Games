@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" class="dark">
 <head>
+    <script>try{var __s=JSON.parse(localStorage.getItem("smgames_settings_v1")||"{}");if(__s.theme==="light")document.documentElement.classList.remove("dark");else if(__s.theme==="dark")document.documentElement.classList.add("dark")}catch(e){}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SM Games • Автор SyrMaksim</title>
@@ -92,16 +93,20 @@
         }
     </style>
 <style id="sm-compact-css">
-#mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
-@media(min-width:1024px){#mode-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}}
-#mode-grid>div{max-width:none!important;margin:0!important;padding:.8rem!important;flex-direction:column!important;align-items:stretch!important;justify-content:space-between!important;gap:.55rem!important;border-radius:1rem!important;cursor:pointer;box-shadow:none!important}
-#mode-grid>div>div{text-align:left!important;gap:.2rem}
-#mode-grid h3{font-size:1rem!important;line-height:1.2!important}
-#mode-grid p{font-size:11px!important;line-height:1.3!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-@media(min-width:640px){#mode-grid p{-webkit-line-clamp:3}}
-#mode-grid button{padding:.45rem .6rem!important;font-size:.75rem!important;justify-content:center;width:100%}
-#mode-grid .w-12{width:1.9rem!important;height:1.9rem!important;font-size:1rem!important;margin:0 0 .15rem 0!important}
-#mode-grid span.rounded{padding:.05rem .35rem!important}
+#mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+@media(min-width:1024px){#mode-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}}
+#mode-grid>div{--rgb:16,185,129;--c:rgb(var(--rgb));display:flex!important;position:relative;overflow:hidden;max-width:none!important;margin:0!important;padding:1rem .75rem .85rem!important;flex-direction:column!important;align-items:center!important;justify-content:space-between!important;gap:.6rem!important;border-radius:1.1rem!important;cursor:pointer;text-align:center;min-height:clamp(210px,58vw,260px);border-color:rgba(var(--rgb),.5)!important;box-shadow:0 0 0 1px rgba(var(--rgb),.18),0 0 22px -8px var(--c)!important;transition:transform .15s ease,box-shadow .2s ease}
+#mode-grid>div:hover{transform:translateY(-3px);box-shadow:0 0 0 1px var(--c),0 0 30px -4px var(--c)!important}
+@media(min-width:1024px){#mode-grid>div{min-height:260px;padding:1.3rem 1rem 1.1rem!important}}
+#mode-grid>div::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(var(--rgb),.2),transparent 62%);pointer-events:none}
+#mode-grid>div>*{position:relative}
+#mode-grid>div:nth-child(1){--rgb:20,184,166}#mode-grid>div:nth-child(2){--rgb:16,185,129}#mode-grid>div:nth-child(3){--rgb:245,158,11}#mode-grid>div:nth-child(4){--rgb:14,165,233}#mode-grid>div:nth-child(5){--rgb:139,92,246}#mode-grid>div:nth-child(6){--rgb:244,63,94}
+.mode-ico{width:clamp(64px,23vw,96px);height:clamp(64px,23vw,96px);color:var(--c);filter:drop-shadow(0 0 8px rgba(var(--rgb),.75));display:flex;align-items:center;justify-content:center;flex:none}
+.mode-ico svg{width:100%;height:100%;display:block}
+#mode-grid>div>div:not(.mode-ico){text-align:center!important;width:100%}
+#mode-grid h3{font-size:clamp(.95rem,4vw,1.2rem)!important;line-height:1.2!important;text-align:center}
+#mode-grid button{display:inline-flex!important;align-items:center;justify-content:center;gap:.4rem;padding:.6rem .8rem!important;font-size:.8rem!important;width:100%}
+#mode-grid button svg{width:16px;height:16px;flex:none}
 #screen-menu{row-gap:.9rem}
 .football-pitch{--rowh:clamp(64px,17vw,92px);justify-content:space-evenly!important}
 #wc-live-score{white-space:nowrap}
@@ -153,9 +158,6 @@
         <!-- SCREEN 1: MAIN MENU -->
         <section id="screen-menu" class="space-y-8 my-auto">
             <div class="text-center max-w-2xl mx-auto space-y-3">
-                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" data-i18n="menuBadge">
-                    256 Игроков • Все Эпохи
-                </span>
                 <h2 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight" data-i18n="menuTitle">
                     SM Games
                 </h2>
@@ -164,69 +166,61 @@
             <div id="mode-grid" class="max-w-4xl mx-auto w-full">
             <!-- Game Mode: Your favourite footballer (groups + playoff merged) -->
             <div class="max-w-4xl mx-auto bg-gradient-to-r from-teal-50 via-white to-white dark:from-teal-950 dark:via-slate-900 dark:to-slate-900 border border-teal-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="mode-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="30" cy="11" r="6"/><path d="M30 19l-4 15 10 2M26 34l-8-4M30 21l10 5M26 34l-4 12-8 6M36 36l6 10h8"/><circle cx="51" cy="54" r="5"/><path d="M49 52l2-1 2 1-1 2.4h-2z" fill="currentColor" stroke-width="1"/></svg></div>
                 <div class="space-y-2 text-center md:text-left">
-                    <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center text-2xl mx-auto md:mx-0"><i class="fa-solid fa-layer-group"></i></div>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="fav_title">Твой любимый футболист</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="fav_desc">Выбери любимого футболиста из 256 игроков в дуэлях 1 на 1. Начни сразу с плей-офф или пройди групповой этап: 16 игроков в группе, 8 лучших выходят дальше.</p>
                 </div>
                 <button onclick="favMode.open()" class="px-8 py-3.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-black text-sm shadow-lg shrink-0 flex items-center gap-2">
-                    <span data-i18n="start">Старт</span> <i class="fa-solid fa-arrow-right"></i>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg> <span data-i18n="start">Старт</span> 
                 </button>
             </div>
 
             <div class="max-w-4xl mx-auto bg-gradient-to-r from-emerald-50 via-white to-white dark:from-emerald-950 dark:via-slate-900 dark:to-slate-900 border border-emerald-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+                <div class="mode-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="5" width="50" height="54" rx="4"/><path d="M7 32h50"/><circle cx="32" cy="32" r="6"/><g fill="currentColor" stroke="none"><circle cx="32" cy="53" r="2.5"/><circle cx="15" cy="44" r="2.5"/><circle cx="26" cy="44" r="2.5"/><circle cx="38" cy="44" r="2.5"/><circle cx="49" cy="44" r="2.5"/><circle cx="19" cy="35" r="2.5"/><circle cx="32" cy="39" r="2.5"/><circle cx="45" cy="35" r="2.5"/><circle cx="19" cy="17" r="2.5"/><circle cx="32" cy="14" r="2.5"/><circle cx="45" cy="17" r="2.5"/></g></svg></div>
                 <div class="space-y-2 z-10 text-center md:text-left">
-                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-500 text-slate-950 dark:bg-emerald-400" data-i18n="otherModesTitle">Режим Драфта</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="ideal11Title">Твоя идеальная 11</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="draftMemoText">
-                        Используй формат драфта игроков на позиции. Соберите 11 игроков в единый состав, подбирая игроков под выбранную тактику и проверяя свою футбольную память!
-                    </p>
                 </div>
                 <button onclick="app.openDraftSetupModal()" class="z-10 px-8 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-shirt"></i> <span data-i18n="play">Играть</span>
+                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg> <span data-i18n="play">Играть</span>
                 </button>
             </div>
             <div class="max-w-4xl mx-auto bg-gradient-to-r from-amber-50 via-white to-white dark:from-amber-950 dark:via-slate-900 dark:to-slate-900 border border-amber-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="mode-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 50V18h50v32"/><path d="M19 18v32M32 18v32M45 18v32M7 28h50M7 39h50" opacity=".4" stroke-width="1.6"/><path d="M3 54h58"/><circle cx="41" cy="42" r="7" fill="currentColor" fill-opacity=".18"/><path d="M38.5 39.5l2.5-1.7 2.5 1.7-1 3h-3z" fill="currentColor" stroke-width="1"/></svg></div>
                 <div class="space-y-2 text-center md:text-left">
-                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-amber-500 text-slate-950" data-i18n="pen_badge">Новый режим</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="pen_title">Пенальти</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="pen_desc">Выбери одну из 72 сборных и пройди серии пенальти. Сложность от 3★ до чемпионов мира разных лет. Сам выбираешь, кто из 11 бьёт и куда прыгает вратарь.</p>
                 </div>
                 <button onclick="penalty.open()" class="px-8 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-lg shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-futbol"></i> <span data-i18n="play">Играть</span>
+                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg> <span data-i18n="play">Играть</span>
                 </button>
             </div>
 
             <div class="max-w-4xl mx-auto bg-gradient-to-r from-sky-50 via-white to-white dark:from-sky-950 dark:via-slate-900 dark:to-slate-900 border border-sky-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="mode-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 8h24v16a12 12 0 0 1-24 0z" fill="currentColor" fill-opacity=".15"/><path d="M20 12h-9v5a9 9 0 0 0 9 9M44 12h9v5a9 9 0 0 1-9 9"/><path d="M32 36v10M25 46h14v8H25zM21 56h22"/><path d="M32 15l2 4 4.4.6-3.2 3 .8 4.4-4-2.1-4 2.1.8-4.4-3.2-3 4.4-.6z" fill="currentColor" stroke-width="1"/></svg></div>
                 <div class="space-y-2 text-center md:text-left">
-                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-sky-500 text-slate-950" data-i18n="car_badge">Новый режим</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="car_title">Карьера</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="car_desc">Выбери или создай футболиста и пройди путь от скромного клуба до топ‑клуба: матчи, события, трансферы, трофеи. Прогресс сохраняется.</p>
                 </div>
                 <button onclick="career.open()" class="px-8 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm shadow-lg shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-futbol"></i> <span data-i18n="play">Играть</span>
+                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg> <span data-i18n="play">Играть</span>
                 </button>
             </div>
 
             <div class="max-w-4xl mx-auto bg-gradient-to-r from-violet-50 via-white to-white dark:from-violet-950 dark:via-slate-900 dark:to-slate-900 border border-violet-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="mode-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="currentColor" fill-opacity=".12"/><path d="M23.5 25.5a8.5 8.5 0 1 1 12 7.8c-2.4 1.2-3.5 2.6-3.5 5.2"/><circle cx="32" cy="46" r="2" fill="currentColor" stroke="none"/></svg></div>
                 <div class="space-y-2 text-center md:text-left">
-                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-violet-500 text-white" data-i18n="qz_badge">Новый режим</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="qz_title">ФутболКвиз</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="qz_desc">20 вопросов о футболе, по 10 секунд на ответ. Чем длиннее серия верных ответов, тем больше очков. Три уровня сложности и рекорды.</p>
                 </div>
                 <button onclick="quiz.open()" class="px-8 py-3.5 rounded-xl bg-violet-500 hover:bg-violet-400 text-white font-black text-sm shadow-lg shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-futbol"></i> <span data-i18n="play">Играть</span>
+                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg> <span data-i18n="play">Играть</span>
                 </button>
             </div>
 
             <div class="max-w-4xl mx-auto bg-gradient-to-r from-rose-50 via-white to-white dark:from-rose-950 dark:via-slate-900 dark:to-slate-900 border border-rose-500/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div class="mode-ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="20" r="11" fill="currentColor" fill-opacity=".2"/><path d="M10 58c0-13 9.5-21 22-21s22 8 22 21z" fill="currentColor" fill-opacity=".2"/><path d="M27.8 18.2a4.4 4.4 0 1 1 6.3 3.9c-1.2.6-1.9 1.4-1.9 2.7" stroke-width="2"/><circle cx="32.2" cy="28" r="1.1" fill="currentColor" stroke="none"/></svg></div>
                 <div class="space-y-2 text-center md:text-left">
-                    <span class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-rose-500 text-white" data-i18n="gp_badge">Новый режим</span>
                     <h3 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white" data-i18n="gp_title">Угадай футболиста</h3>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl" data-i18n="gp_desc">Перед тобой цепочка клубов, в которых играл футболист. Угадай, кто это, из 4 вариантов. 20 вопросов из базы в 250 игроков, на каждый ровно 10 секунд. Чем быстрее верный ответ и длиннее серия, тем больше очков.</p>
                 </div>
                 <button onclick="guessPlayer.open()" class="px-8 py-3.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-black text-sm shadow-lg shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-futbol"></i> <span data-i18n="play">Играть</span>
+                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg> <span data-i18n="play">Играть</span>
                 </button>
             </div>
             </div>
@@ -5299,9 +5293,9 @@ const _a=app.applyTranslations.bind(app);app.applyTranslations=()=>{_a();if(!$('
 <script>
 (()=>{
 const D={
-ru:{menuBadge:'256 игроков • Все эпохи',fav_title:'Твой любимый футболист',fav_desc:'Выбери любимого футболиста из 256 игроков в дуэлях 1 на 1. Начни сразу с плей-офф или пройди групповой этап: 16 игроков в группе, 8 лучших выходят дальше.',fav_pick:'Выбери формат старта',fav_direct:'Сразу плей-офф',fav_direct_d:'Олимпийская система на выбывание для всех 256 игроков',fav_groups:'Сначала групповой этап',fav_groups_d:'16 групп по 16 игроков, из каждой группы выходят 8 лучших',fav_cancel:'Отмена'},
-en:{menuBadge:'256 players • All eras',fav_title:'Your favourite footballer',fav_desc:'Pick your favourite footballer out of 256 players in 1v1 duels. Start straight with the playoffs or play the group stage first: 16 players per group, the best 8 advance.',fav_pick:'Choose how to start',fav_direct:'Playoffs right away',fav_direct_d:'Straight knockout bracket for all 256 players',fav_groups:'Group stage first',fav_groups_d:'16 groups of 16 players, the best 8 of each group advance',fav_cancel:'Cancel'},
-es:{menuBadge:'256 jugadores • Todas las épocas',fav_title:'Tu futbolista favorito',fav_desc:'Elige a tu futbolista favorito entre 256 jugadores en duelos 1v1. Empieza directo con las eliminatorias o juega antes la fase de grupos: 16 jugadores por grupo, pasan los 8 mejores.',fav_pick:'Elige cómo empezar',fav_direct:'Directo a eliminatorias',fav_direct_d:'Eliminación directa para los 256 jugadores',fav_groups:'Primero la fase de grupos',fav_groups_d:'16 grupos de 16 jugadores, pasan los 8 mejores de cada grupo',fav_cancel:'Cancelar'}};
+ru:{fav_title:'Твой любимый футболист',fav_desc:'Выбери любимого футболиста из 256 игроков в дуэлях 1 на 1. Начни сразу с плей-офф или пройди групповой этап: 16 игроков в группе, 8 лучших выходят дальше.',fav_pick:'Выбери формат старта',fav_direct:'Сразу плей-офф',fav_direct_d:'Олимпийская система на выбывание для всех 256 игроков',fav_groups:'Сначала групповой этап',fav_groups_d:'16 групп по 16 игроков, из каждой группы выходят 8 лучших',fav_cancel:'Отмена'},
+en:{fav_title:'Your favourite footballer',fav_desc:'Pick your favourite footballer out of 256 players in 1v1 duels. Start straight with the playoffs or play the group stage first: 16 players per group, the best 8 advance.',fav_pick:'Choose how to start',fav_direct:'Playoffs right away',fav_direct_d:'Straight knockout bracket for all 256 players',fav_groups:'Group stage first',fav_groups_d:'16 groups of 16 players, the best 8 of each group advance',fav_cancel:'Cancel'},
+es:{fav_title:'Tu futbolista favorito',fav_desc:'Elige a tu futbolista favorito entre 256 jugadores en duelos 1v1. Empieza directo con las eliminatorias o juega antes la fase de grupos: 16 jugadores por grupo, pasan los 8 mejores.',fav_pick:'Elige cómo empezar',fav_direct:'Directo a eliminatorias',fav_direct_d:'Eliminación directa para los 256 jugadores',fav_groups:'Primero la fase de grupos',fav_groups_d:'16 grupos de 16 jugadores, pasan los 8 mejores de cada grupo',fav_cancel:'Cancelar'}};
 for(const l in D)Object.assign(i18n[l],D[l]);
 // --- format choice modal ---
 const m=document.createElement('div');m.id='fav-modal';m.className='hidden fixed inset-0 z-50 items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4';
@@ -5336,6 +5330,29 @@ document.querySelectorAll('table').forEach(t=>{const p=t.parentElement;if(p&&!p.
 // --- first-load fix: every extra script has registered its texts now, so render all descriptions on the active language right away ---
 app.applyTranslations();
 })();
+</script>
+<script>
+(()=>{
+// ---------- saved user settings: theme, language, sound (restored on every page load) ----------
+const KEY='smgames_settings_v1';
+const read=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}};
+const save=p=>{try{localStorage.setItem(KEY,JSON.stringify(Object.assign(read(),p)))}catch(e){}};
+const theme=()=>document.documentElement.classList.contains('dark')?'dark':'light';
+const _th=app.toggleTheme.bind(app),_so=app.toggleSound.bind(app),_la=app.changeLanguage.bind(app);
+app.toggleTheme=()=>{_th();save({theme:theme()})};
+app.toggleSound=()=>{_so();save({sound:!!sound.enabled})};
+app.changeLanguage=l=>{_la(l);if(i18n[l])save({lang:app.lang})};
+const s=read();
+if(s.theme==='light'||s.theme==='dark')document.documentElement.classList.toggle('dark',s.theme==='dark');
+if(s.sound===false&&sound.enabled)_so();                                   // sets sound off and updates the speaker icon (makes no sound)
+if(s.lang&&i18n[s.lang]&&s.lang!==app.lang){app.lang=s.lang;document.documentElement.lang=s.lang;app.applyTranslations()}
+else if(s.lang)document.documentElement.lang=s.lang;
+// keep the <html lang> attribute in sync afterwards
+const _al=app.changeLanguage;app.changeLanguage=l=>{_al(l);document.documentElement.lang=app.lang};
+})();
+</script>
+<script>
+(()=>{const g=document.getElementById('mode-grid');if(!g)return;g.addEventListener('click',e=>{const c=e.target.closest('#mode-grid>div');if(c&&!e.target.closest('button')){const b=c.querySelector('button');if(b)b.click()}})})();
 </script>
 </body>
 </html>
